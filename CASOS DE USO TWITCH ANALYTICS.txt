@@ -1,0 +1,11 @@
+CASOS DE USO TWITCH ANALYTICS:
+1) Información de streamer: Get Users
+2) Consultar streams en vivo: Get Streams
+3) Lista de top streamers: Get Streams + Get Users
+
+ClientID: 3kvc11lm0hiyfqxs32i127986wbep6
+Secret: uk8rqpk69km2l83dj722t6wowsm7od
+
+Token de acceso: 09pmsrc1ov1mkg0ajinfnd5ty585j0
+
+{"access_token":"09pmsrc1ov1mkg0ajinfnd5ty585j0","expires_in":4693652,"token_type":"bearer"}
