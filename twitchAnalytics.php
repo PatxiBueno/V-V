@@ -1,25 +1,14 @@
 <?php
 
-/*
- Cosas por hacer:
- 1) Hacer que en el punto 1 se cojan los datos necesarios del json y procesarlos
- 2) Procesar los datos del punto 3, de modo que se devuelva el formato que se pide
- 3) Todo el punto 3
- */
-
-echo "-- MENU --\n";
-echo "1. Informacion de Streamer\n";
-echo "2. Consultar Streams en Vivo\n";
-echo "3. Consultar Streams mas Enriquecidos\n";
-echo "Elige una opción: ";
-
-$opcion_menu = trim(fgets(STDIN));
-
 switch($opcion_menu){
     case "1":
+        //Caso 1: GET /analytics/user?id=1234
+
         //Coger el id del streamer que se desea buscar
-        echo "Introduzca el ID del Streamer:";
-        $id_usuario = trim(fgets(STDIN));
+        /*echo "Introduzca el ID del Streamer:";
+        $id_usuario = trim(fgets(STDIN));*/
+
+        $id_usuario = $GET_["id"];
 
         //Configurar llamada a la API
         $url = "https://api.twitch.tv/helix/users?id=" . $id_usuario;
@@ -68,6 +57,8 @@ switch($opcion_menu){
         break;
 
     case "2":
+        //Caso 2: GET /analytics/streams
+
         //Configurar llamada a la API
         $url = "https://api.twitch.tv/helix/streams";
         $headers = [
@@ -117,9 +108,13 @@ switch($opcion_menu){
         break;
 
     case "3":
+        //Caso 3GET /analytics/streams/enriched?limit=3
+
         //Coger el limite de streams
-        echo "Introduzca el limite de streams: ";
-        $limit = trim(fgets(STDIN));
+        /*echo "Introduzca el limite de streams: ";
+        $limit = trim(fgets(STDIN));*/
+
+        $limit = $GET_["limit"];
 
         //Paso 1: coger los streams
         //Configurar llamada a la API
