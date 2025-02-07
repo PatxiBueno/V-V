@@ -1,14 +1,19 @@
 <?php
-
+echo "OPCIONES:
+        \n1. Get User
+        \n2. Get Streams
+        \n3. Get Streams-Enriched
+        \n\tIntroduce el caso de uso a ejecutar: ";
+$opcion_menu = trim(fgets(STDIN));
 switch($opcion_menu){
     case "1":
         //Caso 1: GET /analytics/user?id=1234
 
         //Coger el id del streamer que se desea buscar
-        /*echo "Introduzca el ID del Streamer:";
-        $id_usuario = trim(fgets(STDIN));*/
+        echo "Introduzca el ID del Streamer:";
+        $id_usuario = trim(fgets(STDIN));
 
-        $id_usuario = $_GET["id"];
+        //$id_usuario = $GET_["id"];
 
         //Configurar llamada a la API
         $url = "https://api.twitch.tv/helix/users?id=" . $id_usuario;
@@ -51,18 +56,6 @@ switch($opcion_menu){
             $jsonFinal = json_encode($infoStreamer, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
             echo $jsonFinal;
-        } elseif ($httpCode == 400){
-            $respuesta = ["error" => "Invalid or missing 'id' parameter."];
-            echo json_encode($respuesta);
-        } elseif ($httpCode == 401){
-            $respuesta = ["error" => "Unauthorized. Twitch access token is invalid or has expired."];
-            echo json_encode($respuesta);
-        } elseif ($httpCode == 404){
-            $respuesta = ["error" => "User not found."];
-            echo json_encode($respuesta);
-        } elseif ($httpCode == 500){
-            $respuesta = ["error" => "Internal server error."];
-            echo json_encode($respuesta);
         } else {
             echo "⚠️ Código de error: $httpCode\n";
         }
@@ -113,12 +106,6 @@ switch($opcion_menu){
 
             echo $jsonFinal;
 
-        } elseif ($httpCode == 401){
-            $respuesta = ["error" => "Unauthorized. Twitch access token is invalid or has expired."];
-            echo json_encode($respuesta);
-        } elseif ($httpCode == 500){
-            $respuesta = ["error" => "Internal server error."];
-            echo json_encode($respuesta);
         } else {
             echo "⚠️ Código de error: $httpCode\n";
         }
@@ -126,13 +113,13 @@ switch($opcion_menu){
         break;
 
     case "3":
-        //Caso 3: GET /analytics/streams/enriched?limit=3
+        //Caso 3 GET /analytics/streams/enriched?limit=3
 
         //Coger el limite de streams
-        /*echo "Introduzca el limite de streams: ";
-        $limit = trim(fgets(STDIN));*/
+        echo "Introduzca el limite de streams: ";
+        $limit = trim(fgets(STDIN));
 
-        $limit = $_GET["limit"];
+        //$limit = $_GET["limit"];
 
         //Paso 1: coger los streams
         //Configurar llamada a la API
@@ -155,7 +142,7 @@ switch($opcion_menu){
         $httpCodeStreams = curl_getinfo($chStreams, CURLINFO_HTTP_CODE);
 
         //Preparar array para crear el json
-        $infoStreamsEnriquecidos = [];
+        $infoStreams = [];
 
         //Verificar el código de estado
         if ($httpCodeStreams == 200) {
