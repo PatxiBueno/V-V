@@ -1,5 +1,5 @@
 <?php
-require_once("../../token/twitchToken.php");
+require_once('/var/www/html/twirch/twitchToken.php');
 header("Content-type: application/json; charset=utf-8");
 function user($id){
     //Caso 1: GET /analytics/user?id=1234

@@ -1,9 +1,9 @@
 <?php
 
 //Cabeceras
-require_once("../../conexion.php");
-require_once("../../token/twitchToken.php");
-require_once("../../autenticacion.php");
+require_once("/var/www/html/conexion.php");
+require_once("/var/www/html/twirch/twitchToken.php");
+require_once("/var/www/html/autenticacion.php");
 header("Content-type: application/json; charset=utf-8");
 
 function getTopOfTheTops($since)
@@ -25,12 +25,21 @@ function getTopOfTheTops($since)
     if ($resultadoFecha) {
         $fila = $resultadoFecha->fetch_assoc();
         $ultimaActualizacion = time() - strtotime($fila['fecha_insercion']);
+       
     } else {
         //No existe fecha guardada, hay que actualizar
         $ultimaActualizacion = 601;
+        $consultaInsert = "INSERT INTO ttt_fecha (fecha_insercion) VALUES (CURRENT_TIMESTAMP)";
+        if (!$con->query($consultaInsert)) {
+            // Codigo = 500, mal ahi
+            http_response_code(500);
+            $json_final = json_encode(["error" => "Internal server error."]);
+            echo $json_final;
+        } 
     }
 
     if ($ultimaActualizacion > $since) {
+        //echo "EEEE" . $ultimaActualizacion . "Sicne" . $since;
         //Llamada a la API 1 (top games)
         $url = "https://api.twitch.tv/helix/games/top?first=3";
         $headers = [
@@ -98,6 +107,14 @@ function getTopOfTheTops($since)
                             $listaUsers[$video["user_id"]]["totalViews"] += $video["view_count"];
                         }
                     }
+                    $consultaBorrar = "DELETE FROM ttt";
+                    if (!$con->query($consultaBorrar)) {
+                        //Codigo 500, error interno
+                        echo "fsdafdf 122";
+                        $json_final = json_encode(["error" => "Internal server error."]);
+                        echo $json_final;
+                        exit;
+                    }
                     foreach ($listaUsers as $userId => $usuario) {
                         $newUser = [
                             "game_id" => $gameId,
@@ -114,13 +131,7 @@ function getTopOfTheTops($since)
                         $infoUsers[] = $newUser;
 
                         //Borrar datos de la bbdd
-                        $consultaBorrar = "DELETE FROM ttt";
-                        if (!$con->query($consultaBorrar)) {
-                            //Codigo 500, error interno
-                            $json_final = json_encode(["error" => "Internal server error."]);
-                            echo $json_final;
-                            exit;
-                        }
+                        
 
                         //Insertar datos en la bbdd
                         $consultaInsert = "INSERT INTO ttt (game_id, game_name, user_name, total_videos, total_views,  
@@ -132,10 +143,24 @@ function getTopOfTheTops($since)
 
                         if (!$con->query($consultaInsert)) {
                             //Codigo 500, error interno
+                            echo " 136 Error MySQL: " . $con->error;
                             $json_final = json_encode(["error" => "Internal server error."]);
                             echo $json_final;
                             exit;
                         }
+                        $consultaUpdate = "delete from ttt_fecha";
+                        if (!$con->query($consultaUpdate)) {
+                            http_response_code(500);
+                            $json_final = json_encode(["error" => "Internal server error."]);
+                            echo $json_final;
+                        } 
+                        $consultaInsert = "INSERT INTO ttt_fecha (fecha_insercion) VALUES (CURRENT_TIMESTAMP)";
+                        if (!$con->query($consultaInsert)) {
+                            // Codigo = 500, mal ahi
+                            http_response_code(500);
+                            $json_final = json_encode(["error" => "Internal server error."]);
+                            echo $json_final;
+                        } 
                     }
                 }
             }
@@ -143,13 +168,26 @@ function getTopOfTheTops($since)
             //Generamos JSON de envio
             $jsonFinal = json_encode($infoUsers, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
             echo $jsonFinal;
+            
+            
         } else {
             $respuesta = ["error" => "Internal server error."];
             echo json_encode($respuesta);
         }
     } else {
         //Leer informacion de la bbdd
+
         $consultaRAM = "SELECT * FROM ttt";
+        $resultado = $con->query($consultaRAM);
+
+        if ($resultado->num_rows > 0) {
+            while ($fila = $resultado->fetch_assoc()) {
+                echo json_encode($fila, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+                echo "\n"; // Salto de línea para mejor legibilidad
+               
+            }
+        }
+        
     }
 }
 ?>

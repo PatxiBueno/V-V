@@ -1,9 +1,14 @@
 <?php
 	header("Content-type: application/json; charset=utf-8");
-	require_once('./endPoints/get/*');
-	require_once('./endPoints/post/register.php');
-	require_once('./endPoints/post/token.php');
-	require_once('./autenticacion.php');
+	
+
+	require_once ('/var/www/html/endPoints/get/user.php');
+	require_once('endPoints/get/streams.php');
+	require_once('endPoints/get/topsofthetops.php');
+	require_once('endPoints/get/enriched.php');
+	require_once('endPoints/post/register.php');
+	require_once('endPoints/post/token.php');
+	require_once('autenticacion.php');
 
 	$method = $_SERVER['REQUEST_METHOD'];
 	
@@ -19,7 +24,7 @@
 		
 		$urlCompleta = $_SERVER['REQUEST_URI'];
 		$ruta = parse_url($urlCompleta, PHP_URL_PATH);
-
+		echo $ruta;
 		// ENDPOINT USER
 		if ($ruta == "/analytics/user") {
 			if(isset($_GET['id'])){
@@ -65,7 +70,17 @@
 		$ruta = $_SERVER['REQUEST_URI'];
 		
 		if ($ruta == "/register") {//llamar funcion dentro de enponits post register
-			return register();//los headers no se de donde salen
+			
+			$input = file_get_contents("php://input");
+			$data = json_decode($input, true);	
+			register($data);//los headers no se de donde salen
+			exit;
+		}
+		if ($ruta == "/token") {//llamar funcion dentro de enponits post register
+			$input = file_get_contents("php://input");
+			$data = json_decode($input, true);	
+			generarToken($data);//los headers no se de donde salen
+			exit;
 		}
 	}
 
