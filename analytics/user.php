@@ -1,8 +1,17 @@
 <?php
 require_once("token.php");
-
+require_once("../autorizacion.php");
+header("Content-type: application/json; charset=utf-8");
 //Caso 1: GET /analytics/user?id=1234
 $id_usuario = $_GET["id"];
+
+//Obtener cabeceras
+$headers = getallheaders();
+if (!validarToken($headers)) {
+    $respuesta = ["error" => "Unauthorized. Token is invalid or expired."];
+	echo json_encode($respuesta);
+    exit;
+}
 
 //Configurar llamada a la API
 $url = "https://api.twitch.tv/helix/users?id=" . $id_usuario;
@@ -49,11 +58,9 @@ if ($httpCode == 200) {
             "view_count" => $streamer["view_count"],
             "created_at" => $streamer["created_at"]
         ];
-
     }
     //Generamos JSON de envio
     $jsonFinal = json_encode($infoStreamer, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
     echo $jsonFinal;
 } elseif ($httpCode == 400){
 	$respuesta = ["error" => "Invalid or missing 'id' parameter."];
