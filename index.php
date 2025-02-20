@@ -1,40 +1,53 @@
 <?php
-	require_once('/endPoints/get/*');
-	require_once('/endPoints/post/*');
-	
+	header("Content-type: application/json; charset=utf-8");
+	require_once('./endPoints/get/*');
+	require_once('./endPoints/post/register.php');
+	require_once('./endPoints/post/token.php');
+	require_once('./autenticacion.php');
+
 	$method = $_SERVER['REQUEST_METHOD'];
 	
-	
 	if($method === "GET"){
-		
-		if(!usuarioValido($_SERVER['HTTP_AUTORIZATION'])){ ///revisar //hacer metodo
-				//devolver lo que toca
+		// Validamos el token
+		$headers = getallheaders();
+		if (!validarToken($headers)) {
+			$respuesta = ["error" => "Unauthorized. Token is invalid or expired."];
+			echo json_encode($respuesta);
+			exit;
 		}
 		
-		$ruta = $_SERVER['REQUEST_URI'];
-		
-		if ($ruta == "analytics/user") {//revisar
+		$urlCompleta = $_SERVER['REQUEST_URI'];
+		$ruta = parse_url($urlCompleta, PHP_URL_PATH);
+
+		// ENDPOINT USER
+		if ($ruta == "/analytics/user") {
 			if(isset($_GET['id'])){
-				analytics($_GET['id']); //revisar que devuelve get
-				exit; //revisar
+				$id_usuario = $_GET['id'];
 			}else{
-				analytics("");
-				exit; //revisar
+				$id_usuario = '';
 			}
+			user($id_usuario);
+			exit;
 		}
-		if ($ruta == "analytics/streams") {
+		// ENDPOINT STREAMS
+		if ($ruta == "/analytics/streams") {
 			streams();
 			exit;
 		}
-		if ($ruta == "analytics/stream/enriched") {
+		// ENDPOINT STREAMS ENRICHED
+		if ($ruta == "/analytics/streams/enriched") {
 			if(isset($_GET['limit'])){
-				enriched($_GET['limit']);
-				exit;
+				$limit = $_GET['limit'];
 			}else{
-				enriched(0);
-				exit;
+				$limit = '';
 			}
+			enriched($limit);
+			exit;
 		}
+		// Si llegamos a este punto es por que la URL era incorrecta
+		http_response_code(404);
+		echo json_encode(["error" => "Not Found."]);
+		exit;
 	}
 	
 	if($method === "POST"){

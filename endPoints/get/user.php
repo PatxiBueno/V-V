@@ -1,10 +1,10 @@
 <?php
-require_once("token.php");
-
+require_once("../../token/twitchToken.php");
+header("Content-type: application/json; charset=utf-8");
 function user($id){
     //Caso 1: GET /analytics/user?id=1234
     //Configurar llamada a la API
-    $url = "https://api.twitch.tv/helix/users?id=" . $id_usuario;
+    $url = "https://api.twitch.tv/helix/users?id=" . $id;
     $headers = [
         "Authorization: Bearer " . gen_token() ,
         "Client-Id: 3kvc11lm0hiyfqxs32i127986wbep6"

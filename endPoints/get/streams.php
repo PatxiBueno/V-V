@@ -1,6 +1,6 @@
 <?php
-	require_once("../token.php");
-
+    require_once("../../token/twitchToken.php");
+    header("Content-type: application/json; charset=utf-8");
     function streams() {
         //Configurar llamada a la API
         $url = "https://api.twitch.tv/helix/streams?first=40";

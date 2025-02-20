@@ -1,5 +1,6 @@
 <?php
-require_once("../token.php");
+require_once("../../token/twitchToken.php");
+header("Content-type: application/json; charset=utf-8");
 //Caso 3: GET /analytics/streams/enriched?limit=3
 
 //Coger el limite de streams
