@@ -5,8 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="abbaa022-7f15-418e-852f-0c26a25f80f3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/endPoints/get/topsofthetops.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/endPoints/get/topsofthetops.php" beforeDir="false" afterPath="$PROJECT_DIR$/endPoints/get/topsofthetops.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +90,7 @@
       <workItem from="1739808769495" duration="6677000" />
       <workItem from="1739964898257" duration="41000" />
       <workItem from="1739964952161" duration="12363000" />
-      <workItem from="1740052623638" duration="395000" />
+      <workItem from="1740052623638" duration="1848000" />
     </task>
     <servers />
   </component>

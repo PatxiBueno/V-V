@@ -11,6 +11,7 @@
 		// Validamos el token
 		$headers = getallheaders();
 		if (!validarToken($headers)) {
+			http_response_code(401);
 			$respuesta = ["error" => "Unauthorized. Token is invalid or expired."];
 			echo json_encode($respuesta);
 			exit;
@@ -44,16 +45,26 @@
 			enriched($limit);
 			exit;
 		}
+		if ($ruta == "/analytics/topofthetops") {
+			if(isset($_GET['since'])){
+				$since = intval($_GET['since']);
+			}else{
+				$since = 600;
+			}
+			getTopOfTheTops($since);
+			exit;
+		}
 		// Si llegamos a este punto es por que la URL era incorrecta
 		http_response_code(404);
 		echo json_encode(["error" => "Not Found."]);
 		exit;
 	}
-	
+
+	// FALTA ACABAR LOS POST Y PONERLOS EN FORMA DE FUNCIÓN
 	if($method === "POST"){
 		$ruta = $_SERVER['REQUEST_URI'];
 		
-		if ($ruta == "register") {//llamar funcion dentro de enponits post register
+		if ($ruta == "/register") {//llamar funcion dentro de enponits post register
 			return register();//los headers no se de donde salen
 		}
 	}
