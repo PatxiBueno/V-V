@@ -37,18 +37,46 @@ if (isset($data["email"])) {
                 if (hash("sha256", $keyUsuario) == $keyBBDD) {
                     http_response_code(200);
                     $newToken = bin2hex(random_bytes(10));
-                    $fechaToken = time();
-                    $consultaInsert = "INSERT INTO token (id_usuario, token) VALUES ('$idUsuario', '$newToken')";
-                    if($con->query($consultaInsert)){
-                        //Codigo = 200, todo correcto
+
+
+
+                    if (hash("sha256", $keyUsuario) == $keyBBDD) {
                         http_response_code(200);
-                        $json_final = json_encode(["token" => $newToken]);
-                        echo $json_final;
-                    } else {
-                        //Codigo 500, error interno
-                        http_response_code(500);
-                        $json_final = json_encode(["error" => "Internal server error."]);
-                        echo $json_final;
+    
+                        // Generar el nuevo token
+                        $newToken = bin2hex(random_bytes(10));
+    
+                        // Verificar si ya existe un token para este usuario
+                        $consultaToken = "SELECT * FROM token WHERE id_usuario = '$idUsuario'";
+                        $resultadoToken = $con->query($consultaToken);
+    
+                        if ($resultadoToken && $resultadoToken->num_rows > 0) {
+                            // Si ya existe un token, lo actualizamos
+                            $consultaUpdate = "UPDATE token SET token = '$newToken', fecha_token = CURRENT_TIMESTAMP WHERE id_usuario = '$idUsuario'";
+                            if ($con->query($consultaUpdate)) {
+                                // Codigo = 200, token actualizado correctamente
+                                $json_final = json_encode(["token" => $newToken]);
+                                echo $json_final;
+                            } else {
+                                // Codigo 500, error interno al actualizar
+                                http_response_code(500);
+                                $json_final = json_encode(["error" => "Internal server error."]);
+                                echo $json_final;
+                            }
+                        } else {
+                            // Si no existe un token, insertamos uno nuevo
+                            $consultaInsert = "INSERT INTO token (id_usuario, token) VALUES ('$idUsuario', '$newToken')";
+                            if ($con->query($consultaInsert)) {
+                                // Codigo = 200, token insertado correctamente
+                                $json_final = json_encode(["token" => $newToken]);
+                                echo $json_final;
+                            } else {
+                                // Codigo 500, error interno al insertar
+                                http_response_code(500);
+                                $json_final = json_encode(["error" => "Internal server error."]);
+                                echo $json_final;
+                            }
+                        }
                     }
                    
                 } else {
