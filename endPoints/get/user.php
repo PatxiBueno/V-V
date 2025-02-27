@@ -17,24 +17,7 @@ function user($id){
     $resultado = $con->query($query);
 
     if($resultado && $resultado->num_rows > 0){
-        //El usuario esta registrado en la BBDD
-        $streamer = $resultado->fetch_assoc();
-        $infoStreamer = [
-            "id" => $streamer['id'],
-            "login" => $streamer['login'],
-            "display_name" => $streamer['display_name'],
-            "type" => $streamer['type'],
-            "broadcaster_type" => $streamer['broadcaster_type'],
-            "description" => $streamer['description'],
-            "profile_image_url" => $streamer['profile_image_url'],
-            "offline_image_url" => $streamer['offline_image_url'],
-            "view_count" => $streamer['view_count'],
-            "created_at" => $streamer['created_at']
-        ];
-
-        //Generamos JSON de envio
-        $jsonFinal = json_encode($infoStreamer, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        echo $jsonFinal;
+        //Si el usuario está registrado...
     }
     else {
 
