@@ -3,7 +3,7 @@
 //Cabecera
 require_once('conexion.php');
 
-function validarToken($headers){
+function validarToken($headers) {
    
     //Comprobar que la cabecera Authorization existe
     if (isset($headers['Authorization'])){
