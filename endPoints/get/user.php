@@ -18,7 +18,7 @@ function user($id){
 
     if($resultado && $resultado->num_rows > 0){
         //Si el usuario está registrado...
-        //Añadir aqui el codigo
+        //Añadir el codigo
     }
     else {
 
