@@ -1,14 +1,16 @@
 <?php
+
 require_once('/var/www/html/twirch/twitchToken.php');
 header("Content-type: application/json; charset=utf-8");
 //Caso 3: GET /analytics/streams/enriched?limit=3
 
 //Coger el limite de streams
 
-function enriched($limit){
-    if( !isset($limit) || $limit < 1 || $limit > 100 ){
+function enriched($limit)
+{
+    if (!isset($limit) || $limit < 1 || $limit > 100) {
         http_response_code(400);
-        $respuesta = ["error "=>"Invalid limit parameter"];
+        $respuesta = ["error " => "Invalid limit parameter"];
         echo json_encode($respuesta);
         exit;
     }
@@ -16,7 +18,7 @@ function enriched($limit){
     //Configurar llamada a la API
     $urlStreams = "https://api.twitch.tv/helix/streams?first=" . $limit;
     $headersStreams = [
-        "Authorization: Bearer " . gen_token() ,
+        "Authorization: Bearer " . gen_token(),
         "Client-Id: 3kvc11lm0hiyfqxs32i127986wbep6"
     ];
 
@@ -25,11 +27,15 @@ function enriched($limit){
     curl_setopt($chStreams, CURLOPT_URL, $urlStreams);
     curl_setopt($chStreams, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($chStreams, CURLOPT_HTTPHEADER, $headersStreams);
-    curl_setopt($chStreams, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0");
+    curl_setopt(
+        $chStreams,
+        CURLOPT_USERAGENT,
+        "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0"
+    );
     //Ejecutar cURL
     $responseStreams = curl_exec($chStreams);
 
-    if($responseStreams == false){
+    if ($responseStreams == false) {
         print 'Error: ' . curl_error($chStreams);
     }
 
@@ -47,14 +53,14 @@ function enriched($limit){
         //Recorrer el array para guardar lo que nos interesa
         foreach ($dataStreams["data"] as $stream) {
             //Limitamos el numero de streams
-            if($limit > 0){
+            if ($limit > 0) {
                 //Paso 2: coger info de streamer para cada stream
                 $idStreamer = $stream["user_id"];
 
                 //Configurar llamada a la API
                 $urlUser = "https://api.twitch.tv/helix/users?id=" . $idStreamer;
                 $headersUser = [
-                    "Authorization: Bearer " . gen_token() ,
+                    "Authorization: Bearer " . gen_token(),
                     "Client-Id: 3kvc11lm0hiyfqxs32i127986wbep6"
                 ];
 
@@ -79,7 +85,6 @@ function enriched($limit){
                         $display_name = $streamer["display_name"];
                         $profile_image_url = $streamer["profile_image_url"];
                     }
-
                 } else {
                     echo "⚠️ Código de error: $httpCodeUser\n";
                 }
@@ -107,20 +112,18 @@ function enriched($limit){
         $jsonFinal = json_encode($infoStreamsEnriquecidos, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         echo $jsonFinal;
-
-    }elseif($httpCodeStreams == 401){
+    } elseif ($httpCodeStreams == 401) {
         $respuesta = ["error" => "Unauthorized. Twitch access token is invalid or has expired"];
         echo json_encode($respuesta);
-    }
-    elseif($httpCodeStreams == 500){
+    } elseif ($httpCodeStreams == 500) {
         $respuesta = ["error" => "Internal server error"];
         echo json_encode($respuesta);
-
-    }else {
+    } else {
         echo "⚠️ Código de error: $httpCodeStreams\n";
     }
     // Cerrar la conexión cURL
     curl_close($chStreams);
-    }
+}
+
 ?>
 
