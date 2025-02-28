@@ -1,13 +1,18 @@
 {
   "require-dev": {
     "squizlabs/php_codesniffer": "@stable",
-    "phpmd/phpmd": "@stable"
+    "phpmd/phpmd": "@stable",
+    "phpro/grumphp": "^2.11"
   },
 
   "scripts": {
     "cs": "phpcs --standard=PSR12 .",
     "fix": "phpcbf --standard=PSR12 ."
 
+  },
+  "config": {
+    "allow-plugins": {
+      "phpro/grumphp": true
+    }
   }
-
 }
