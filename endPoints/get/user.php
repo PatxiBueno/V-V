@@ -2,88 +2,67 @@
 require_once('/var/www/html/twirch/twitchToken.php');
 require_once('/var/www/html/bbdd/conexion.php');
 header("Content-type: application/json; charset=utf-8");
-function user($id){
+function getUserFromApi($id) {
 
-    $con = conexion();
+    $connectionDb = conexion();
     $query = "SELECT * FROM usuarios WHERE id = '$id'";
-    $result = $con->query($query);
+    $queryResult = $connectionDb->query($query);
 
-    if($result->num_rows == 0) {
-        //El usuario no está registrado en la bbdd
+    if($queryResult->num_rows == 0) {
 
-        //Caso 1: GET /analytics/user?id=1234
-        //Configurar llamada a la API
         $url = "https://api.twitch.tv/helix/users?id=" . $id;
         $headers = [
             "Authorization: Bearer " . gen_token(),
             "Client-Id: 3kvc11lm0hiyfqxs32i127986wbep6"
         ];
 
-        //Configurar opciones de cURL
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        $curlTwitchUser = curl_init();
+        curl_setopt($curlTwitchUser, CURLOPT_URL, $url);
+        curl_setopt($curlTwitchUser, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curlTwitchUser, CURLOPT_HTTPHEADER, $headers);
 
-        //Ejecutar cURL
-        $response = curl_exec($ch);
+        $curlTwitchUserResponse = curl_exec($curlTwitchUser);
+        $twitchResponseHttpCode = curl_getinfo($curlTwitchUser, CURLINFO_HTTP_CODE);
 
-        //Obtener el código de estado
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-
-        // Verificar el código de estado
-        http_response_code($httpCode);
-        if ($httpCode == 200) {
-            //Procesamos el JSON
-            $data = json_decode($response, true);
-            if ($data === null || empty($data["data"])) {
+        http_response_code($twitchResponseHttpCode);
+        if ($twitchResponseHttpCode == 200) {
+            $responseData = json_decode($curlTwitchUserResponse, true);
+            if ($responseData === null || empty($responseData["data"])) {
                 http_response_code(404);
-                $respuesta = ["error" => "User not found."];
-                echo json_encode($respuesta);
-
-                curl_close($ch);
+                echo json_encode(["error" => "User not found."]);
+                curl_close($curlTwitchUser);
                 exit;
             }
-            foreach ($data["data"] as $streamer) {
-                $infoStreamer = [
-                    "id" => $streamer["id"],
-                    "login" => $streamer["login"],
-                    "display_name" => $streamer["display_name"],
-                    "type" => $streamer["type"],
-                    "broadcaster_type" => $streamer["broadcaster_type"],
-                    "description" => $streamer["description"],
-                    "profile_image_url" => $streamer["profile_image_url"],
-                    "offline_image_url" => $streamer["offline_image_url"],
-                    "view_count" => $streamer["view_count"],
-                    "created_at" => $streamer["created_at"]
+            foreach ($responseData["data"] as $twitchUser) {
+                $twitchUserData = [
+                    "id" => $twitchUser["id"],
+                    "login" => $twitchUser["login"],
+                    "display_name" => $twitchUser["display_name"],
+                    "type" => $twitchUser["type"],
+                    "broadcaster_type" => $twitchUser["broadcaster_type"],
+                    "description" => $twitchUser["description"],
+                    "profile_image_url" => $twitchUser["profile_image_url"],
+                    "offline_image_url" => $twitchUser["offline_image_url"],
+                    "view_count" => $twitchUser["view_count"],
+                    "created_at" => $twitchUser["created_at"]
                 ];
-
             }
-            //Generamos JSON de envio
-            $jsonFinal = json_encode($infoStreamer, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
-            echo $jsonFinal;
-        } elseif ($httpCode == 400) {
-            $respuesta = ["error" => "Invalid or missing 'id' parameter."];
-            echo json_encode($respuesta);
-        } elseif ($httpCode == 401) {
-            $respuesta = ["error" => "Unauthorized. Twitch access token is invalid or has expired."];
-            echo json_encode($respuesta);
-        } elseif ($httpCode == 404) {
-            $respuesta = ["error" => "User not found."];
-            echo json_encode($respuesta);
-        } elseif ($httpCode == 500) {
-            $respuesta = ["error" => "Internal server error."];
-            echo json_encode($respuesta);
+            // TODO: Añadir el usuario a la base de datos
+            echo json_encode($twitchUserData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        } elseif ($twitchResponseHttpCode == 400) {
+            echo json_encode(["error" => "Invalid or missing 'id' parameter."]);
+        } elseif ($twitchResponseHttpCode == 401) {
+            echo json_encode(["error" => "Unauthorized. Twitch access token is invalid or has expired."]);
+        } elseif ($twitchResponseHttpCode == 404) {
+            echo json_encode(["error" => "User not found."]);
         } else {
-            echo "⚠️ Código de error: $httpCode\n";
+            http_response_code(500);
+            echo json_encode(["error" => "Internal server error."]);
         }
-
-        curl_close($ch);
+        curl_close($curlTwitchUser);
     } else {
-        $result->fetch_assoc();
-        //Rellenar el json con la info de la BBDD
+        // TODO: Recuperar el usuario de la base de datos
+        $queryResult->fetch_assoc();
     }
 }
-
 ?>

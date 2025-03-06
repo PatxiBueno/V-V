@@ -32,7 +32,7 @@
 			}else{
 				$id_usuario = '';
 			}
-			user($id_usuario);
+			getUserFromApi($id_usuario);
 			exit;
 		}
 		// ENDPOINT STREAMS
