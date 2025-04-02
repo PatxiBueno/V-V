@@ -4,7 +4,9 @@
     "phpmd/phpmd": "@stable",
     "phpro/grumphp": "^2.11"
   },
-
+  "require": {
+        "php": "@stable"
+    },
   "scripts": {
     "cs": "phpcs --standard=PSR12 .",
     "fix": "phpcbf --standard=PSR12 ."
