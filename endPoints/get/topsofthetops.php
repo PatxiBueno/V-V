@@ -61,7 +61,7 @@ function getTopOfTheTops($since)
         if ($httpCode == 200) {
             //Procesamos el JSON
             $dataGames = json_decode($response, true);
-
+            $infoUsers = [];
             foreach ($dataGames["data"] as $game) {
                 $gameId = $game["id"];
                 $gameName = $game["name"];
@@ -90,7 +90,6 @@ function getTopOfTheTops($since)
                     //Procesar el JSON
                     $dataVideos = json_decode($response, true);
                     $listaUsers = [];
-                    $infoUsers = [];
                     foreach ($dataVideos["data"] as $video) {
                         $userId = $video["user_id"];
                         if (!isset($listaUsers[$userId])) {
