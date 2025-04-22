@@ -1,12 +1,12 @@
 <?php
-
 	function conexion () {
-		$servidor = "localhost";
+		$host = "uvmw5o.stackhero-network.com";
 		$bd = "usuarios";
 		$user = "root";
-		$password = "andar_joD1D0";
+		$password = "O3wGdqU2E8oq62OVCk5tcfUeqmakK4bZ";
+		$port = "7879";
 
-		$con = mysqli_connect($servidor, $user, $password, $bd);
+		$con = mysqli_connect($host, $user, $password, $bd, $port);
 
 		if (!$con) {
 			echo "Error de conexión de base de datos <br>";
@@ -14,8 +14,6 @@
 			echo "Texto error: " . mysqli_connect_error();
 			exit;
 		}
-
 		return $con;
 	}
-
 ?>
