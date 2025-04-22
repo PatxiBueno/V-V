@@ -102,7 +102,7 @@ function getTopOfTheTops($since)
                                 "mostTitle" => $video["title"],
                                 "mostViews" => $video["view_count"],
                                 "mostDuration" => $video["duration"],
-                                "mostDate" => date("Y-m-d", strtotime($video["created_at"]))
+                                "mostDate" => strtotime($video["created_at"])
                             ];
                         } else {
                             $listaUsers[$video["user_id"]]["totalVideos"]++;
@@ -172,8 +172,6 @@ function getTopOfTheTops($since)
             echo json_encode($respuesta);
         }
     } else {
-        //Leer informacion de la bbdd
-
         $consultaRAM = "SELECT * FROM ttt";
         $resultado = $con->query($consultaRAM);
 
