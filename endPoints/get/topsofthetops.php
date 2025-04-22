@@ -8,30 +8,27 @@ header("Content-type: application/json; charset=utf-8");
 
 function getTopOfTheTops($since)
 {
-    // El parametro since es opcional, pero debe ser positivo
-    if($since < 0){
+    if($since < 0) {
         http_response_code(400);
         echo json_encode(["error" => "Bad request. Invalid or missing parameters."]);
         exit;
-    }elseif ($since > 600){
+    }elseif ($since > 600) {
         $since = 600;
     }
-//Conexion a bbdd
+
     $con = conexion();
 
 //Ver si han pasado menos de 10 mins
     $consultaFecha = "SELECT fecha_insercion FROM ttt_fecha";
     $resultadoFecha = $con->query($consultaFecha);
-    if ($resultadoFecha) {
+    if ($resultadoFecha && $resultadoFecha->num_rows > 0) {
         $fila = $resultadoFecha->fetch_assoc();
         $ultimaActualizacion = time() - strtotime($fila['fecha_insercion']);
-       
     } else {
         //No existe fecha guardada, hay que actualizar
         $ultimaActualizacion = 601;
         $consultaInsert = "INSERT INTO ttt_fecha (fecha_insercion) VALUES (CURRENT_TIMESTAMP)";
         if (!$con->query($consultaInsert)) {
-            // Codigo = 500, mal ahi
             http_response_code(500);
             $json_final = json_encode(["error" => "Internal server error."]);
             echo $json_final;

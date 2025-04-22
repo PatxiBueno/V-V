@@ -13,10 +13,6 @@
 
 	$method = $_SERVER['REQUEST_METHOD'];
 
-	echo "Petición: " . $method . "<br>";
-	echo "URL: " . $_SERVER['REQUEST_URI'] . "<br>";
-	echo "Headers: " . json_encode(getallheaders()) . "<br>";
-
 	if($method === "GET"){
 		$headers = getallheaders();
 		if (!validarToken($headers)) {

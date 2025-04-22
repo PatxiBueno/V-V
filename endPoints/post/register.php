@@ -79,5 +79,4 @@ function register($data){
         echo $json_final;
     }
 }
-
 ?>

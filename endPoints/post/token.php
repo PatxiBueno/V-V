@@ -20,9 +20,8 @@ function generarToken($data){
             $resultadoEmail = $con->query($consultaEmail);
 
     
-            if ($resultadoEmail && $resultadoEmail->num_rows > 0) {//si tiene datos, existe el mail, casca aqui
-                //Email correcto
-                //Guardar la api_key de la BBDD
+            if ($resultadoEmail && $resultadoEmail->num_rows > 0) {
+
                 $consultaKey = "SELECT id, api_key FROM usuarios WHERE email LIKE  '$email' ";
                 $resultadoKey = $con->query($consultaKey);
                 $fila = $resultadoKey->fetch_assoc();
