@@ -36,8 +36,12 @@ function getTopOfTheTops($since)
     }
 
     if ($ultimaActualizacion > $since) {
-        //echo "EEEE" . $ultimaActualizacion . "Sicne" . $since;
-        //Llamada a la API 1 (top games)
+        $consultaBorrar = "DELETE FROM ttt";
+        if (!$con->query($consultaBorrar)) {
+            $json_final = json_encode(["error" => "Internal server error."]);
+            echo $json_final;
+            exit;
+        }
         $url = "https://api.twitch.tv/helix/games/top?first=3";
         $headers = [
             "Authorization: Bearer " . gen_token(),
@@ -108,12 +112,7 @@ function getTopOfTheTops($since)
                             $listaUsers[$video["user_id"]]["totalViews"] += $video["view_count"];
                         }
                     }
-                    $consultaBorrar = "DELETE FROM ttt";
-                    if (!$con->query($consultaBorrar)) {
-                        $json_final = json_encode(["error" => "Internal server error."]);
-                        echo $json_final;
-                        exit;
-                    }
+
                     foreach ($listaUsers as $userId => $usuario) {
                         $newUser = [
                             "game_id" => $gameId,
