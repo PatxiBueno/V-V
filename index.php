@@ -1,8 +1,7 @@
 <?php
 	header("Content-type: application/json; charset=utf-8");
-	
 
-	require_once ('/var/www/html/endPoints/get/user.php');
+	require_once('endPoints/get/user.php');
 	require_once('endPoints/get/streams.php');
 	require_once('endPoints/get/topsofthetops.php');
 	require_once('endPoints/get/enriched.php');
