@@ -8,7 +8,7 @@ RewriteCond %{REQUEST_FILENAME} !-d
 # Redirigir todas las solicitudes a index.php del directorio donde se encuentra el .htaccess (en este caso raíz)
 # ^(.*)$ Expresión regular para capturar toda la URL después del dominio
 # L: Last instruction, básicamente que deje de evaluar el archivo en caso de que abajo hubiera más
-RewriteRule ^(.*)$ index.php [L]
+RewriteRule ^(.*)$ index.php [QSA, L]
 
 # La URL que obtenemos nosotros no se modifica aunque redireccione
 # URL usuario: http://158.179.222.160/analytics/user?id=12
