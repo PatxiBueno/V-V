@@ -13,8 +13,6 @@
 			echo "Error número: " . mysqli_connect_errno();
 			echo "Texto error: " . mysqli_connect_error();
 			exit;
-		} else {
-			echo "Conexión correcta a la base de datos <br>";
 		}
 		return $con;
 	}

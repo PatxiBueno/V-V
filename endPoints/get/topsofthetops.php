@@ -94,12 +94,17 @@ function getTopOfTheTops($since)
                     foreach ($dataVideos["data"] as $video) {
                         $userId = $video["user_id"];
                         if (!isset($listaUsers[$userId])) {
-                            //Nuevo usuario en la lista
-                            //Formato del array: userName, totalVideos, totalViews, mostTitle, mostViews, mostDuration, mostFecha
-                            $listaUsers[$video["user_id"]] = ["userName" => $video["user_name"], "totalVideos" => 1, "totalViews" => $video["view_count"],
-                                "mostTitle" => $video["title"], "mostViews" => $video["view_count"], "mostDuration" => $video["duration"], "mostFecha" => $video["created_at"]];
+                            //Formato del array: userName, totalVideos, totalViews, mostTitle, mostViews, mostDuration, mostDate
+                            $listaUsers[$video["user_id"]] = [
+                                "userName" => $video["user_name"],
+                                "totalVideos" => 1,
+                                "totalViews" => $video["view_count"],
+                                "mostTitle" => $video["title"],
+                                "mostViews" => $video["view_count"],
+                                "mostDuration" => $video["duration"],
+                                "mostDate" => date("Y-m-d", strtotime($video["created_at"]))
+                            ];
                         } else {
-                            //El usuario ya ha salido
                             $listaUsers[$video["user_id"]]["totalVideos"]++;
                             $listaUsers[$video["user_id"]]["totalViews"] += $video["view_count"];
                         }
@@ -122,7 +127,7 @@ function getTopOfTheTops($since)
                             "most_viewed_title" => $usuario["mostTitle"],
                             "most_viewed_views" => $usuario["mostViews"],
                             "most_viewed_duration" => $usuario["mostDuration"],
-                            "most_viewed_created_at" => $usuario["mostFecha"]
+                            "most_viewed_created_at" => $usuario["mostDate"]
                         ];
 
                         $infoUsers[] = $newUser;
@@ -134,7 +139,7 @@ function getTopOfTheTops($since)
                         $consultaInsert = "INSERT INTO ttt (game_id, game_name, user_name, total_videos, total_views,  
                     most_viewed_title, most_viewed_views, most_viewed_duration, most_viewed_created_at)
                     VALUES ('$gameId', '$gameName', '{$usuario["userName"]}', '{$usuario["totalVideos"]}', '{$usuario["totalViews"]}', 
-                    '{$usuario["mostTitle"]}', '{$usuario["mostViews"]}', '{$usuario["mostDuration"]}', '{$usuario["mostFecha"]}')";
+                    '{$usuario["mostTitle"]}', '{$usuario["mostViews"]}', '{$usuario["mostDuration"]}', '{$usuario["mostDate"]}')";
 
                         // HACE FALTA ACTUALIZAR LA FECHA DE INSERCIÓN
 
