@@ -1,9 +1,9 @@
 <?php
 
 //Cabeceras
-require_once("/var/www/html/conexion.php");
-require_once("/var/www/html/twirch/twitchToken.php");
-require_once("/var/www/html/autenticacion.php");
+require_once("bbdd/conexion.php");
+require_once("twirch/twitchToken.php");
+require_once("autenticacion.php");
 header("Content-type: application/json; charset=utf-8");
 
 function getTopOfTheTops($since)

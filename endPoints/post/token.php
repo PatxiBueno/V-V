@@ -1,6 +1,6 @@
 <?php
 //Cabecera
-require_once('/var/www/html/conexion.php');
+require_once('bbdd/conexion.php');
 header("Content-Type: application/json");
 
 //Recogida de información

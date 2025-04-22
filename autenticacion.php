@@ -1,7 +1,7 @@
 <?php
 
 //Cabecera
-require_once('conexion.php');
+require_once('bbdd/conexion.php');
 
 function validarToken($headers) {
    
