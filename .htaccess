@@ -8,13 +8,5 @@ RewriteCond %{REQUEST_FILENAME} !-d
 # Redirigir todas las solicitudes a index.php del directorio donde se encuentra el .htaccess (en este caso raíz)
 # ^(.*)$ Expresión regular para capturar toda la URL después del dominio
 # L: Last instruction, básicamente que deje de evaluar el archivo en caso de que abajo hubiera más
-RewriteRule ^(.*)$ index.php [QSA, L]
-
-# La URL que obtenemos nosotros no se modifica aunque redireccione
-# URL usuario: http://158.179.222.160/analytics/user?id=12
-# Se redirecciona a: http://158.179.222.160/index.php
-# Pero al usuario le sigue apareciendo su URL original
-# En el index.php:
-#   Mediante el metodo php $_SERVER['REQUEST_URI'] obtendremos /analytics/user?id=12
-#   Usando $_SERVER['REQUEST_METHOD'] podremos saber si es un GET, POST, DELETE... a modo de String
-#   Después dependiendo del metodo se podran obtener los parámetros de la URL: $id = $_GET['id']
+# QSA: Query String Append, para que mantenga los parámetros de la URL
+RewriteRule ^(.*)$ index.php [QSA,L]
