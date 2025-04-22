@@ -90,7 +90,7 @@ function getTopOfTheTops($since)
                     //Procesar el JSON
                     $dataVideos = json_decode($response, true);
                     $listaUsers = [];
-
+                    $infoUsers = [];
                     foreach ($dataVideos["data"] as $video) {
                         $userId = $video["user_id"];
                         if (!isset($listaUsers[$userId])) {
@@ -111,13 +111,10 @@ function getTopOfTheTops($since)
                     }
                     $consultaBorrar = "DELETE FROM ttt";
                     if (!$con->query($consultaBorrar)) {
-                        //Codigo 500, error interno
-                        echo "fsdafdf 122";
                         $json_final = json_encode(["error" => "Internal server error."]);
                         echo $json_final;
                         exit;
                     }
-                    $infoUsers = [];
                     foreach ($listaUsers as $userId => $usuario) {
                         $newUser = [
                             "game_id" => $gameId,
@@ -133,20 +130,29 @@ function getTopOfTheTops($since)
 
                         $infoUsers[] = $newUser;
 
-                        $consultaInsert = "INSERT INTO ttt (game_id, game_name, user_name, total_videos, total_views,  
-                    most_viewed_title, most_viewed_views, most_viewed_duration, most_viewed_created_at)
-                    VALUES ('$gameId', '$gameName', '{$usuario["userName"]}', '{$usuario["totalVideos"]}', '{$usuario["totalViews"]}', 
-                    '{$usuario["mostTitle"]}', '{$usuario["mostViews"]}', '{$usuario["mostDuration"]}', '{$usuario["mostDate"]}')";
+                        $stmt = $con->prepare("INSERT INTO ttt 
+                        (game_id, game_name, user_name, total_videos, total_views,  
+                         most_viewed_title, most_viewed_views, most_viewed_duration, most_viewed_created_at)
+                         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-                        // HACE FALTA ACTUALIZAR LA FECHA DE INSERCIÓN
+                        $stmt->bind_param("sssiiisss",
+                            $gameId,
+                            $gameName,
+                            $usuario["userName"],
+                            $usuario["totalVideos"],
+                            $usuario["totalViews"],
+                            $usuario["mostTitle"],
+                            $usuario["mostViews"],
+                            $usuario["mostDuration"],
+                            $usuario["mostDate"]
+                        );
 
-                        if (!$con->query($consultaInsert)) {
-                            //Codigo 500, error interno
-                            echo " 136 Error MySQL: " . $con->error;
-                            $json_final = json_encode(["error" => "Internal server error."]);
-                            echo $json_final;
+                        if (!$stmt->execute()) {
+                            echo "Error MySQL: " . $stmt->error;
+                            echo json_encode(["error" => "Internal server error."]);
                             exit;
                         }
+                        $stmt->close();
                         $consultaUpdate = "delete from ttt_fecha";
                         if (!$con->query($consultaUpdate)) {
                             http_response_code(500);
@@ -155,7 +161,6 @@ function getTopOfTheTops($since)
                         } 
                         $consultaInsert = "INSERT INTO ttt_fecha (fecha_insercion) VALUES (CURRENT_TIMESTAMP)";
                         if (!$con->query($consultaInsert)) {
-                            // Codigo = 500, mal ahi
                             http_response_code(500);
                             $json_final = json_encode(["error" => "Internal server error."]);
                             echo $json_final;
