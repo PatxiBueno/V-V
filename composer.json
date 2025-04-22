@@ -5,7 +5,7 @@
     "phpro/grumphp": "^2.11"
   },
   "require": {
-        "php": "@stable"
+        "php": "^8.2"
     },
   "scripts": {
     "cs": "phpcs --standard=PSR12 .",
