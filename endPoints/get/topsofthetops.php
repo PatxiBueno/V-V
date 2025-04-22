@@ -117,6 +117,7 @@ function getTopOfTheTops($since)
                         echo $json_final;
                         exit;
                     }
+                    $infoUsers = [];
                     foreach ($listaUsers as $userId => $usuario) {
                         $newUser = [
                             "game_id" => $gameId,
@@ -132,7 +133,6 @@ function getTopOfTheTops($since)
 
                         $infoUsers[] = $newUser;
 
-                        //Insertar datos en la bbdd
                         $consultaInsert = "INSERT INTO ttt (game_id, game_name, user_name, total_videos, total_views,  
                     most_viewed_title, most_viewed_views, most_viewed_duration, most_viewed_created_at)
                     VALUES ('$gameId', '$gameName', '{$usuario["userName"]}', '{$usuario["totalVideos"]}', '{$usuario["totalViews"]}', 
