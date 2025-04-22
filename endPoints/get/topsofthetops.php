@@ -102,7 +102,7 @@ function getTopOfTheTops($since)
                                 "mostTitle" => $video["title"],
                                 "mostViews" => $video["view_count"],
                                 "mostDuration" => $video["duration"],
-                                "mostDate" => strtotime($video["created_at"])
+                                "mostDate" => date('Y-m-d H:i:s',strtotime($video["created_at"]))
                             ];
                         } else {
                             $listaUsers[$video["user_id"]]["totalVideos"]++;
