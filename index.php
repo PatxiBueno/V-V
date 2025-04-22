@@ -23,7 +23,6 @@
 		}
 		$urlCompleta = $_SERVER['REQUEST_URI'];
 		$ruta = parse_url($urlCompleta, PHP_URL_PATH);
-		echo $ruta;
 		if ($ruta == "/analytics/user") {
 			if(isset($_GET['id'])){
 				$id_usuario = $_GET['id'];

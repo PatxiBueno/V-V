@@ -132,9 +132,6 @@ function getTopOfTheTops($since)
 
                         $infoUsers[] = $newUser;
 
-                        //Borrar datos de la bbdd
-                        
-
                         //Insertar datos en la bbdd
                         $consultaInsert = "INSERT INTO ttt (game_id, game_name, user_name, total_videos, total_views,  
                     most_viewed_title, most_viewed_views, most_viewed_duration, most_viewed_created_at)
@@ -166,8 +163,6 @@ function getTopOfTheTops($since)
                     }
                 }
             }
-
-            //Generamos JSON de envio
             $jsonFinal = json_encode($infoUsers, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
             echo $jsonFinal;
             
@@ -183,13 +178,12 @@ function getTopOfTheTops($since)
         $resultado = $con->query($consultaRAM);
 
         if ($resultado->num_rows > 0) {
+            $result = [];
             while ($fila = $resultado->fetch_assoc()) {
-                echo json_encode($fila, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-                echo "\n"; // Salto de línea para mejor legibilidad
-               
+                $result[] = $fila;
             }
+            echo json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         }
-        
     }
 }
 ?>
