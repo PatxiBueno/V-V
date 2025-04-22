@@ -18,4 +18,5 @@
 			echo "Conexión correcta a la base de datos <br>";
 		return $con;
 	}
+	conexion();
 ?>
