@@ -128,8 +128,6 @@ function getTopOfTheTops($since)
 
                         $infoUsers[] = $newUser;
 
-                        echo  $usuario["mostTitle"] . "\n";
-
                         $stmt = $con->prepare("INSERT INTO ttt 
                         (game_id, game_name, user_name, total_videos, total_views,  
                          most_viewed_title, most_viewed_views, most_viewed_duration, most_viewed_created_at)
