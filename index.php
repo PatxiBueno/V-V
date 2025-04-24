@@ -40,7 +40,7 @@
 			if(isset($_GET['limit'])) {
 				$limit = $_GET['limit'];
 			}else {
-				$limit = '';
+				$limit = '3';
 			}
 			enriched($limit);
 			exit;
