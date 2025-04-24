@@ -135,7 +135,7 @@ function getTopOfTheTops($since)
                          most_viewed_title, most_viewed_views, most_viewed_duration, most_viewed_created_at)
                          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-                        $stmt->bind_param("sssiiisss",
+                        $stmt->bind_param("sssiissss",
                             $gameId,
                             $gameName,
                             $usuario["userName"],
