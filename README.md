@@ -2,7 +2,7 @@
 ## Versión: 1.0.0
 
 ---
-El servidor está alojado en una VPS de Oracle en la IP 158.179.222.160
+El servidor está alojado en una VPS de Heroku en la IP https://twitch-analytics-tucan-0d282b54aae6.herokuapp.com
 
 Las funcionalidades se prueban de manera local añadiendolas al programa twitchAnalytics.php antes de continuar en desarrollo en producción.
 
@@ -42,7 +42,7 @@ Listo! Ahora deberías poder hacer peticiones a tu API como en los ejemplos espe
 ---
 
 # Endpoints implementados:
-Host: 158.179.222.160
+Host: https://twitch-analytics-tucan-0d282b54aae6.herokuapp.com
 
 ## GET User
 ### Request:
