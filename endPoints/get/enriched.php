@@ -10,7 +10,7 @@ function enriched($limit)
 {
     if (!isset($limit) || $limit < 1 || $limit > 100) {
         http_response_code(400);
-        $respuesta = ["error " => "Invalid limit parameter"];
+        $respuesta = ["error" => "Invalid limit parameter"];
         echo json_encode($respuesta);
         exit;
     }
