@@ -124,6 +124,3 @@ function enriched($limit)
     // Cerrar la conexión cURL
     curl_close($chStreams);
 }
-
-?>
-

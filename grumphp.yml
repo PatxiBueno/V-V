@@ -1,2 +1,13 @@
 grumphp:
-    tasks: {  }
+    tasks:
+        phpcs:
+            standard: ./phpcs.xml
+            ignore_patterns:
+                - "vendor/*"
+        phpmd: #estos rules deberian verse desde phpmd-ruleset.xml
+            ruleset:
+                - cleancode
+                - codesize
+                - naming
+                - unusedcode
+            exclude: [ 'vendor' ]
