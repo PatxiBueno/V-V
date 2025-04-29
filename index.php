@@ -45,7 +45,7 @@
 			enriched($limit);
 			exit;
 		}
-		if ($ruta == "/analytics/topofthetops") {
+		if ($ruta == "/analytics/topsofthetops") {
 			if(isset($_GET['since'])){
 				$since = intval($_GET['since']);
 			}else{
