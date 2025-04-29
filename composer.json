@@ -1,7 +1,7 @@
 {
   "require-dev": {
     "squizlabs/php_codesniffer": "@stable",
-    "phpmd/phpmd": "@stable",
+    "phpmd/phpmd": "^2.15",
     "phpro/grumphp": "^2.11"
   },
   "require": {

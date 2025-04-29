@@ -8,11 +8,11 @@ header("Content-type: application/json; charset=utf-8");
 
 function getTopOfTheTops($since)
 {
-    if($since < 0) {
+    if ($since < 0) {
         http_response_code(400);
         echo json_encode(["error" => "Bad request. Invalid or missing parameters."]);
         exit;
-    }elseif ($since > 600) {
+    } elseif ($since > 600) {
         $since = 600;
     }
 
@@ -32,7 +32,7 @@ function getTopOfTheTops($since)
             http_response_code(500);
             $json_final = json_encode(["error" => "Internal server error."]);
             echo $json_final;
-        } 
+        }
     }
 
     if ($ultimaActualizacion > $since) {
@@ -105,7 +105,7 @@ function getTopOfTheTops($since)
                                 "mostTitle" => $video["title"],
                                 "mostViews" => $video["view_count"],
                                 "mostDuration" => $video["duration"],
-                                "mostDate" => date('Y-m-d H:i:s',strtotime($video["created_at"]))
+                                "mostDate" => date('Y-m-d H:i:s', strtotime($video["created_at"]))
                             ];
                         } else {
                             $listaUsers[$video["user_id"]]["totalVideos"]++;
@@ -133,7 +133,8 @@ function getTopOfTheTops($since)
                          most_viewed_title, most_viewed_views, most_viewed_duration, most_viewed_created_at)
                          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-                        $stmt->bind_param("sssiissss",
+                        $stmt->bind_param(
+                            "sssiissss",
                             $gameId,
                             $gameName,
                             $usuario["userName"],
@@ -156,20 +157,18 @@ function getTopOfTheTops($since)
                             http_response_code(500);
                             $json_final = json_encode(["error" => "Internal server error."]);
                             echo $json_final;
-                        } 
+                        }
                         $consultaInsert = "INSERT INTO ttt_fecha (fecha_insercion) VALUES (CURRENT_TIMESTAMP)";
                         if (!$con->query($consultaInsert)) {
                             http_response_code(500);
                             $json_final = json_encode(["error" => "Internal server error."]);
                             echo $json_final;
-                        } 
+                        }
                     }
                 }
             }
             $jsonFinal = json_encode($infoUsers, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
             echo $jsonFinal;
-            
-            
         } else {
             $respuesta = ["error" => "Internal server error."];
             echo json_encode($respuesta);
@@ -187,4 +186,3 @@ function getTopOfTheTops($since)
         }
     }
 }
-?>

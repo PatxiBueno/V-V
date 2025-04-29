@@ -1,4 +1,5 @@
 <?php
+
 require_once('twirch/twitchToken.php');
 require_once('bbdd/conexion.php');
 header("Content-type: application/json; charset=utf-8");
@@ -9,15 +10,12 @@ function getUserFromApi($id)
         "Authorization: Bearer " . gen_token(),
         "Client-Id: 3kvc11lm0hiyfqxs32i127986wbep6"
     ];
-
     $curlTwitchUser = curl_init();
     curl_setopt($curlTwitchUser, CURLOPT_URL, $url);
     curl_setopt($curlTwitchUser, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($curlTwitchUser, CURLOPT_HTTPHEADER, $headers);
-
     $curlTwitchUserResponse = curl_exec($curlTwitchUser);
     $twitchResponseHttpCode = curl_getinfo($curlTwitchUser, CURLINFO_HTTP_CODE);
-
     http_response_code($twitchResponseHttpCode);
     if ($twitchResponseHttpCode == 200) {
         $responseData = json_decode($curlTwitchUserResponse, true);
@@ -29,16 +27,16 @@ function getUserFromApi($id)
         }
         foreach ($responseData["data"] as $twitchUser) {
             $twitchUserData = [
-                "id" => $twitchUser["id"],
-                "login" => $twitchUser["login"],
-                "display_name" => $twitchUser["display_name"],
-                "type" => $twitchUser["type"],
-                "broadcaster_type" => $twitchUser["broadcaster_type"],
-                "description" => $twitchUser["description"],
-                "profile_image_url" => $twitchUser["profile_image_url"],
-                "offline_image_url" => $twitchUser["offline_image_url"],
-                "view_count" => $twitchUser["view_count"],
-                "created_at" => $twitchUser["created_at"]
+            "id" => $twitchUser["id"],
+            "login" => $twitchUser["login"],
+            "display_name" => $twitchUser["display_name"],
+            "type" => $twitchUser["type"],
+            "broadcaster_type" => $twitchUser["broadcaster_type"],
+            "description" => $twitchUser["description"],
+            "profile_image_url" => $twitchUser["profile_image_url"],
+            "offline_image_url" => $twitchUser["offline_image_url"],
+            "view_count" => $twitchUser["view_count"],
+            "created_at" => $twitchUser["created_at"]
             ];
         }
         // TODO: Añadir el usuario a la base de datos
@@ -55,4 +53,3 @@ function getUserFromApi($id)
     }
     curl_close($curlTwitchUser);
 }
-?>

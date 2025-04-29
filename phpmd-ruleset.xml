@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="Twitch Analytics standards">
+    <description>Custom PHPMD ruleset</description>
+
+    <rule ref="cleancode" />
+    <rule ref="codesize" />
+    <rule ref="naming" />
+    <rule ref="unusedcode" />
+</ruleset>
