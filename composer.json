@@ -1,20 +1,52 @@
 {
-  "require-dev": {
-    "squizlabs/php_codesniffer": "@stable",
-    "phpmd/phpmd": "^2.15",
-    "phpro/grumphp": "^2.11"
-  },
+  "name": "twitch-analytics/platform-age",
+  "description": "A PHP-based REST API that provides Twitch user account analytics",
+  "type": "project",
   "require": {
-        "php": "@stable"
+      "php": "^8.3",
+      "ext-json": "*",
+      "laravel/lumen-framework": "^10.0",
+      "vlucas/phpdotenv": "^5.6"
+      
+  },
+  "require-dev": {
+      "squizlabs/php_codesniffer": "^3.7",
+      "phpmd/phpmd": "^2.15",
+      "mockery/mockery": "^1.4.4",
+      "phpro/grumphp": "^1.13",
+      "phpunit/phpunit": "^10.0",
+      "fakerphp/faker": "^1.9.1"
     },
+  "autoload": {
+      "psr-4": {
+          "TwitchAnalytics\\": "src/"
+      }
+  },
+  "autoload-dev": {
+      "psr-4": {
+          "TwitchAnalytics\\Tests\\": "tests/"
+      }
+  },
   "scripts": {
-    "cs": "phpcs --standard=PSR12 .",
-    "fix": "phpcbf --standard=PSR12 ."
-
+      "cs": "phpcs --standard=PSR12 .",
+      "fix": "phpcbf --standard=PSR12 .",
+      "test": "phpunit",
+      "test:coverage": "phpunit --coverage-html coverage",
+      "cs-check": "phpcs",
+      "cs-fix": "phpcbf",
+      "start": "php -S localhost:8000 -t public",
+      "post-root-package-install": [
+          "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+      ]
   },
   "config": {
-    "allow-plugins": {
-      "phpro/grumphp": true
-    }
-  }
+      "allow-plugins": {
+          "phpro/grumphp": true
+      },
+      "sort-packages": true,
+      "optimize-autoloader": true
+
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
 }
