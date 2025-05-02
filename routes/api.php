@@ -1,5 +1,12 @@
 <?php
 
-$router->get('/', function () {
-    return file_get_contents(base_path('index.php'));
+
+$router->group(['prefix' => 'api'], function () use ($router) {
+    $router->get('/gen-token', 'TwitchAnalytics\Http\Controllers\ApiController@genToken');
 });
+
+
+$router->get('foo', function () {
+    return 'Hello World';
+});
+

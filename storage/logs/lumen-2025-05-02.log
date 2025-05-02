@@ -1,0 +1,550 @@
+[2025-05-02 06:58:57] local.ERROR: require(/var/www/html/bootstrap/../routes/web.php): Failed to open stream: No such file or directory {"exception":"[object] (ErrorException(code: 0): require(/var/www/html/bootstrap/../routes/web.php): Failed to open stream: No such file or directory at /var/www/html/bootstrap/app.php:19)
+[stacktrace]
+#0 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RegistersExceptionHandlers.php(47): Laravel\\Lumen\\Application->handleError(2, 'require(/var/ww...', '/var/www/html/b...', 19)
+#1 /var/www/html/bootstrap/app.php(19): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(2, 'require(/var/ww...', '/var/www/html/b...', 19)
+#2 /var/www/html/bootstrap/app.php(19): require('/var/www/html/v...')
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Routing/Router.php(62): {closure}(Object(Laravel\\Lumen\\Routing\\Router))
+#4 /var/www/html/bootstrap/app.php(18): Laravel\\Lumen\\Routing\\Router->group(Array, Object(Closure))
+#5 /var/www/html/public/index.php(9): require_once('/var/www/html/b...')
+#6 {main}
+"} 
+[2025-05-02 07:00:26] local.ERROR: require_once(endPoints/get/user.php): Failed to open stream: No such file or directory {"exception":"[object] (ErrorException(code: 0): require_once(endPoints/get/user.php): Failed to open stream: No such file or directory at /var/www/html/routes/api.php:2)
+[stacktrace]
+#0 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RegistersExceptionHandlers.php(47): Laravel\\Lumen\\Application->handleError(2, 'require_once(en...', '/var/www/html/r...', 2)
+#1 /var/www/html/routes/api.php(2): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(2, 'require_once(en...', '/var/www/html/r...', 2)
+#2 /var/www/html/routes/api.php(2): require_once('/var/www/html/v...')
+#3 /var/www/html/bootstrap/app.php(19): require('/var/www/html/r...')
+#4 /var/www/html/vendor/laravel/lumen-framework/src/Routing/Router.php(62): {closure}(Object(Laravel\\Lumen\\Routing\\Router))
+#5 /var/www/html/bootstrap/app.php(18): Laravel\\Lumen\\Routing\\Router->group(Array, Object(Closure))
+#6 /var/www/html/public/index.php(9): require_once('/var/www/html/b...')
+#7 {main}
+"} 
+[2025-05-02 07:00:32] local.ERROR: require_once(endPoints/get/user.php): Failed to open stream: No such file or directory {"exception":"[object] (ErrorException(code: 0): require_once(endPoints/get/user.php): Failed to open stream: No such file or directory at /var/www/html/routes/api.php:2)
+[stacktrace]
+#0 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RegistersExceptionHandlers.php(47): Laravel\\Lumen\\Application->handleError(2, 'require_once(en...', '/var/www/html/r...', 2)
+#1 /var/www/html/routes/api.php(2): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(2, 'require_once(en...', '/var/www/html/r...', 2)
+#2 /var/www/html/routes/api.php(2): require_once('/var/www/html/v...')
+#3 /var/www/html/bootstrap/app.php(19): require('/var/www/html/r...')
+#4 /var/www/html/vendor/laravel/lumen-framework/src/Routing/Router.php(62): {closure}(Object(Laravel\\Lumen\\Routing\\Router))
+#5 /var/www/html/bootstrap/app.php(18): Laravel\\Lumen\\Routing\\Router->group(Array, Object(Closure))
+#6 /var/www/html/public/index.php(9): require_once('/var/www/html/b...')
+#7 {main}
+"} 
+[2025-05-02 07:02:56] local.ERROR: require_once(endPoints/get/user.php): Failed to open stream: No such file or directory {"exception":"[object] (ErrorException(code: 0): require_once(endPoints/get/user.php): Failed to open stream: No such file or directory at /var/www/html/routes/api.php:2)
+[stacktrace]
+#0 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RegistersExceptionHandlers.php(47): Laravel\\Lumen\\Application->handleError(2, 'require_once(en...', '/var/www/html/r...', 2)
+#1 /var/www/html/routes/api.php(2): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(2, 'require_once(en...', '/var/www/html/r...', 2)
+#2 /var/www/html/routes/api.php(2): require_once('/var/www/html/v...')
+#3 /var/www/html/bootstrap/app.php(19): require('/var/www/html/r...')
+#4 /var/www/html/vendor/laravel/lumen-framework/src/Routing/Router.php(62): {closure}(Object(Laravel\\Lumen\\Routing\\Router))
+#5 /var/www/html/bootstrap/app.php(18): Laravel\\Lumen\\Routing\\Router->group(Array, Object(Closure))
+#6 /var/www/html/public/index.php(9): require_once('/var/www/html/b...')
+#7 {main}
+"} 
+[2025-05-02 07:03:21] local.ERROR:  {"exception":"[object] (Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException(code: 0):  at /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php:235)
+[stacktrace]
+#0 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(174): Laravel\\Lumen\\Application->handleDispatcherResponse(Array)
+#1 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#2 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#4 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#5 {main}
+"} 
+[2025-05-02 07:09:46] local.ERROR:  {"exception":"[object] (Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException(code: 0):  at /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php:235)
+[stacktrace]
+#0 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(174): Laravel\\Lumen\\Application->handleDispatcherResponse(Array)
+#1 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#2 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#4 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#5 {main}
+"} 
+[2025-05-02 07:28:47] local.ERROR:  {"exception":"[object] (Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException(code: 0):  at /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php:235)
+[stacktrace]
+#0 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(174): Laravel\\Lumen\\Application->handleDispatcherResponse(Array)
+#1 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#2 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#4 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#5 {main}
+"} 
+[2025-05-02 07:29:00] local.ERROR:  {"exception":"[object] (Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException(code: 0):  at /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php:235)
+[stacktrace]
+#0 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(174): Laravel\\Lumen\\Application->handleDispatcherResponse(Array)
+#1 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#2 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#4 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#5 {main}
+"} 
+[2025-05-02 07:29:12] local.ERROR:  {"exception":"[object] (Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException(code: 0):  at /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php:235)
+[stacktrace]
+#0 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(174): Laravel\\Lumen\\Application->handleDispatcherResponse(Array)
+#1 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#2 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#4 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#5 {main}
+"} 
+[2025-05-02 07:29:21] local.ERROR:  {"exception":"[object] (Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException(code: 0):  at /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php:235)
+[stacktrace]
+#0 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(174): Laravel\\Lumen\\Application->handleDispatcherResponse(Array)
+#1 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#2 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#4 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#5 {main}
+"} 
+[2025-05-02 07:29:34] local.ERROR:  {"exception":"[object] (Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException(code: 0):  at /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php:235)
+[stacktrace]
+#0 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(174): Laravel\\Lumen\\Application->handleDispatcherResponse(Array)
+#1 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#2 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#4 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#5 {main}
+"} 
+[2025-05-02 07:30:17] local.ERROR: Target class [apiController] does not exist. {"exception":"[object] (Illuminate\\Contracts\\Container\\BindingResolutionException(code: 0): Target class [apiController] does not exist. at /var/www/html/vendor/illuminate/container/Container.php:914)
+[stacktrace]
+#0 /var/www/html/vendor/illuminate/container/Container.php(795): Illuminate\\Container\\Container->build('apiController')
+#1 /var/www/html/vendor/illuminate/container/Container.php(731): Illuminate\\Container\\Container->resolve('apiController', Array)
+#2 /var/www/html/vendor/laravel/lumen-framework/src/Application.php(327): Illuminate\\Container\\Container->make('apiController', Array)
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(326): Laravel\\Lumen\\Application->make('apiController')
+#4 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#5 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#6 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#7 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#8 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#9 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#10 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#11 {main}
+
+[previous exception] [object] (ReflectionException(code: -1): Class \"apiController\" does not exist at /var/www/html/vendor/illuminate/container/Container.php:912)
+[stacktrace]
+#0 /var/www/html/vendor/illuminate/container/Container.php(912): ReflectionClass->__construct('apiController')
+#1 /var/www/html/vendor/illuminate/container/Container.php(795): Illuminate\\Container\\Container->build('apiController')
+#2 /var/www/html/vendor/illuminate/container/Container.php(731): Illuminate\\Container\\Container->resolve('apiController', Array)
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Application.php(327): Illuminate\\Container\\Container->make('apiController', Array)
+#4 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(326): Laravel\\Lumen\\Application->make('apiController')
+#5 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#6 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#7 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#8 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#9 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#10 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#11 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#12 {main}
+"} 
+[2025-05-02 07:31:47] local.ERROR: Target class [ApiController] does not exist. {"exception":"[object] (Illuminate\\Contracts\\Container\\BindingResolutionException(code: 0): Target class [ApiController] does not exist. at /var/www/html/vendor/illuminate/container/Container.php:914)
+[stacktrace]
+#0 /var/www/html/vendor/illuminate/container/Container.php(795): Illuminate\\Container\\Container->build('ApiController')
+#1 /var/www/html/vendor/illuminate/container/Container.php(731): Illuminate\\Container\\Container->resolve('ApiController', Array)
+#2 /var/www/html/vendor/laravel/lumen-framework/src/Application.php(327): Illuminate\\Container\\Container->make('ApiController', Array)
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(326): Laravel\\Lumen\\Application->make('ApiController')
+#4 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#5 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#6 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#7 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#8 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#9 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#10 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#11 {main}
+
+[previous exception] [object] (ReflectionException(code: -1): Class \"ApiController\" does not exist at /var/www/html/vendor/illuminate/container/Container.php:912)
+[stacktrace]
+#0 /var/www/html/vendor/illuminate/container/Container.php(912): ReflectionClass->__construct('ApiController')
+#1 /var/www/html/vendor/illuminate/container/Container.php(795): Illuminate\\Container\\Container->build('ApiController')
+#2 /var/www/html/vendor/illuminate/container/Container.php(731): Illuminate\\Container\\Container->resolve('ApiController', Array)
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Application.php(327): Illuminate\\Container\\Container->make('ApiController', Array)
+#4 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(326): Laravel\\Lumen\\Application->make('ApiController')
+#5 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#6 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#7 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#8 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#9 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#10 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#11 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#12 {main}
+"} 
+[2025-05-02 07:37:17] local.ERROR: Target class [ApiController] does not exist. {"exception":"[object] (Illuminate\\Contracts\\Container\\BindingResolutionException(code: 0): Target class [ApiController] does not exist. at /var/www/html/vendor/illuminate/container/Container.php:914)
+[stacktrace]
+#0 /var/www/html/vendor/illuminate/container/Container.php(795): Illuminate\\Container\\Container->build('ApiController')
+#1 /var/www/html/vendor/illuminate/container/Container.php(731): Illuminate\\Container\\Container->resolve('ApiController', Array)
+#2 /var/www/html/vendor/laravel/lumen-framework/src/Application.php(327): Illuminate\\Container\\Container->make('ApiController', Array)
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(326): Laravel\\Lumen\\Application->make('ApiController')
+#4 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#5 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#6 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#7 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#8 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#9 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#10 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#11 {main}
+
+[previous exception] [object] (ReflectionException(code: -1): Class \"ApiController\" does not exist at /var/www/html/vendor/illuminate/container/Container.php:912)
+[stacktrace]
+#0 /var/www/html/vendor/illuminate/container/Container.php(912): ReflectionClass->__construct('ApiController')
+#1 /var/www/html/vendor/illuminate/container/Container.php(795): Illuminate\\Container\\Container->build('ApiController')
+#2 /var/www/html/vendor/illuminate/container/Container.php(731): Illuminate\\Container\\Container->resolve('ApiController', Array)
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Application.php(327): Illuminate\\Container\\Container->make('ApiController', Array)
+#4 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(326): Laravel\\Lumen\\Application->make('ApiController')
+#5 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#6 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#7 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#8 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#9 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#10 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#11 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#12 {main}
+"} 
+[2025-05-02 07:45:40] local.ERROR: Target class [ApiController] does not exist. {"exception":"[object] (Illuminate\\Contracts\\Container\\BindingResolutionException(code: 0): Target class [ApiController] does not exist. at /var/www/html/vendor/illuminate/container/Container.php:914)
+[stacktrace]
+#0 /var/www/html/vendor/illuminate/container/Container.php(795): Illuminate\\Container\\Container->build('ApiController')
+#1 /var/www/html/vendor/illuminate/container/Container.php(731): Illuminate\\Container\\Container->resolve('ApiController', Array)
+#2 /var/www/html/vendor/laravel/lumen-framework/src/Application.php(327): Illuminate\\Container\\Container->make('ApiController', Array)
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(326): Laravel\\Lumen\\Application->make('ApiController')
+#4 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#5 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#6 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#7 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#8 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#9 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#10 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#11 {main}
+
+[previous exception] [object] (ReflectionException(code: -1): Class \"ApiController\" does not exist at /var/www/html/vendor/illuminate/container/Container.php:912)
+[stacktrace]
+#0 /var/www/html/vendor/illuminate/container/Container.php(912): ReflectionClass->__construct('ApiController')
+#1 /var/www/html/vendor/illuminate/container/Container.php(795): Illuminate\\Container\\Container->build('ApiController')
+#2 /var/www/html/vendor/illuminate/container/Container.php(731): Illuminate\\Container\\Container->resolve('ApiController', Array)
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Application.php(327): Illuminate\\Container\\Container->make('ApiController', Array)
+#4 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(326): Laravel\\Lumen\\Application->make('ApiController')
+#5 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#6 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#7 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#8 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#9 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#10 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#11 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#12 {main}
+"} 
+[2025-05-02 07:51:57] local.ERROR: Target class [ApiController] does not exist. {"exception":"[object] (Illuminate\\Contracts\\Container\\BindingResolutionException(code: 0): Target class [ApiController] does not exist. at /var/www/html/vendor/illuminate/container/Container.php:914)
+[stacktrace]
+#0 /var/www/html/vendor/illuminate/container/Container.php(795): Illuminate\\Container\\Container->build('ApiController')
+#1 /var/www/html/vendor/illuminate/container/Container.php(731): Illuminate\\Container\\Container->resolve('ApiController', Array)
+#2 /var/www/html/vendor/laravel/lumen-framework/src/Application.php(327): Illuminate\\Container\\Container->make('ApiController', Array)
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(326): Laravel\\Lumen\\Application->make('ApiController')
+#4 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#5 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#6 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#7 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#8 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#9 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#10 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#11 {main}
+
+[previous exception] [object] (ReflectionException(code: -1): Class \"ApiController\" does not exist at /var/www/html/vendor/illuminate/container/Container.php:912)
+[stacktrace]
+#0 /var/www/html/vendor/illuminate/container/Container.php(912): ReflectionClass->__construct('ApiController')
+#1 /var/www/html/vendor/illuminate/container/Container.php(795): Illuminate\\Container\\Container->build('ApiController')
+#2 /var/www/html/vendor/illuminate/container/Container.php(731): Illuminate\\Container\\Container->resolve('ApiController', Array)
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Application.php(327): Illuminate\\Container\\Container->make('ApiController', Array)
+#4 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(326): Laravel\\Lumen\\Application->make('ApiController')
+#5 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#6 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#7 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#8 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#9 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#10 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#11 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#12 {main}
+"} 
+[2025-05-02 07:52:17] local.ERROR: Target class [ApiController] does not exist. {"exception":"[object] (Illuminate\\Contracts\\Container\\BindingResolutionException(code: 0): Target class [ApiController] does not exist. at /var/www/html/vendor/illuminate/container/Container.php:914)
+[stacktrace]
+#0 /var/www/html/vendor/illuminate/container/Container.php(795): Illuminate\\Container\\Container->build('ApiController')
+#1 /var/www/html/vendor/illuminate/container/Container.php(731): Illuminate\\Container\\Container->resolve('ApiController', Array)
+#2 /var/www/html/vendor/laravel/lumen-framework/src/Application.php(327): Illuminate\\Container\\Container->make('ApiController', Array)
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(326): Laravel\\Lumen\\Application->make('ApiController')
+#4 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#5 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#6 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#7 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#8 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#9 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#10 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#11 {main}
+
+[previous exception] [object] (ReflectionException(code: -1): Class \"ApiController\" does not exist at /var/www/html/vendor/illuminate/container/Container.php:912)
+[stacktrace]
+#0 /var/www/html/vendor/illuminate/container/Container.php(912): ReflectionClass->__construct('ApiController')
+#1 /var/www/html/vendor/illuminate/container/Container.php(795): Illuminate\\Container\\Container->build('ApiController')
+#2 /var/www/html/vendor/illuminate/container/Container.php(731): Illuminate\\Container\\Container->resolve('ApiController', Array)
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Application.php(327): Illuminate\\Container\\Container->make('ApiController', Array)
+#4 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(326): Laravel\\Lumen\\Application->make('ApiController')
+#5 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#6 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#7 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#8 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#9 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#10 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#11 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#12 {main}
+"} 
+[2025-05-02 07:52:33] local.ERROR: Target class [ApiController] does not exist. {"exception":"[object] (Illuminate\\Contracts\\Container\\BindingResolutionException(code: 0): Target class [ApiController] does not exist. at /var/www/html/vendor/illuminate/container/Container.php:914)
+[stacktrace]
+#0 /var/www/html/vendor/illuminate/container/Container.php(795): Illuminate\\Container\\Container->build('ApiController')
+#1 /var/www/html/vendor/illuminate/container/Container.php(731): Illuminate\\Container\\Container->resolve('ApiController', Array)
+#2 /var/www/html/vendor/laravel/lumen-framework/src/Application.php(327): Illuminate\\Container\\Container->make('ApiController', Array)
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(326): Laravel\\Lumen\\Application->make('ApiController')
+#4 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#5 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#6 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#7 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#8 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#9 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#10 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#11 {main}
+
+[previous exception] [object] (ReflectionException(code: -1): Class \"ApiController\" does not exist at /var/www/html/vendor/illuminate/container/Container.php:912)
+[stacktrace]
+#0 /var/www/html/vendor/illuminate/container/Container.php(912): ReflectionClass->__construct('ApiController')
+#1 /var/www/html/vendor/illuminate/container/Container.php(795): Illuminate\\Container\\Container->build('ApiController')
+#2 /var/www/html/vendor/illuminate/container/Container.php(731): Illuminate\\Container\\Container->resolve('ApiController', Array)
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Application.php(327): Illuminate\\Container\\Container->make('ApiController', Array)
+#4 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(326): Laravel\\Lumen\\Application->make('ApiController')
+#5 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#6 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#7 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#8 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#9 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#10 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#11 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#12 {main}
+"} 
+[2025-05-02 07:54:13] local.ERROR: Target class [App\Http\Controllers\ApiController] does not exist. {"exception":"[object] (Illuminate\\Contracts\\Container\\BindingResolutionException(code: 0): Target class [App\\Http\\Controllers\\ApiController] does not exist. at /var/www/html/vendor/illuminate/container/Container.php:914)
+[stacktrace]
+#0 /var/www/html/vendor/illuminate/container/Container.php(795): Illuminate\\Container\\Container->build('App\\\\Http\\\\Contro...')
+#1 /var/www/html/vendor/illuminate/container/Container.php(731): Illuminate\\Container\\Container->resolve('App\\\\Http\\\\Contro...', Array)
+#2 /var/www/html/vendor/laravel/lumen-framework/src/Application.php(327): Illuminate\\Container\\Container->make('App\\\\Http\\\\Contro...', Array)
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(326): Laravel\\Lumen\\Application->make('App\\\\Http\\\\Contro...')
+#4 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#5 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#6 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#7 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#8 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#9 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#10 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#11 {main}
+
+[previous exception] [object] (ReflectionException(code: -1): Class \"App\\Http\\Controllers\\ApiController\" does not exist at /var/www/html/vendor/illuminate/container/Container.php:912)
+[stacktrace]
+#0 /var/www/html/vendor/illuminate/container/Container.php(912): ReflectionClass->__construct('App\\\\Http\\\\Contro...')
+#1 /var/www/html/vendor/illuminate/container/Container.php(795): Illuminate\\Container\\Container->build('App\\\\Http\\\\Contro...')
+#2 /var/www/html/vendor/illuminate/container/Container.php(731): Illuminate\\Container\\Container->resolve('App\\\\Http\\\\Contro...', Array)
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Application.php(327): Illuminate\\Container\\Container->make('App\\\\Http\\\\Contro...', Array)
+#4 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(326): Laravel\\Lumen\\Application->make('App\\\\Http\\\\Contro...')
+#5 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#6 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#7 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#8 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#9 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#10 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#11 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#12 {main}
+"} 
+[2025-05-02 07:55:33] local.ERROR: Call to undefined function TwitchAnalytics\Http\Controllers\app_path() {"exception":"[object] (Error(code: 0): Call to undefined function TwitchAnalytics\\Http\\Controllers\\app_path() at /var/www/html/App/Http/Controllers/ApiController.php:6)
+[stacktrace]
+#0 /var/www/html/vendor/composer/ClassLoader.php(576): include()
+#1 /var/www/html/vendor/composer/ClassLoader.php(427): Composer\\Autoload\\{closure}('/var/www/html/v...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('TwitchAnalytics...')
+#3 /var/www/html/vendor/illuminate/container/Container.php(912): ReflectionClass->__construct('TwitchAnalytics...')
+#4 /var/www/html/vendor/illuminate/container/Container.php(795): Illuminate\\Container\\Container->build('TwitchAnalytics...')
+#5 /var/www/html/vendor/illuminate/container/Container.php(731): Illuminate\\Container\\Container->resolve('TwitchAnalytics...', Array)
+#6 /var/www/html/vendor/laravel/lumen-framework/src/Application.php(327): Illuminate\\Container\\Container->make('TwitchAnalytics...', Array)
+#7 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(326): Laravel\\Lumen\\Application->make('TwitchAnalytics...')
+#8 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#9 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#10 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#11 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#12 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#13 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#14 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#15 {main}
+"} 
+[2025-05-02 07:56:55] local.ERROR: Call to undefined function TwitchAnalytics\Http\Controllers\app_path() {"exception":"[object] (Error(code: 0): Call to undefined function TwitchAnalytics\\Http\\Controllers\\app_path() at /var/www/html/App/Http/Controllers/ApiController.php:6)
+[stacktrace]
+#0 /var/www/html/vendor/composer/ClassLoader.php(576): include()
+#1 /var/www/html/vendor/composer/ClassLoader.php(427): Composer\\Autoload\\{closure}('/var/www/html/v...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('TwitchAnalytics...')
+#3 /var/www/html/vendor/illuminate/container/Container.php(912): ReflectionClass->__construct('TwitchAnalytics...')
+#4 /var/www/html/vendor/illuminate/container/Container.php(795): Illuminate\\Container\\Container->build('TwitchAnalytics...')
+#5 /var/www/html/vendor/illuminate/container/Container.php(731): Illuminate\\Container\\Container->resolve('TwitchAnalytics...', Array)
+#6 /var/www/html/vendor/laravel/lumen-framework/src/Application.php(327): Illuminate\\Container\\Container->make('TwitchAnalytics...', Array)
+#7 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(326): Laravel\\Lumen\\Application->make('TwitchAnalytics...')
+#8 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#9 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#10 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#11 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#12 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#13 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#14 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#15 {main}
+"} 
+[2025-05-02 08:01:52] local.ERROR: Class "TwitchAnalytics\Http\Controllers\Controller" not found {"exception":"[object] (Error(code: 0): Class \"TwitchAnalytics\\Http\\Controllers\\Controller\" not found at /var/www/html/App/Http/Controllers/ApiController.php:8)
+[stacktrace]
+#0 /var/www/html/vendor/composer/ClassLoader.php(576): include()
+#1 /var/www/html/vendor/composer/ClassLoader.php(427): Composer\\Autoload\\{closure}('/var/www/html/v...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('TwitchAnalytics...')
+#3 /var/www/html/vendor/illuminate/container/Container.php(912): ReflectionClass->__construct('TwitchAnalytics...')
+#4 /var/www/html/vendor/illuminate/container/Container.php(795): Illuminate\\Container\\Container->build('TwitchAnalytics...')
+#5 /var/www/html/vendor/illuminate/container/Container.php(731): Illuminate\\Container\\Container->resolve('TwitchAnalytics...', Array)
+#6 /var/www/html/vendor/laravel/lumen-framework/src/Application.php(327): Illuminate\\Container\\Container->make('TwitchAnalytics...', Array)
+#7 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(326): Laravel\\Lumen\\Application->make('TwitchAnalytics...')
+#8 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#9 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#10 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#11 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#12 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#13 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#14 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#15 {main}
+"} 
+[2025-05-02 08:02:18] local.ERROR: Class "TwitchAnalytics\Http\Controllers\Controller" not found {"exception":"[object] (Error(code: 0): Class \"TwitchAnalytics\\Http\\Controllers\\Controller\" not found at /var/www/html/App/Http/Controllers/ApiController.php:8)
+[stacktrace]
+#0 /var/www/html/vendor/composer/ClassLoader.php(576): include()
+#1 /var/www/html/vendor/composer/ClassLoader.php(427): Composer\\Autoload\\{closure}('/var/www/html/v...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('TwitchAnalytics...')
+#3 /var/www/html/vendor/illuminate/container/Container.php(912): ReflectionClass->__construct('TwitchAnalytics...')
+#4 /var/www/html/vendor/illuminate/container/Container.php(795): Illuminate\\Container\\Container->build('TwitchAnalytics...')
+#5 /var/www/html/vendor/illuminate/container/Container.php(731): Illuminate\\Container\\Container->resolve('TwitchAnalytics...', Array)
+#6 /var/www/html/vendor/laravel/lumen-framework/src/Application.php(327): Illuminate\\Container\\Container->make('TwitchAnalytics...', Array)
+#7 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(326): Laravel\\Lumen\\Application->make('TwitchAnalytics...')
+#8 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#9 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#10 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#11 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#12 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#13 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#14 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#15 {main}
+"} 
+[2025-05-02 08:03:21] local.ERROR: Class "TwitchAnalytics\Http\Controllers\Controller" not found {"exception":"[object] (Error(code: 0): Class \"TwitchAnalytics\\Http\\Controllers\\Controller\" not found at /var/www/html/App/Http/Controllers/ApiController.php:8)
+[stacktrace]
+#0 /var/www/html/vendor/composer/ClassLoader.php(576): include()
+#1 /var/www/html/vendor/composer/ClassLoader.php(427): Composer\\Autoload\\{closure}('/var/www/html/v...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('TwitchAnalytics...')
+#3 /var/www/html/vendor/illuminate/container/Container.php(912): ReflectionClass->__construct('TwitchAnalytics...')
+#4 /var/www/html/vendor/illuminate/container/Container.php(795): Illuminate\\Container\\Container->build('TwitchAnalytics...')
+#5 /var/www/html/vendor/illuminate/container/Container.php(731): Illuminate\\Container\\Container->resolve('TwitchAnalytics...', Array)
+#6 /var/www/html/vendor/laravel/lumen-framework/src/Application.php(327): Illuminate\\Container\\Container->make('TwitchAnalytics...', Array)
+#7 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(326): Laravel\\Lumen\\Application->make('TwitchAnalytics...')
+#8 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#9 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#10 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#11 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#12 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#13 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#14 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#15 {main}
+"} 
+[2025-05-02 08:08:10] local.ERROR: Class "TwitchAnalytics\Http\Controllers\Controller" not found {"exception":"[object] (Error(code: 0): Class \"TwitchAnalytics\\Http\\Controllers\\Controller\" not found at /var/www/html/App/Http/Controllers/ApiController.php:8)
+[stacktrace]
+#0 /var/www/html/vendor/composer/ClassLoader.php(576): include()
+#1 /var/www/html/vendor/composer/ClassLoader.php(427): Composer\\Autoload\\{closure}('/var/www/html/v...')
+#2 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('TwitchAnalytics...')
+#3 /var/www/html/vendor/illuminate/container/Container.php(912): ReflectionClass->__construct('TwitchAnalytics...')
+#4 /var/www/html/vendor/illuminate/container/Container.php(795): Illuminate\\Container\\Container->build('TwitchAnalytics...')
+#5 /var/www/html/vendor/illuminate/container/Container.php(731): Illuminate\\Container\\Container->resolve('TwitchAnalytics...', Array)
+#6 /var/www/html/vendor/laravel/lumen-framework/src/Application.php(327): Illuminate\\Container\\Container->make('TwitchAnalytics...', Array)
+#7 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(326): Laravel\\Lumen\\Application->make('TwitchAnalytics...')
+#8 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#9 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#10 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#11 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#12 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#13 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#14 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#15 {main}
+"} 
+[2025-05-02 08:11:29] local.ERROR:  {"exception":"[object] (Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException(code: 0):  at /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php:327)
+[stacktrace]
+#0 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#1 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#2 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#4 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#5 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#6 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#7 {main}
+"} 
+[2025-05-02 08:13:09] local.ERROR:  {"exception":"[object] (Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException(code: 0):  at /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php:327)
+[stacktrace]
+#0 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#1 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#2 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#4 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#5 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#6 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#7 {main}
+"} 
+[2025-05-02 08:16:10] local.ERROR: Target class [TwitchAnalytics\Http\Controllers\ApiController] does not exist. {"exception":"[object] (Illuminate\\Contracts\\Container\\BindingResolutionException(code: 0): Target class [TwitchAnalytics\\Http\\Controllers\\ApiController] does not exist. at /var/www/html/vendor/illuminate/container/Container.php:914)
+[stacktrace]
+#0 /var/www/html/vendor/illuminate/container/Container.php(795): Illuminate\\Container\\Container->build('TwitchAnalytics...')
+#1 /var/www/html/vendor/illuminate/container/Container.php(731): Illuminate\\Container\\Container->resolve('TwitchAnalytics...', Array)
+#2 /var/www/html/vendor/laravel/lumen-framework/src/Application.php(327): Illuminate\\Container\\Container->make('TwitchAnalytics...', Array)
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(326): Laravel\\Lumen\\Application->make('TwitchAnalytics...')
+#4 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#5 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#6 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#7 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#8 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#9 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#10 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#11 {main}
+
+[previous exception] [object] (ReflectionException(code: -1): Class \"TwitchAnalytics\\Http\\Controllers\\ApiController\" does not exist at /var/www/html/vendor/illuminate/container/Container.php:912)
+[stacktrace]
+#0 /var/www/html/vendor/illuminate/container/Container.php(912): ReflectionClass->__construct('TwitchAnalytics...')
+#1 /var/www/html/vendor/illuminate/container/Container.php(795): Illuminate\\Container\\Container->build('TwitchAnalytics...')
+#2 /var/www/html/vendor/illuminate/container/Container.php(731): Illuminate\\Container\\Container->resolve('TwitchAnalytics...', Array)
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Application.php(327): Illuminate\\Container\\Container->make('TwitchAnalytics...', Array)
+#4 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(326): Laravel\\Lumen\\Application->make('TwitchAnalytics...')
+#5 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#6 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#7 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#8 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#9 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#10 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#11 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#12 {main}
+"} 
+[2025-05-02 08:17:43] local.ERROR:  {"exception":"[object] (Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException(code: 0):  at /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php:327)
+[stacktrace]
+#0 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#1 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#2 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#3 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#4 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#5 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#6 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#7 {main}
+"} 
+[2025-05-02 08:18:32] local.ERROR: Call to undefined function TwitchAnalytics\Http\Controllers\gen_token() {"exception":"[object] (Error(code: 0): Call to undefined function TwitchAnalytics\\Http\\Controllers\\gen_token() at /var/www/html/App/Http/Controllers/ApiController.php:14)
+[stacktrace]
+#0 /var/www/html/vendor/illuminate/container/BoundMethod.php(36): TwitchAnalytics\\Http\\Controllers\\ApiController->genToken()
+#1 /var/www/html/vendor/illuminate/container/Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#2 /var/www/html/vendor/illuminate/container/BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#3 /var/www/html/vendor/illuminate/container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Laravel\\Lumen\\Application), Array, Object(Closure))
+#4 /var/www/html/vendor/illuminate/container/Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Laravel\\Lumen\\Application), Array, Array, NULL)
+#5 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(391): Illuminate\\Container\\Container->call(Array, Array)
+#6 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(333): Laravel\\Lumen\\Application->callControllerCallable(Array, Array)
+#7 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#8 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#9 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#10 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#11 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#12 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#13 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#14 {main}
+"} 
