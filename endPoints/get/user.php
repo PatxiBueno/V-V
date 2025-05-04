@@ -1,10 +1,9 @@
 <?php
 
-require_once('../twirch/twitchToken.php');
+require_once __DIR__ . '/../../twirch/twitchToken.php';
 header("Content-type: application/json; charset=utf-8");
 function getUserFromApi($id)
 {
-    echo getcwd();
 
     $url = "https://api.twitch.tv/helix/users?id=" . $id;
     $headers = [
