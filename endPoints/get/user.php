@@ -4,6 +4,8 @@ require_once('../twirch/twitchToken.php');
 header("Content-type: application/json; charset=utf-8");
 function getUserFromApi($id)
 {
+    echo getcwd();
+
     $url = "https://api.twitch.tv/helix/users?id=" . $id;
     $headers = [
         "Authorization: Bearer " . gen_token(),

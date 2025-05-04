@@ -1493,3 +1493,49 @@
 [2025-05-04 16:29:26] local.ERROR: esta son las cabeceras {"authorization":["Bearer c4eaa5ceb66e27375e57"],"user-agent":["PostmanRuntime/7.43.4"],"accept":["*/*"],"postman-token":["8b871d06-7cfd-4dbe-bf64-58d8d9e655da"],"host":["localhost:8080"],"accept-encoding":["gzip, deflate, br"],"connection":["keep-alive"]} 
 [2025-05-04 16:29:30] local.ERROR: esta son las cabeceras {"authorization":["Bearer aaaaaaaaaaaaaa}"],"user-agent":["PostmanRuntime/7.43.4"],"accept":["*/*"],"postman-token":["a527fc16-930b-47fb-80ba-801dff37c561"],"host":["localhost:8080"],"accept-encoding":["gzip, deflate, br"],"connection":["keep-alive"]} 
 [2025-05-04 16:29:33] local.ERROR: esta son las cabeceras {"authorization":["Bearer c4eaa5ceb66e27375e57"],"content-type":["application/json"],"user-agent":["PostmanRuntime/7.43.4"],"accept":["*/*"],"postman-token":["03911f97-1b78-4554-9d5b-818b477e0119"],"host":["localhost:8080"],"accept-encoding":["gzip, deflate, br"],"connection":["keep-alive"],"content-length":["10"]} 
+[2025-05-04 16:39:54] local.ERROR: require_once(../../twirch/twitchToken.php): Failed to open stream: No such file or directory {"exception":"[object] (ErrorException(code: 0): require_once(../../twirch/twitchToken.php): Failed to open stream: No such file or directory at /var/www/html/endPoints/get/user.php:3)
+[stacktrace]
+#0 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RegistersExceptionHandlers.php(47): Laravel\\Lumen\\Application->handleError(2, 'require_once(.....', '/var/www/html/e...', 3)
+#1 /var/www/html/endPoints/get/user.php(3): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(2, 'require_once(.....', '/var/www/html/e...', 3)
+#2 /var/www/html/endPoints/get/user.php(3): require_once('/var/www/html/v...')
+#3 /var/www/html/App/Http/Controllers/ApiController.php(9): require_once('/var/www/html/e...')
+#4 /var/www/html/vendor/composer/ClassLoader.php(576): include('/var/www/html/A...')
+#5 /var/www/html/vendor/composer/ClassLoader.php(427): Composer\\Autoload\\{closure}('/var/www/html/v...')
+#6 [internal function]: Composer\\Autoload\\ClassLoader->loadClass('TwitchAnalytics...')
+#7 /var/www/html/vendor/illuminate/container/Container.php(912): ReflectionClass->__construct('TwitchAnalytics...')
+#8 /var/www/html/vendor/illuminate/container/Container.php(795): Illuminate\\Container\\Container->build('TwitchAnalytics...')
+#9 /var/www/html/vendor/illuminate/container/Container.php(731): Illuminate\\Container\\Container->resolve('TwitchAnalytics...', Array)
+#10 /var/www/html/vendor/laravel/lumen-framework/src/Application.php(327): Illuminate\\Container\\Container->make('TwitchAnalytics...', Array)
+#11 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(326): Laravel\\Lumen\\Application->make('TwitchAnalytics...')
+#12 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#13 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#14 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#15 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#16 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#17 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#18 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#19 {main}
+"} 
+[2025-05-04 16:41:22] local.ERROR: esta son las cabeceras {"authorization":["Bearer c4eaa5ceb66e27375e57"],"content-type":["application/json"],"user-agent":["PostmanRuntime/7.43.4"],"accept":["*/*"],"postman-token":["00302749-cd51-4a7a-84d7-dab21c7910e3"],"host":["localhost:8080"],"accept-encoding":["gzip, deflate, br"],"connection":["keep-alive"],"content-length":["10"]} 
+[2025-05-04 16:41:24] local.ERROR: http_response_code(): Cannot set response code - headers already sent (output started at /var/www/html/endPoints/get/user.php:7) {"exception":"[object] (ErrorException(code: 0): http_response_code(): Cannot set response code - headers already sent (output started at /var/www/html/endPoints/get/user.php:7) at /var/www/html/endPoints/get/user.php:20)
+[stacktrace]
+#0 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RegistersExceptionHandlers.php(47): Laravel\\Lumen\\Application->handleError(2, 'http_response_c...', '/var/www/html/e...', 20)
+#1 [internal function]: Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(2, 'http_response_c...', '/var/www/html/e...', 20)
+#2 /var/www/html/endPoints/get/user.php(20): http_response_code(200)
+#3 /var/www/html/App/Http/Controllers/ApiController.php(22): getUserFromApi('1')
+#4 /var/www/html/vendor/illuminate/container/BoundMethod.php(36): TwitchAnalytics\\Http\\Controllers\\ApiController->getUser(Object(Laravel\\Lumen\\Http\\Request))
+#5 /var/www/html/vendor/illuminate/container/Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#6 /var/www/html/vendor/illuminate/container/BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#7 /var/www/html/vendor/illuminate/container/BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Laravel\\Lumen\\Application), Array, Object(Closure))
+#8 /var/www/html/vendor/illuminate/container/Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Laravel\\Lumen\\Application), Array, Array, NULL)
+#9 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(391): Illuminate\\Container\\Container->call(Array, Array)
+#10 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(333): Laravel\\Lumen\\Application->callControllerCallable(Array, Array)
+#11 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(284): Laravel\\Lumen\\Application->callControllerAction(Array)
+#12 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(269): Laravel\\Lumen\\Application->callActionOnArrayBasedRoute(Array)
+#13 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(171): Laravel\\Lumen\\Application->handleFoundRoute(Array)
+#14 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(431): Laravel\\Lumen\\Application->Laravel\\Lumen\\Concerns\\{closure}(Object(Laravel\\Lumen\\Http\\Request))
+#15 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(167): Laravel\\Lumen\\Application->sendThroughPipeline(Array, Object(Closure))
+#16 /var/www/html/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php(112): Laravel\\Lumen\\Application->dispatch(NULL)
+#17 /var/www/html/public/index.php(17): Laravel\\Lumen\\Application->run()
+#18 {main}
+"} 
