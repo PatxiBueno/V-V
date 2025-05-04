@@ -1,5 +1,4 @@
 <?php
-header("Content-type: application/json; charset=utf-8");
 
 $router->group(['prefix' => 'analytics'], function () use ($router) {
     $router->get('/streams', 'TwitchAnalytics\Http\Controllers\ApiController@getStreams');
