@@ -1,8 +1,9 @@
 <?php
 
 //Cabecera
-require_once __DIR__ . '/../../bbdd/conexion.php';
 header("Content-Type: application/json");
+require_once __DIR__ . '/../../bbdd/conexion.php';
+
 
 //Recogida de información
 function generarToken($data)
