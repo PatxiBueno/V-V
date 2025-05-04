@@ -1,12 +1,21 @@
 <?php
 
+$router->group(['prefix' => 'analytics'], function () use ($router) {
+    $router->get('/streams', 'TwitchAnalytics\Http\Controllers\ApiController@getStreams');
 
-$router->group(['prefix' => 'api'], function () use ($router) {
-    $router->get('/gen-token', 'TwitchAnalytics\Http\Controllers\ApiController@genToken');
+    $router->get('/streams/enriched', 'TwitchAnalytics\Http\Controllers\ApiController@getEnriched');
+
+    $router->get('/user', 'TwitchAnalytics\Http\Controllers\ApiController@getUser');
+
+    $router->get('/topsofthetops', 'TwitchAnalytics\Http\Controllers\ApiController@getTopsOfTheTops');
+
+});
+
+$router->group(['prefix' => 'token'], function () use ($router) {
+    $router->post('', 'TwitchAnalytics\Http\Controllers\ApiController@getToken');
+
 });
 
 
-$router->get('foo', function () {
-    return 'Hello World';
-});
+
 
