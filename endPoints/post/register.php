@@ -1,7 +1,7 @@
 <?php
 
 //Cabecera
-require_once('bbdd/conexion.php');
+require_once __DIR__ . '/../../bbdd/conexion.php';
 header("Content-Type: application/json");
 
 //Recogida de información
