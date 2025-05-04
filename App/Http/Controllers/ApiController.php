@@ -9,6 +9,7 @@ require_once __DIR__ . '/../../../endPoints/get/enriched.php';
 require_once __DIR__ . '/../../../endPoints/get/user.php'; 
 require_once __DIR__ . '/../../../endPoints/get/topsofthetops.php';
 require_once __DIR__ . '/../../../endPoints/post/token.php'; 
+require_once __DIR__ . '/../../../endPoints/post/register.php'; 
 
 class ApiController
 {
@@ -40,9 +41,16 @@ class ApiController
 
     public function getToken(Request $request)
     {
-        $email = $request->post('email');
+        $data = $request->json()->all();
 
-        return generarToken($email);
+        return generarToken($data);
+    }
+
+    public function register(Request $request)
+    {
+        $data = $request->json()->all();
+
+        return register($data);
     }
 
 }
