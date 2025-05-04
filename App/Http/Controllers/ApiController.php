@@ -2,7 +2,7 @@
 namespace TwitchAnalytics\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+header("Content-type: application/json; charset=utf-8");
 require_once __DIR__ . '/../../../twirch/twitchToken.php';
 require_once __DIR__ . '/../../../endPoints/get/streams.php';
 require_once __DIR__ . '/../../../endPoints/get/enriched.php'; 
