@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
     dirname(__DIR__)
@@ -16,7 +16,7 @@ $app->withFacades();
 
 // Registrar rutas
 $app->router->group([], function ($router) {
-    require __DIR__.'/../routes/api.php'; 
+    require __DIR__ . '/../routes/api.php';
 });
 
 return $app;
