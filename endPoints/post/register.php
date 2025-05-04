@@ -1,51 +1,80 @@
 <?php
 
-require_once __DIR__ . '/../../bbdd/conexion.php';
+//Cabecera
+require_once('bbdd/conexion.php');
 header("Content-Type: application/json");
 
+//Recogida de información
 function register($data)
 {
-    // Verificar que el campo email exista
-    if (!isset($data["email"])) {
-        return response()->json(["error" => "The email is mandatory"], 400);
-    }
 
-    $email = filter_var($data["email"], FILTER_SANITIZE_EMAIL);
+// Verificar email
+    if (isset($data["email"])) {
+        $email = filter_var($data["email"], FILTER_SANITIZE_EMAIL);
 
-    // Validar el email
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        return response()->json(["error" => "The email must be a valid email address"], 400);
-    }
+        // Validar que el email sea correcto
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            //Codigo = 200, todo bien
+            //Generar nueva key
+            $newApiKey = bin2hex(random_bytes(8));
 
-    // Generar API Key y hashearla
-    $newApiKey = bin2hex(random_bytes(8));
-    $newApiKeyHashed = hash("sha256", $newApiKey);
+            //Realizar conexion
+            $con = conexion();
+            //Insertar nueva api_key en la BBDD
+            $consultaSelect = "SELECT * FROM usuarios where email like '$email' ";
+            $resultado = $con->query($consultaSelect);
 
-    // Conectar a la base de datos
-    $con = conexion();
 
-    // Verificar si ya existe ese email
-    $stmt = $con->prepare("SELECT id FROM usuarios WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $resultado = $stmt->get_result();
+            $newApiKeyHasheada = hash("sha256", $newApiKey);
 
-    if ($resultado && $resultado->num_rows > 0) {
-        // Si ya existe, eliminarlo
-        $stmt = $con->prepare("DELETE FROM usuarios WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        if (!$stmt->execute()) {
-            return response()->json(["error" => "Internal server error deleting user."], 500);
+            if ($resultado && $resultado->num_rows > 0) {
+                //Caso 1, existia el email
+                //$consultaInsert = "INSERT INTO usuarios (api_key) VALUES ('$newApiKeyHasheada')";
+                //$consultainsert = "UPDATE usuarios SET api_key = '$newApiKeyHasheada' WHERE email like '$email'";
+                $consultaInsert = "DELETE FROM usuarios WHERE email like '$email'";// , "INSERT INTO usuarios (email, api_key) VALUES ('$email','$newApiKeyHasheada')";
+
+                if ($con->query($consultaInsert)) {
+                    //Codigo = 200, todo correcto
+                    /*http_response_code(200);
+                    $json_final = json_encode(["api_key" => $newApiKey]);
+                    echo $json_final;*/
+                    $consultaInsert = "INSERT INTO usuarios (email, api_key) VALUES ('$email','$newApiKeyHasheada')";
+                } else {
+                    //Codigo 500, error interno
+                    //echo "Error en la consulta SELECT: " . $con->error . "<br>";
+                    http_response_code(500);
+                    echo "esopy fallando ";
+                    $json_final = json_encode(["error" => "Internal server error."]);
+                    echo $json_final;
+                }
+            } else {
+                //Caso 2, no existia el email
+                $consultaInsert = "INSERT INTO usuarios (email, api_key) VALUES ('$email','$newApiKeyHasheada')";
+            }
+
+            if ($con->query($consultaInsert)) {
+                //Codigo = 200, todo correcto
+                http_response_code(200);
+                $json_final = json_encode(["api_key" => $newApiKey]);
+                echo $json_final;
+            } else {
+                //Codigo 500, error interno
+                //echo "Error en la consulta SELECT: " . $con->error . "<br>";
+                echo "HOLA?";
+                http_response_code(500);
+                $json_final = json_encode(["error" => "Internal server error."]);
+                echo $json_final;
+            }
+        } else {
+            //Codigo = 400, email invalido
+            http_response_code(400);
+            $json_final = json_encode(["error" => "The email must be a valid email address"]);
+            echo $json_final;
         }
-    }
-
-    // Insertar nuevo usuario
-    $stmt = $con->prepare("INSERT INTO usuarios (email, api_key) VALUES (?, ?)");
-    $stmt->bind_param("ss", $email, $newApiKeyHashed);
-
-    if ($stmt->execute()) {
-        return response()->json(["api_key" => $newApiKey], 200);
     } else {
-        return response()->json(["error" => "Internal server error inserting user."], 500);
+        //Codigo = 400, email inexistente
+        http_response_code(400);
+        $json_final = json_encode(["error" => "The email is mandatory"]);
+        echo $json_final;
     }
 }
