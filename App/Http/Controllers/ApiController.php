@@ -47,6 +47,7 @@ class ApiController
 
     public function getToken(Request $request)
     {
+        $headers = $request->headers->all();
         $data = $request->json()->all();
 
         return generarToken($data);
@@ -54,6 +55,7 @@ class ApiController
 
     public function register(Request $request)
     {
+        $headers = $request->headers->all();
         $data = $request->json()->all();
 
         return register($data);
