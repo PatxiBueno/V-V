@@ -42,6 +42,7 @@ function getUserFromApi($id)
         // TODO: Añadir el usuario a la base de datos
         echo json_encode($twitchUserData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     } elseif ($twitchResponseHttpCode == 400) {
+        http_response_code(400);
         echo json_encode(["error" => "Invalid or missing 'id' parameter."]);
     } elseif ($twitchResponseHttpCode == 401) {
         echo json_encode(["error" => "Unauthorized. Twitch access token is invalid or has expired."]);
