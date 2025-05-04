@@ -1,7 +1,7 @@
 <?php
 
 //Cabecera
-header("Content-Type: application/json");
+header("Content-type: application/json; charset=utf-8");
 require_once __DIR__ . '/../../bbdd/conexion.php';
 
 
