@@ -4,13 +4,12 @@ namespace TwitchAnalytics\Http\Controllers;
 use Illuminate\Http\Request;
 
 require_once __DIR__ . '/../../../twirch/twitchToken.php';
-require_once __DIR__ . '/../../../endPoints/get/user.php';
-/*require_once __DIR__ . '/../../../endPoints/get/streams.php';
+require_once __DIR__ . '/../../../endPoints/get/streams.php';
 require_once __DIR__ . '/../../../endPoints/get/enriched.php'; 
-
+require_once __DIR__ . '/../../../endPoints/get/user.php';
 require_once __DIR__ . '/../../../endPoints/get/topsofthetops.php';
 require_once __DIR__ . '/../../../endPoints/post/token.php'; 
-require_once __DIR__ . '/../../../endPoints/post/register.php';*/
+require_once __DIR__ . '/../../../endPoints/post/register.php';
 require_once __DIR__ . '/../../../autenticacion.php';
 
 class ApiController
