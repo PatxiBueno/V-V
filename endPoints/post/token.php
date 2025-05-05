@@ -39,7 +39,7 @@ function generarToken($data)
                             $consultaToken = "SELECT * FROM token WHERE id_usuario = '$idUsuario'";
                             $resultadoToken = $con->query($consultaToken);
                             if ($resultadoToken && $resultadoToken->num_rows > 0) {
-        // Si ya existe un token, lo actualizamos
+                            // Si ya existe un token, lo actualizamos
                                 $consultaUpdate = "UPDATE token SET token = '$newToken', fecha_token = CURRENT_TIMESTAMP WHERE id_usuario = '$idUsuario'";
                                 if ($con->query($consultaUpdate)) {
                                                     // Codigo = 200, token actualizado correctamente
