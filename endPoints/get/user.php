@@ -20,10 +20,8 @@ function getUserFromApi($id)
     if ($twitchResponseHttpCode == 200) {
         $responseData = json_decode($curlTwitchUserResponse, true);
         if ($responseData === null || empty($responseData["data"])) {
-            http_response_code(404);
-            echo json_encode(["error" => "User not found."]);
             curl_close($curlTwitchUser);
-            exit;
+            return ['data' => ["error" => "User not found."], 'http_code' => $twitchResponseHttpCode];
         }
         foreach ($responseData["data"] as $twitchUser) {
             $twitchUserData = [
@@ -39,18 +37,18 @@ function getUserFromApi($id)
             "created_at" => $twitchUser["created_at"]
             ];
         }
-        // TODO: Añadir el usuario a la base de datos
-        echo json_encode($twitchUserData, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        return ['data' => $twitchUserData, 'http_code' => $twitchResponseHttpCode];
     } elseif ($twitchResponseHttpCode == 400) {
-        http_response_code(400);
-        echo json_encode(["error" => "Invalid or missing 'id' parameter."]);
+        curl_close($curlTwitchUser);
+        return ['data' => ["error" => "Invalid or missing 'id' parameter."], 'http_code' => $twitchResponseHttpCode];
     } elseif ($twitchResponseHttpCode == 401) {
-        echo json_encode(["error" => "Unauthorized. Twitch access token is invalid or has expired."]);
+        curl_close($curlTwitchUser);
+        return ['data' => ["error" => "Unauthorized. Twitch access token is invalid or has expired."], 'http_code' => $twitchResponseHttpCode];
     } elseif ($twitchResponseHttpCode == 404) {
-        echo json_encode(["error" => "User not found."]);
+        curl_close($curlTwitchUser);
+        return ['data' => ["error" => "User not found."], 'http_code' => $twitchResponseHttpCode];
     } else {
-        http_response_code(500);
-        echo json_encode(["error" => "Internal server error."]);
+        curl_close($curlTwitchUser);
+        return ['data' => ["error" => "Internal server error."], 'http_code' => $twitchResponseHttpCode];
     }
-    curl_close($curlTwitchUser);
 }

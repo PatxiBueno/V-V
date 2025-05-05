@@ -17,8 +17,8 @@ class ApiController
     {
         $this->noAutentificado( $request);
         $id = $request->get('id');
-
-        return getUserFromApi($id);
+        $response = getUserFromApi($id);
+        return response()->json($response['data'], $response['http_code']);
     }
 
     public function getStreams(Request $request)
@@ -57,8 +57,8 @@ class ApiController
     {
         $headers = $request->headers->all();
         $data = $request->json()->all();
-
-        return register($data);
+        $response = register($data);
+        return response()->json($response['data'], $response['http_code']);
     }
 
     /**
