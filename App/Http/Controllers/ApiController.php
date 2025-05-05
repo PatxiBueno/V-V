@@ -15,7 +15,10 @@ class ApiController
 {
     public function getUser(Request $request)
     {
-        $this->noAutentificado( $request);
+        $autenticacion = $this->noAutentificado( $request);
+        if ($autenticacion) {
+            return $autenticacion;
+        }
         $id = $request->get('id');
         $response = getUserFromApi($id);
         return response()->json($response['data'], $response['http_code']);
@@ -23,56 +26,55 @@ class ApiController
 
     public function getStreams(Request $request)
     {
-        $this->noAutentificado( $request);
-        return streams();
+        $autenticacion = $this->noAutentificado( $request);
+        if ($autenticacion) {
+            return $autenticacion;
+        }
+        $response = streams();
+        return response()->json($response['data'], $response['http_code']);
     }
 
     public function getEnriched(Request $request)
     {
-        $this->noAutentificado( $request);
-
+        $autenticacion = $this->noAutentificado( $request);
+        if ($autenticacion) {
+            return $autenticacion;
+        }
         $limit = $request->get('limit');
-
-        return enriched($limit);
+        $response = enriched($limit);
+        return response()->json($response['data'], $response['http_code']);
     }
 
     public function getTopsOfTheTops(Request $request)
     {
-        $this->noAutentificado( $request);
-
+        $autenticacion = $this->noAutentificado( $request);
+        if ($autenticacion) {
+            return $autenticacion;
+        }
         $since = $request->get('since',600);
-
-        return getTopOfTheTops($since);
+        $response = getTopOfTheTops($since);
+        return response()->json($response['data'], $response['http_code']);
     }
 
     public function getToken(Request $request)
     {
-        $headers = $request->headers->all();
         $data = $request->json()->all();
-
-        return generarToken($data);
+        $response = generarToken($data);
+        return response()->json($response['data'], $response['http_code']);
     }
 
     public function register(Request $request)
     {
-        $headers = $request->headers->all();
         $data = $request->json()->all();
         $response = register($data);
         return response()->json($response['data'], $response['http_code']);
     }
 
-    /**
-     * @return void
-     */
-    public function noAutentificado(Request $request): void
+    public function noAutentificado(Request $request)
     {
         $headers = $request->headers->all();
-        app("log")->error("esta son las cabeceras",$headers);
         if (!validarToken($headers)) {
-            http_response_code(401);
-            $respuesta = ["error" => "Unauthorized. Token is invalid or expired."];
-            echo json_encode($respuesta);
-            exit;
+            return response()->json(['error' => 'Unauthorized. Token is invalid or expired.'], 401);
         }
     }
 

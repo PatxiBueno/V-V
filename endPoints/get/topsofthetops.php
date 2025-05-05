@@ -9,9 +9,7 @@ header("Content-type: application/json; charset=utf-8");
 function getTopOfTheTops($since)
 {
     if ($since < 0) {
-        http_response_code(400);
-        echo json_encode(["error" => "Bad request. Invalid or missing parameters."]);
-        exit;
+        return ['data' => ["error" => "Bad request. Invalid or missing parameters."], 'http_code' => 400];
     } elseif ($since > 600) {
         $since = 600;
     }
@@ -29,18 +27,14 @@ function getTopOfTheTops($since)
         $ultimaActualizacion = 601;
         $consultaInsert = "INSERT INTO ttt_fecha (fecha_insercion) VALUES (CURRENT_TIMESTAMP)";
         if (!$con->query($consultaInsert)) {
-            http_response_code(500);
-            $json_final = json_encode(["error" => "Internal server error."]);
-            echo $json_final;
+            return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
         }
     }
 
     if ($ultimaActualizacion > $since) {
         $consultaBorrar = "DELETE FROM ttt";
         if (!$con->query($consultaBorrar)) {
-            $json_final = json_encode(["error" => "Internal server error."]);
-            echo $json_final;
-            exit;
+            return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
         }
         $url = "https://api.twitch.tv/helix/games/top?first=3";
         $headers = [
@@ -147,31 +141,23 @@ function getTopOfTheTops($since)
                         );
 
                         if (!$stmt->execute()) {
-                            echo "Error MySQL: " . $stmt->error;
-                            echo json_encode(["error" => "Internal server error."]);
-                            exit;
+                            return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
                         }
                         $stmt->close();
                         $consultaUpdate = "delete from ttt_fecha";
                         if (!$con->query($consultaUpdate)) {
-                            http_response_code(500);
-                            $json_final = json_encode(["error" => "Internal server error."]);
-                            echo $json_final;
+                            return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
                         }
                         $consultaInsert = "INSERT INTO ttt_fecha (fecha_insercion) VALUES (CURRENT_TIMESTAMP)";
                         if (!$con->query($consultaInsert)) {
-                            http_response_code(500);
-                            $json_final = json_encode(["error" => "Internal server error."]);
-                            echo $json_final;
+                            return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
                         }
                     }
                 }
             }
-            $jsonFinal = json_encode($infoUsers, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-            echo $jsonFinal;
+            return ['data' => $infoUsers, 'http_code' => $httpCode];
         } else {
-            $respuesta = ["error" => "Internal server error."];
-            echo json_encode($respuesta);
+            return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
         }
     } else {
         $consultaRAM = "SELECT * FROM ttt";
@@ -182,7 +168,7 @@ function getTopOfTheTops($since)
             while ($fila = $resultado->fetch_assoc()) {
                 $result[] = $fila;
             }
-            echo json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+            return ['data' => $result, 'http_code' => 200];
         }
     }
 }

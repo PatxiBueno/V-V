@@ -9,10 +9,8 @@ header("Content-type: application/json; charset=utf-8");
 function enriched($limit)
 {
     if (!isset($limit) || $limit < 1 || $limit > 100) {
-        http_response_code(400);
         $respuesta = ["error" => "Invalid limit parameter"];
-        echo json_encode($respuesta);
-        exit;
+        return ['data' => $respuesta, 'http_code' => 400];
     }
     //Paso 1: coger los streams
     //Configurar llamada a la API
@@ -34,10 +32,6 @@ function enriched($limit)
     );
     //Ejecutar cURL
     $responseStreams = curl_exec($chStreams);
-
-    if ($responseStreams == false) {
-        print 'Error: ' . curl_error($chStreams);
-    }
 
     //Obtener el código de estado
     $httpCodeStreams = curl_getinfo($chStreams, CURLINFO_HTTP_CODE);
@@ -86,7 +80,7 @@ function enriched($limit)
                         $profile_image_url = $streamer["profile_image_url"];
                     }
                 } else {
-                    echo "⚠️ Código de error: $httpCodeUser\n";
+                    return ['data' => ["error" => "Internal server error."], 'http_code' => $httpCodeUser];
                 }
 
                 $nuevoStreamEnriquecido = [
@@ -107,20 +101,17 @@ function enriched($limit)
                 $limit--;
             }
         }
-
-        //Generamos JSON de envio
-        $jsonFinal = json_encode($infoStreamsEnriquecidos, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
-        echo $jsonFinal;
+        return ['data' => $infoStreamsEnriquecidos, 'http_code' => $httpCodeStreams];
     } elseif ($httpCodeStreams == 401) {
+        curl_close($chStreams);
         $respuesta = ["error" => "Unauthorized. Twitch access token is invalid or has expired"];
-        echo json_encode($respuesta);
+        return ['data' => $respuesta, 'http_code' => $httpCodeStreams];
     } elseif ($httpCodeStreams == 500) {
+        curl_close($chStreams);
         $respuesta = ["error" => "Internal server error"];
-        echo json_encode($respuesta);
+        return ['data' => $respuesta, 'http_code' => $httpCodeStreams];
     } else {
-        echo "⚠️ Código de error: $httpCodeStreams\n";
+        curl_close($chStreams);
+        return ['data' => ["error" => "Internal server error"], 'http_code' => $httpCodeStreams];
     }
-    // Cerrar la conexión cURL
-    curl_close($chStreams);
 }

@@ -36,17 +36,14 @@ function streams()
             ];
             $infoStreams[] = $nuevoStream;
         }
-
-        //Generamos JSON de envio
-        $jsonFinal = json_encode($infoStreams, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-        echo $jsonFinal;
+        return ['data' => $infoStreams, 'http_code' => $httpCode];
     } elseif ($httpCode == 401) {
         $respuesta = ["error" => "Unauthorized. Twitch access token is invalid or has expired."];
-        echo json_encode($respuesta);
+        return ['data' => $respuesta, 'http_code' => $httpCode];
     } elseif ($httpCode == 500) {
         $respuesta = ["error" => "Internal server error."];
-        echo json_encode($respuesta);
+        return ['data' => $respuesta, 'http_code' => $httpCode];
     } else {
-        echo "⚠️ Código de error: $httpCode\n";
+        return ['data' => ["error" => "Internal server error."], 'http_code' => $httpCode];
     }
 }

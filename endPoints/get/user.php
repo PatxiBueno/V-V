@@ -21,7 +21,7 @@ function getUserFromApi($id)
         $responseData = json_decode($curlTwitchUserResponse, true);
         if ($responseData === null || empty($responseData["data"])) {
             curl_close($curlTwitchUser);
-            return ['data' => ["error" => "User not found."], 'http_code' => $twitchResponseHttpCode];
+            return ['data' => ["error" => "User not found."], 'http_code' => 404];
         }
         foreach ($responseData["data"] as $twitchUser) {
             $twitchUserData = [
