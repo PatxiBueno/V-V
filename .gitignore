@@ -1,3 +1,4 @@
 .idea/
 vendor/
 grumphp.yml
+/storage/logs/

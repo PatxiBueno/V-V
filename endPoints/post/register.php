@@ -1,13 +1,12 @@
 <?php
 
 //Cabecera
-require_once('bbdd/conexion.php');
-header("Content-Type: application/json");
+require_once __DIR__ . '/../../bbdd/conexion.php';
+header("Content-type: application/json; charset=utf-8");
 
 //Recogida de información
 function register($data)
 {
-
 // Verificar email
     if (isset($data["email"])) {
         $email = filter_var($data["email"], FILTER_SANITIZE_EMAIL);
@@ -34,18 +33,9 @@ function register($data)
                 $consultaInsert = "DELETE FROM usuarios WHERE email like '$email'";// , "INSERT INTO usuarios (email, api_key) VALUES ('$email','$newApiKeyHasheada')";
 
                 if ($con->query($consultaInsert)) {
-                    //Codigo = 200, todo correcto
-                    /*http_response_code(200);
-                    $json_final = json_encode(["api_key" => $newApiKey]);
-                    echo $json_final;*/
                     $consultaInsert = "INSERT INTO usuarios (email, api_key) VALUES ('$email','$newApiKeyHasheada')";
                 } else {
-                    //Codigo 500, error interno
-                    //echo "Error en la consulta SELECT: " . $con->error . "<br>";
-                    http_response_code(500);
-                    echo "esopy fallando ";
-                    $json_final = json_encode(["error" => "Internal server error."]);
-                    echo $json_final;
+                    return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
                 }
             } else {
                 //Caso 2, no existia el email
@@ -53,28 +43,16 @@ function register($data)
             }
 
             if ($con->query($consultaInsert)) {
-                //Codigo = 200, todo correcto
-                http_response_code(200);
-                $json_final = json_encode(["api_key" => $newApiKey]);
-                echo $json_final;
+                return ['data' => ["api_key" => $newApiKey], 'http_code' => 200];
             } else {
-                //Codigo 500, error interno
-                //echo "Error en la consulta SELECT: " . $con->error . "<br>";
-                echo "HOLA?";
-                http_response_code(500);
-                $json_final = json_encode(["error" => "Internal server error."]);
-                echo $json_final;
+                return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
             }
         } else {
             //Codigo = 400, email invalido
-            http_response_code(400);
-            $json_final = json_encode(["error" => "The email must be a valid email address"]);
-            echo $json_final;
+            return ['data' => ["error" => "The email must be a valid email address"], 'http_code' => 400];
         }
     } else {
         //Codigo = 400, email inexistente
-        http_response_code(400);
-        $json_final = json_encode(["error" => "The email is mandatory"]);
-        echo $json_final;
+        return ['data' => ["error" => "The email is mandatory"], 'http_code' => 400];
     }
 }

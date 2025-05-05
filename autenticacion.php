@@ -7,9 +7,9 @@ function validarToken($headers)
 {
 
     //Comprobar que la cabecera Authorization existe
-    if (isset($headers['Authorization'])) {
+    if (isset($headers['authorization'])) {
         //Sustrae de la cabecera el "Bearer" y el token
-        list($bearer, $tokenUsuario) = explode(" ", $headers['Authorization'], 2);
+        list($bearer, $tokenUsuario) = explode(" ", $headers['authorization'][0], 2);
         //Comprueba que la cabecera es correcta y que viene con "bearer" en ella
         if (strcasecmp($bearer, "Bearer") == 0) {
             //Si la cabecera es correcta (Authorization: Bearer ...) comprueba el token
