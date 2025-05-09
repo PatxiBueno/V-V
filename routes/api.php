@@ -5,7 +5,7 @@ $router->group(['prefix' => 'analytics'], function () use ($router) {
 
     $router->get('/streams/enriched', 'TwitchAnalytics\Http\Controllers\ApiController@getEnriched');
 
-    $router->get('/user', 'TwitchAnalytics\Http\Controllers\ApiController@getUser');
+    $router->get('/user', 'TwitchAnalytics\Controllers\UserController@getUser');
 
     $router->get('/topsofthetops', 'TwitchAnalytics\Http\Controllers\ApiController@getTopsOfTheTops');
 

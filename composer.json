@@ -19,7 +19,7 @@
     },
   "autoload": {
       "psr-4": {
-          "TwitchAnalytics\\": "App/"
+          "TwitchAnalytics\\": "src/"
       }
   },
   "autoload-dev": {
