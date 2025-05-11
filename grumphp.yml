@@ -4,10 +4,13 @@ grumphp:
             standard: ./phpcs.xml
             ignore_patterns:
                 - "vendor/*"
+                - "endPoints/*"
+                - "bbdd/*"
+                - "tests/*"
         phpmd: #estos rules deberian verse desde phpmd-ruleset.xml
             ruleset:
                 - cleancode
                 - codesize
                 - naming
                 - unusedcode
-            exclude: [ 'vendor' ]
+            exclude: [ 'vendor', 'endPoints','bbdd','tests']

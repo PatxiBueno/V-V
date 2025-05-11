@@ -1,12 +1,11 @@
 <?php
+
 namespace TwitchAnalytics\Controllers;
 
 use TwitchAnalytics\Service\User;
-
 use Illuminate\Http\Request;
 
 require_once __DIR__ . '/../../autenticacion.php';
-
 class UserController
 {
     public function getUser(Request $request)
