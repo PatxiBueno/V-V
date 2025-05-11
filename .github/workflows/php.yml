@@ -3,10 +3,10 @@ name: Code Quality
 on:
 push:
 branches:
-\- '**'  # Se lanza en cualquier rama al hacer push
-pull\_request:
+- '**'  # Se lanza en cualquier rama al hacer push
+pull_request:
 branches:
-\- '**'  # También se lanza al crear o actualizar un PR hacia cualquier rama
+- '**'  # También se lanza al crear o actualizar un PR hacia cualquier rama
 
 jobs:
 quality-check:
