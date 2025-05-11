@@ -1,0 +1,31 @@
+name: Code Quality
+
+on:
+push:
+branches:
+\- '**'  # Se lanza en cualquier rama al hacer push
+pull\_request:
+branches:
+\- '**'  # También se lanza al crear o actualizar un PR hacia cualquier rama
+
+jobs:
+quality-check:
+runs-on: ubuntu-latest
+
+steps:
+- name: Checkout code
+  uses: actions/checkout@v3
+
+- name: Set up PHP
+  uses: shivammathur/setup-php@v2
+  with:
+    php-version: '8.3'
+    extensions: mbstring, xml
+    tools: composer
+
+- name: Install dependencies
+  run: composer install --prefer-dist --no-progress --no-suggest
+
+- name: Run GrumPHP
+  run: vendor/bin/grumphp run
+
