@@ -1,21 +1,22 @@
 <?php
+
 namespace TwitchAnalytics\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 require_once __DIR__ . '/../../../twirch/twitchToken.php';
 require_once __DIR__ . '/../../../endPoints/get/streams.php';
-require_once __DIR__ . '/../../../endPoints/get/enriched.php'; 
+require_once __DIR__ . '/../../../endPoints/get/enriched.php';
 require_once __DIR__ . '/../../../endPoints/get/user.php';
 require_once __DIR__ . '/../../../endPoints/get/topsofthetops.php';
-require_once __DIR__ . '/../../../endPoints/post/token.php'; 
+require_once __DIR__ . '/../../../endPoints/post/token.php';
 require_once __DIR__ . '/../../../endPoints/post/register.php';
 require_once __DIR__ . '/../../../autenticacion.php';
-
 class ApiController
 {
     public function getUser(Request $request)
     {
-        $autenticacion = $this->noAutentificado( $request);
+        $autenticacion = $this->noAutentificado($request);
         if ($autenticacion) {
             return $autenticacion;
         }
@@ -26,7 +27,7 @@ class ApiController
 
     public function getStreams(Request $request)
     {
-        $autenticacion = $this->noAutentificado( $request);
+        $autenticacion = $this->noAutentificado($request);
         if ($autenticacion) {
             return $autenticacion;
         }
@@ -36,7 +37,7 @@ class ApiController
 
     public function getEnriched(Request $request)
     {
-        $autenticacion = $this->noAutentificado( $request);
+        $autenticacion = $this->noAutentificado($request);
         if ($autenticacion) {
             return $autenticacion;
         }
@@ -47,11 +48,11 @@ class ApiController
 
     public function getTopsOfTheTops(Request $request)
     {
-        $autenticacion = $this->noAutentificado( $request);
+        $autenticacion = $this->noAutentificado($request);
         if ($autenticacion) {
             return $autenticacion;
         }
-        $since = $request->get('since',600);
+        $since = $request->get('since', 600);
         $response = getTopOfTheTops($since);
         return response()->json($response['data'], $response['http_code']);
     }
@@ -77,5 +78,4 @@ class ApiController
             return response()->json(['error' => 'Unauthorized. Token is invalid or expired.'], 401);
         }
     }
-
 }

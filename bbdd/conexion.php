@@ -18,4 +18,3 @@ function conexion()
     }
     return $con;
 }
-
