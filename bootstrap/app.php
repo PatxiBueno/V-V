@@ -14,7 +14,7 @@ $app = new Laravel\Lumen\Application(
 use TwitchAnalytics\Middleware\VerifyToken;
 
 $app->routeMiddleware([
-    'auth.token' => VerifyToken::class, // ✅ Correcto
+    'auth.token' => VerifyToken::class,
 ]);
 $app->withFacades();
 

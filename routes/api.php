@@ -8,7 +8,7 @@ $router->group(['prefix' => 'analytics', 'middleware' => 'auth.token'], function
 });
 
 $router->group(['prefix' => 'token'], function () use ($router) {
-    $router->post('', 'TwitchAnalytics\Http\Controllers\ApiController@getToken');
+    $router->post('', 'TwitchAnalytics\Controllers\TokenController@getToken');
 });
 
 $router->group(['prefix' => 'register'], function () use ($router) {
