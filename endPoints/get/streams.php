@@ -2,7 +2,7 @@
 
     require_once __DIR__ . '/../../twirch/twitchToken.php';
 header("Content-type: application/json; charset=utf-8");
-function streams()
+function getStreamsFromApi()
 {
 
     //Configurar llamada a la API
