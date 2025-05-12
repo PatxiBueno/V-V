@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__ . '/../vendor/autoload.php';
 
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
@@ -12,6 +11,11 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
+use TwitchAnalytics\Middleware\VerifyToken;
+
+$app->routeMiddleware([
+    'auth.token' => VerifyToken::class,
+]);
 $app->withFacades();
 
 // Registrar rutas
