@@ -4,6 +4,7 @@ namespace TwitchAnalytics\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+
 require_once __DIR__ . '/../../autenticacion.php';
 
 class VerifyToken
@@ -18,4 +19,3 @@ class VerifyToken
         return $next($request);
     }
 }
-
