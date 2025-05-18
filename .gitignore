@@ -2,3 +2,4 @@
 vendor/
 grumphp.yml
 /storage/logs/
+.env

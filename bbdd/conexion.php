@@ -2,11 +2,11 @@
 
 function conexion()
 {
-    $host = "uvmw5o.stackhero-network.com";
-    $bd = "twitchAnalytics";
-    $user = "root";
-    $password = "O3wGdqU2E8oq62OVCk5tcfUeqmakK4bZ";
-    $port = "7879";
+    $host = getenv('DB_HOST');
+    $bd = getenv('DB_DATABASE');
+    $user = getenv('DB_USERNAME');
+    $password = getenv('DB_PASSWORD');
+    $port = getenv('DB_PORT');
 
     $con = mysqli_connect($host, $user, $password, $bd, $port);
 
