@@ -3,17 +3,16 @@
 namespace TwitchAnalytics\Service;
 
 use Illuminate\Http\Request;
-use PHPUnit\Util\Json;
+use TwitchAnalytics\ResponseTwitchData;
+use TwitchAnalytics\Managers\TwitchAPIManager;
 
-require_once __DIR__ . '/../../twirch/twitchToken.php';
+
 
 
 class User
 {
     private Request $request;
-    private int $httpResponseCode;
-
-    private string $httpResponseUserData;
+    private ResponseTwitchData $responseTwitchData;
     public function __construct($request)
     {
         $this->request = $request;
@@ -25,56 +24,33 @@ class User
         return response()->json($response['data'], $response['http_code']);
     }
 
-    function getUserFromApi($idUser): array
+    private function getUserFromApi($idUser): array
     {
-        $this->curlToTwitchApiForUserEndPoint($idUser);
+        $this->responseTwitchData = (new TwitchAPIManager())->curlToTwitchApiForUserEndPoint($idUser);
 
-        http_response_code($this->httpResponseCode);
-
-        if ($this->httpResponseCode == 400) {
-            return ['data' => ["error" => "Invalid or missing 'id' parameter."], 'http_code' => $this->httpResponseCode];
+        if ( $this->responseTwitchData->getHttpResponseCode() == 400) {
+            return ['data' => ["error" => "Invalid or missing 'id' parameter."], 'http_code' => 400];
         }
-        if ($this->httpResponseCode == 401) {
-            return ['data' => ["error" => "Unauthorized. Twitch access token is invalid or has expired."], 'http_code' => $this->httpResponseCode];
+        if ($this->responseTwitchData->getHttpResponseCode() == 401) {
+            return ['data' => ["error" => "Unauthorized. Twitch access token is invalid or has expired."], 'http_code' => 401];
         }
-        if ($this->httpResponseCode == 404) {
-            return ['data' => ["error" => "User not found."], 'http_code' => $this->httpResponseCode];
+        if ($this->responseTwitchData->getHttpResponseCode() == 404) {
+            return ['data' => ["error" => "User not found."], 'http_code' => 404];
         }
-        if ($this->httpResponseCode != 200) {
-            return ['data' => ["error" => "Internal server error."], 'http_code' => $this->httpResponseCode];//seria meter 500
+        if ($this->responseTwitchData->getHttpResponseCode() != 200) {
+            return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
         }
 
-        $responseData = json_decode($this->httpResponseUserData, true);
+        $responseData = json_decode($this->responseTwitchData->getHttpResponseUserData(), true);
         if ($responseData === null || empty($responseData["data"])) {
             return ['data' => ["error" => "User not found."], 'http_code' => 404];
         }
         $twitchUserData = $this->parseTwitchDataToOurFormat($responseData["data"]);
-        return ['data' => $twitchUserData, 'http_code' => $this->httpResponseCode];
+        return ['data' => $twitchUserData, 'http_code' => 200];
     }
 
 
-    public function curlToTwitchApiForUserEndPoint($id): void
-    {
-        $url = "https://api.twitch.tv/helix/users?id=" . $id;
-        $headers = [
-            "Authorization: Bearer " . gen_token(),
-            "Client-Id: 3kvc11lm0hiyfqxs32i127986wbep6"
-        ];
-        $curlTwitchUser = curl_init();
-        curl_setopt($curlTwitchUser, CURLOPT_URL, $url);
-        curl_setopt($curlTwitchUser, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curlTwitchUser, CURLOPT_HTTPHEADER, $headers);
-
-
-        $this->httpResponseUserData = curl_exec($curlTwitchUser);
-        $this->httpResponseCode = curl_getinfo($curlTwitchUser, CURLINFO_HTTP_CODE);
-
-
-        curl_close($curlTwitchUser);
-    }
-
-
-    public function parseTwitchDataToOurFormat($data): array
+    private function parseTwitchDataToOurFormat($data): array
     {
         foreach ($data as $twitchUser) {
             $twitchUserData = [
