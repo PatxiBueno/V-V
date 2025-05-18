@@ -112,10 +112,10 @@ function getTopOfTheTops($since)
                             "game_id" => $gameId,
                             "game_name" => $gameName,
                             "user_name" => $usuario["userName"],
-                            "total_videos" => $usuario["totalVideos"],
-                            "total_views" => $usuario["totalViews"],
+                            "total_videos" => $usuario["totalVideos"] . '',
+                            "total_views" => $usuario["totalViews"] . '',
                             "most_viewed_title" => $usuario["mostTitle"],
-                            "most_viewed_views" => $usuario["mostViews"],
+                            "most_viewed_views" => $usuario["mostViews"] . '',
                             "most_viewed_duration" => $usuario["mostDuration"],
                             "most_viewed_created_at" => $usuario["mostDate"]
                         ];
