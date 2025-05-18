@@ -1,7 +1,7 @@
 <?php
 
 $router->group(['prefix' => 'analytics', 'middleware' => 'auth.token'], function () use ($router) {
-    $router->get('/streams', 'TwitchAnalytics\Http\Controllers\ApiController@getStreams');
+    $router->get('/streams', 'TwitchAnalytics\Controllers\StreamController@getStreams');
     $router->get('/streams/enriched', 'TwitchAnalytics\Controllers\EnrichedController@getEnriched');
     $router->get('/user', 'TwitchAnalytics\Controllers\UserController@getUser');
     $router->get('/topsofthetops', 'TwitchAnalytics\Http\Controllers\ApiController@getTopsOfTheTops');
