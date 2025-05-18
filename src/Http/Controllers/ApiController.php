@@ -33,7 +33,6 @@ class ApiController
         if ($autenticacion) {
             return $autenticacion;
         }
-        $response = streams();
         return response()->json($response['data'], $response['http_code']);
     }
 
