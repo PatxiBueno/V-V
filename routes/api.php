@@ -12,5 +12,5 @@ $router->group(['prefix' => 'token'], function () use ($router) {
 });
 
 $router->group(['prefix' => 'register'], function () use ($router) {
-    $router->post('', 'TwitchAnalytics\Http\Controllers\ApiController@register');
+    $router->post('', 'TwitchAnalytics\Controllers\RegisterController@registerUser');
 });
