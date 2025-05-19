@@ -12,7 +12,6 @@ require_once __DIR__ . '/../../../endPoints/get/topsofthetops.php';
 require_once __DIR__ . '/../../../endPoints/post/token.php';
 require_once __DIR__ . '/../../../endPoints/post/register.php';
 require_once __DIR__ . '/../../../autenticacion.php';
-
 class ApiController
 {
     public function getUser(Request $request)
