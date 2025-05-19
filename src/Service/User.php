@@ -13,9 +13,11 @@ class User
 {
     private Request $request;
     private ResponseTwitchData $responseTwitchData;
-    public function __construct($request)
+    private TwitchAPIManager $twitchAPIManager;
+    public function __construct($request,$twitchAPIManager)
     {
         $this->request = $request;
+        $this->twitchAPIManager = $twitchAPIManager;
     }
     public function getUser(): \Illuminate\Http\JsonResponse
     {
@@ -26,7 +28,7 @@ class User
 
     private function getUserFromApi($idUser): array
     {
-        $this->responseTwitchData = (new TwitchAPIManager())->curlToTwitchApiForUserEndPoint($idUser);
+        $this->responseTwitchData = $this->twitchAPIManager->curlToTwitchApiForUserEndPoint($idUser);
 
         if ( $this->responseTwitchData->getHttpResponseCode() == 400) {
             return ['data' => ["error" => "Invalid or missing 'id' parameter."], 'http_code' => 400];

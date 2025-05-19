@@ -4,114 +4,126 @@ declare(strict_types=1);
 
 namespace TwitchAnalytics\Tests\Integration\Controllers;
 
+use TwitchAnalytics\Managers\TwitchAPIManager;
+use TwitchAnalytics\ResponseTwitchData;
+use TwitchAnalytics\Service\User;
 use DateTime;
 use Mockery;
 use PHPUnit\Framework\TestCase;
-use TwitchAnalytics\Controllers\GetUserPlatformAge\GetUserPlatformAgeController;
-use TwitchAnalytics\Application\Services\UserAccountService;
-use TwitchAnalytics\Infrastructure\Repositories\ApiUserRepository;
-use TwitchAnalytics\Infrastructure\ApiClient\FakeTwitchApiClient;
-use TwitchAnalytics\Controllers\GetUserPlatformAge\UserNameValidator;
-use TwitchAnalytics\Domain\Time\TimeProvider;
 use Illuminate\Http\Request;
 
 class GetUserPlatformAgeControllerTest extends TestCase
 {
-    private GetUserPlatformAgeController $controller;
-    private TimeProvider $timeProvider;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $apiClient = new FakeTwitchApiClient();
-        $repository = new ApiUserRepository($apiClient);
-        $this->timeProvider = Mockery::mock(TimeProvider::class);
-        $this->timeProvider->shouldReceive('now')->andReturn(new DateTime('2025-01-01T00:00:00Z'));
-        $service = new UserAccountService($repository, $this->timeProvider);
-        $validator = new UserNameValidator();
-
-        $this->controller = new GetUserPlatformAgeController($service, $validator);
-    }
-
-    protected function tearDown(): void
-    {
-        Mockery::close();
-        parent::tearDown();
-    }
-
     /**
      * @test
+     *
      */
-    public function gets400WhenNameParameterIsMissing(): void
+    public function missingParameterIdErrorCode400():void
     {
         $request = new Request();
+        $twitchAPIManagerMock = Mockery::mock(TwitchAPIManager::class);
+        $twitchAPIManagerMock
+            ->shouldReceive('curlToTwitchApiForUserEndPoint')
+            ->andReturn(new ResponseTwitchData(400,""));
+        $user = new User($request,$twitchAPIManagerMock);
 
-        $response = $this->controller->__invoke($request);
+        $response = $user->getUser();
         $responseData = json_decode($response->getContent(), true);
 
         $this->assertEquals(400, $response->getStatusCode());
         $this->assertEquals([
-            'error' => 'INVALID_REQUEST',
-            'message' => 'Name parameter is required',
-            'status' => 400
-        ], $responseData);
+            'error'=>"Invalid or missing 'id' parameter."],
+            $responseData);
     }
 
     /**
      * @test
+     *
      */
-    public function gets400ForInvalidUsername(): void
+    public function invalidParameterIdErrorCode400():void
     {
-        $request = new Request();
-        $request->query->set('name', 'ab');
+        $argumentsForCalls = ['id' => -1];
+        $request = new Request($argumentsForCalls);
+        $twitchAPIManagerMock = Mockery::mock(TwitchAPIManager::class);
+        $twitchAPIManagerMock->shouldReceive('curlToTwitchApiForUserEndPoint')
+            ->with(-1)
+            ->andReturn(new ResponseTwitchData(400,""));
+        $user = new User($request,$twitchAPIManagerMock);
 
-        $response = $this->controller->__invoke($request);
+        $response = $user->getUser();
         $responseData = json_decode($response->getContent(), true);
 
         $this->assertEquals(400, $response->getStatusCode());
         $this->assertEquals([
-            'error' => 'INVALID_REQUEST',
-            'message' => 'Name must be at least 3 characters long',
-            'status' => 400
-        ], $responseData);
+            'error'=>"Invalid or missing 'id' parameter."],
+            $responseData);
     }
 
     /**
      * @test
+     *
      */
-    public function gets404ErrorForNonExistingtUser(): void
+    public function userNotFoundErrorCode404():void
     {
-        $request = new Request();
-        $request->query->set('name', 'NonExistentUser');
+        $argumentsForCalls = ['id' => 0];
+        $request = new Request($argumentsForCalls);
+        $twitchAPIManagerMock = Mockery::mock(TwitchAPIManager::class);
+        $twitchAPIManagerMock->shouldReceive('curlToTwitchApiForUserEndPoint')
+            ->with(0)
+            ->andReturn(new ResponseTwitchData(404,""));
+        $user = new User($request,$twitchAPIManagerMock);
 
-        $response = $this->controller->__invoke($request);
+        $response = $user->getUser();
         $responseData = json_decode($response->getContent(), true);
 
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertEquals([
-            'error' => 'USER_NOT_FOUND',
-            'message' => 'No user found with given name: NonExistentUser',
-            'status' => 404
-        ], $responseData);
+            'error'=>"User not found."],
+            $responseData);
     }
 
     /**
      * @test
+     *
      */
-    public function getsUserAgeForExistingUser(): void
+    public function validIdOneReturnsStreamerInfo200():void
     {
-        $request = new Request();
-        $request->query->set('name', 'Ninja');
+        $argumentsForCalls = ['id' => 1];
+        $request = new Request($argumentsForCalls);
+        $twitchAPIManagerMock = Mockery::mock(TwitchAPIManager::class);
+        $twitchAPIManagerMock->shouldReceive('curlToTwitchApiForUserEndPoint')
+            ->with(1)
+            ->andReturn(new ResponseTwitchData(200,json_encode(["data"=>[[
+                "id" => "1",
+                "login" => "elsmurfoz",
+                "display_name" => "elsmurfoz",
+                "type" => "",
+                "broadcaster_type" => "",
+                "description" => "",
+                "profile_image_url" => "https://static-cdn.jtvnw.net/user-default-pictures-uv/215b7342-def9-11e9-9a66-784f43822e80-profile_image-300x300.png",
+                "offline_image_url" => "",
+                "view_count" => 0,
+                "created_at" => "2007-05-22T10:37:47Z"
+            ]]])
+            ));
 
-        $response = $this->controller->__invoke($request);
+        $user = new User($request,$twitchAPIManagerMock);
+
+        $response = $user->getUser();
         $responseData = json_decode($response->getContent(), true);
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertEquals([
-            'name' => 'Ninja',
-            'created_at' => '2011-11-20T00:00:00Z',
-            'days_since_creation' => 4791
+        $this->assertEquals(["id" => "1",
+                "login" => "elsmurfoz",
+                "display_name" => "elsmurfoz",
+                "type" => "",
+                "broadcaster_type" => "",
+                "description" => "",
+                "profile_image_url" => "https://static-cdn.jtvnw.net/user-default-pictures-uv/215b7342-def9-11e9-9a66-784f43822e80-profile_image-300x300.png",
+                "offline_image_url" => "",
+                "view_count" => 0,
+                "created_at" => "2007-05-22T10:37:47Z"
         ], $responseData);
     }
+
 }
