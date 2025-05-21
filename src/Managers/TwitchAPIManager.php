@@ -7,12 +7,14 @@ use TwitchAnalytics\ResponseTwitchData;
 require_once __DIR__ . '/../../twirch/twitchToken.php';
 class TwitchAPIManager
 {
-
+    public function curlToTwitchApiForStreamsEndPoint(): ResponseTwitchData
+    {
+        return $this->curlToTwitch('streams');
+    }
     public function curlToTwitchApiForUserEndPoint($id): ResponseTwitchData
     {
         $urlForUser = "users?id=" . $id;
         return $this->curlToTwitch($urlForUser);
-
     }
     private function curlToTwitch($endPointUrl): ResponseTwitchData
     {
@@ -27,7 +29,7 @@ class TwitchAPIManager
         curl_setopt($curlTwitchUser, CURLOPT_HTTPHEADER, $headers);
 
         $curlResponse = curl_exec($curlTwitchUser);
-        $responseTwitchData  = new ResponseTwitchData(curl_getinfo($curlTwitchUser, CURLINFO_HTTP_CODE),$curlResponse);
+        $responseTwitchData = new ResponseTwitchData(curl_getinfo($curlTwitchUser, CURLINFO_HTTP_CODE), $curlResponse);
 
         curl_close($curlTwitchUser);
 
