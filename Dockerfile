@@ -26,6 +26,8 @@ RUN a2enmod rewrite
 
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
 
+RUN git config --global core.autocrlf input
+
 WORKDIR /var/www/html
 COPY . .
 
