@@ -10,7 +10,7 @@ class UserController
 {
     public function getUser(Request $request)
     {
-        $user = new User($request,new TwitchAPIManager());
+        $user = new User($request, new TwitchAPIManager());
         return $user->getUser();
     }
 }

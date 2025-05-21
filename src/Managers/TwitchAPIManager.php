@@ -11,18 +11,17 @@ class TwitchAPIManager
     {
         return $this->curlToTwitch('streams');
     }
-    public function curlToTwitchApiForUserEndPoint($id): ResponseTwitchData
+    public function curlToTwitchApiForUserEndPoint($userId): ResponseTwitchData
     {
-        $urlForUser = "users?id=" . $id;
+        $urlForUser = "users?id=" . $userId;
         return $this->curlToTwitch($urlForUser);
     }
 
-    
+
     public function curlToTwitchApiForEnrichedEndPoint($limit): ResponseTwitchData
     {
         $urlForEnriched = "streams?first=" . $limit;
         return $this->curlToTwitch($urlForEnriched);
-
     }
 
     private function curlToTwitch($endPointUrl): ResponseTwitchData
