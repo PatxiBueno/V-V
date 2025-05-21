@@ -16,6 +16,15 @@ class TwitchAPIManager
         $urlForUser = "users?id=" . $id;
         return $this->curlToTwitch($urlForUser);
     }
+
+    
+    public function curlToTwitchApiForEnrichedEndPoint($limit): ResponseTwitchData
+    {
+        $urlForEnriched = "streams?first=" . $limit;
+        return $this->curlToTwitch($urlForEnriched);
+
+    }
+
     private function curlToTwitch($endPointUrl): ResponseTwitchData
     {
         $url = "https://api.twitch.tv/helix/" . $endPointUrl;
