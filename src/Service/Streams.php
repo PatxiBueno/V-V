@@ -34,7 +34,7 @@ class Streams
             return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
         }
 
-        $responseData = json_decode($responseTwitchData->getHttpResponseUserData(), true);
+        $responseData = json_decode($responseTwitchData->getHttpResponseData(), true);
         $twitchUserData = $this->parseTwitchDataToStreamsFormat($responseData["data"]);
         return ['data' => $twitchUserData, 'http_code' => 200];
     }
