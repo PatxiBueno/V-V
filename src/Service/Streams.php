@@ -6,28 +6,26 @@ use Illuminate\Http\Request;
 use TwitchAnalytics\Managers\TwitchAPIManager;
 use TwitchAnalytics\ResponseTwitchData;
 
-require_once __DIR__ . '/../../endPoints/get/streams.php';
 class Streams
 {
     private Request $request;
-    private ResponseTwitchData $responseTwitchData;
     private TwitchAPIManager $twitchAPIManager;
     public function __construct($request, $twitchAPIManager)
     {
         $this->request = $request;
         $this->twitchAPIManager = $twitchAPIManager;
     }
-    public function getStreams()
+    public function getStreams(): \Illuminate\Http\JsonResponse
     {
-        $response = getStreamsFromApi();
+        $response = $this->getStreamsFromApi();
         return response()->json($response['data'], $response['http_code']);
     }
 
-    public function getStreamsFromApi()
+    public function getStreamsFromApi(): array
     {
-        $this->responseTwitchData = $this->twitchAPIManager->curlToTwitchApiForStreamsEndPoint();
+        $responseTwitchData = $this->twitchAPIManager->curlToTwitchApiForStreamsEndPoint();
 
-        $obtainedHttpCode = $this->responseTwitchData->getHttpResponseCode();
+        $obtainedHttpCode = $responseTwitchData->getHttpResponseCode();
 
         if ($obtainedHttpCode == 401) {
             return ['data' => ["error" => "Unauthorized. Twitch access token is invalid or has expired."], 'http_code' => 401];
@@ -36,7 +34,7 @@ class Streams
             return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
         }
 
-        $responseData = json_decode($this->responseTwitchData->getHttpResponseUserData(), true);
+        $responseData = json_decode($responseTwitchData->getHttpResponseUserData(), true);
         $twitchUserData = $this->parseTwitchDataToStreamsFormat($responseData["data"]);
         return ['data' => $twitchUserData, 'http_code' => 200];
     }
@@ -44,11 +42,12 @@ class Streams
     private function parseTwitchDataToStreamsFormat(mixed $data): array
     {
         $twitchStreamsData = [];
-        foreach ($data["data"] as $stream) {
-            $twitchStreamsData = [
+        foreach ($data as $stream) {
+            $newStreamData = [
                 "title" => $stream["title"],
                 "user_name" => $stream["user_name"]
             ];
+            $twitchStreamsData[] = $newStreamData;
         }
         return $twitchStreamsData;
     }
