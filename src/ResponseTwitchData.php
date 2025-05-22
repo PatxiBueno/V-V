@@ -6,12 +6,12 @@ class ResponseTwitchData
 {
     private int $httpResponseCode;
 
-    private string $httpResponseUserData;
+    private string $httpResponseData;
 
-    public function __construct($httpResponseCode, $httpResponseUserData)
+    public function __construct($httpResponseCode, $httpResponseData)
     {
         $this->httpResponseCode = $httpResponseCode;
-        $this->httpResponseUserData = $httpResponseUserData;
+        $this->httpResponseData = $httpResponseData;
     }
 
     public function getHttpResponseCode(): int
@@ -19,8 +19,9 @@ class ResponseTwitchData
         return $this->httpResponseCode;
     }
 
-    public function getHttpResponseUserData(): string
+    public function getHttpResponseData(): string
     {
-        return $this->httpResponseUserData;
+        return $this->httpResponseData;
     }
 }
+
