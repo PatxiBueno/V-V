@@ -23,7 +23,10 @@ class Handler implements ExceptionHandler
 
     public function report(Throwable $e)
     {
-        error_log($e);
+        // Solo mostrar errores si APP_DEBUG está activado
+        if (getenv('APP_DEBUG', false)) {
+            error_log($e);
+        }
     }
 
     public function shouldReport(Throwable $e)
@@ -33,20 +36,8 @@ class Handler implements ExceptionHandler
 
     public function render($request, Throwable $e): SymfonyResponse
     {
-        $debug = env('APP_DEBUG', false);
-
-        $response = [
-            'error' => $e->getMessage(),
-        ];
-
-        if ($debug) {
-            $response['trace'] = collect($e->getTrace())->map(function ($trace) {
-                return Arr::only($trace, ['file', 'line', 'function', 'class']);
-            })->take(5); // Mostrar solo los primeros 5 para no saturar
-        }
-
         return new JsonResponse(
-            $response,
+            ['message' => 'Internal server error'],
             500,
             ['Content-Type' => 'application/json']
         );
@@ -54,7 +45,7 @@ class Handler implements ExceptionHandler
 
     public function renderForConsole($output, Throwable $e)
     {
-        // Imprime el error en consola si lo ejecutas por CLI
+        // Mostrar el error en consola si se ejecuta por CLI
         fwrite(STDERR, (string) $e);
     }
 }
