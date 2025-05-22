@@ -26,7 +26,7 @@ class Enriched
 
     private function enriched($limit)
     {
-        if ($limit < 1 || $limit > 100) {
+        if ($this->isValidLimit($limit)) {
             return ['data' => ["error" => "Invalid limit parameter"], 'http_code' => 400];
         }
             
@@ -42,21 +42,19 @@ class Enriched
         }
 
         if ($httpCodeStreams == 200) {
-
             $infoStreamsEnriquecidos = [];
             $dataStreams = json_decode($this->responseTwitchData->getHttpResponseUserData(),true);
             foreach ($dataStreams["data"] as $stream) {
-
                 if ($limit > 0) {
-                    $responseUserDataForEnriched = $this->apiManager->curlToTwitchApiForUserEndPoint($stream["user_id"]);
-                    $httpCodeUser = $responseUserDataForEnriched->getHttpResponseCode();
+                    $responseUserForEnriched = $this->apiManager->curlToTwitchApiForUserEndPoint($stream["user_id"]);
+                    $httpCodeUser = $responseUserForEnriched->getHttpResponseCode();
 
                     if ($httpCodeUser != 200) {
                         return ['data' => ["error" => "Internal server error."], 'http_code' => $httpCodeUser];
                     }
 
                     if ($httpCodeUser == 200) {
-                        $userDataForEnriched = json_decode($responseUserDataForEnriched->getHttpResponseUserData(),true);
+                        $userDataForEnriched = json_decode($responseUserForEnriched->getHttpResponseUserData(),true);
 
                         $nuevoStreamEnriquecido = $this->parseTwitchDataToOurFormat($userDataForEnriched,$stream);
                         $infoStreamsEnriquecidos[] = $nuevoStreamEnriquecido;
@@ -88,6 +86,10 @@ class Enriched
         return $nuevoStreamEnriquecido;
     }
 
+    private function isValidLimit($limit): bool
+    {
+        return $limit >= 1 && $limit <= 100;
+    }
 
 
 }
