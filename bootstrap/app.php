@@ -17,6 +17,6 @@ $app->router->group([], function ($router) {
 // Inyección de dependencias, el manejador de excepciones para el entorno de producción
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
-    App\Exceptions\Handler::class
+    TwitchAnalytics\Exceptions\Handler::class
 );
 return $app;
