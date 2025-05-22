@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Support\Arr;
 use Throwable;
 use Exception;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
