@@ -23,5 +23,4 @@ class ResponseTwitchData
     {
         return $this->httpResponseUserData;
     }
-    
 }

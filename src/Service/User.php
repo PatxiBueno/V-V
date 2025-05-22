@@ -6,15 +6,12 @@ use Illuminate\Http\Request;
 use TwitchAnalytics\ResponseTwitchData;
 use TwitchAnalytics\Managers\TwitchAPIManager;
 
-
-
-
 class User
 {
     private Request $request;
     private ResponseTwitchData $responseTwitchData;
     private TwitchAPIManager $twitchAPIManager;
-    public function __construct($request,$twitchAPIManager)
+    public function __construct($request, $twitchAPIManager)
     {
         $this->request = $request;
         $this->twitchAPIManager = $twitchAPIManager;
@@ -30,7 +27,7 @@ class User
     {
         $this->responseTwitchData = $this->twitchAPIManager->curlToTwitchApiForUserEndPoint($idUser);
 
-        if ( $this->responseTwitchData->getHttpResponseCode() == 400) {
+        if ($this->responseTwitchData->getHttpResponseCode() == 400) {
             return ['data' => ["error" => "Invalid or missing 'id' parameter."], 'http_code' => 400];
         }
         if ($this->responseTwitchData->getHttpResponseCode() == 401) {
