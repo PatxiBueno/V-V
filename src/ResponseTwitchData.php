@@ -24,3 +24,4 @@ class ResponseTwitchData
         return $this->httpResponseData;
     }
 }
+
