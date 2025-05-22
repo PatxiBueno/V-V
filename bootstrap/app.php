@@ -14,4 +14,9 @@ $app->router->group([], function ($router) {
 
     require __DIR__ . '/../routes/api.php';
 });
+// Inyección de dependencias, el manejador de excepciones para el entorno de producción
+$app->singleton(
+    Illuminate\Contracts\Debug\ExceptionHandler::class,
+    App\Exceptions\Handler::class
+);
 return $app;
