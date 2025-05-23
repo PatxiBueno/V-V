@@ -9,6 +9,7 @@ services:
       - "8080:80"
     volumes:
       - .:/var/www/html
+      - ~/.gitconfig:/root/.gitconfig:ro
     env_file:
       - .env
     networks:
