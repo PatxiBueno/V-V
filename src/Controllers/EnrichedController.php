@@ -10,7 +10,7 @@ class EnrichedController
 {
     public function getEnriched(Request $request)
     {
-        $user = new Enriched($request,new TwitchAPIManager());
+        $user = new Enriched($request, new TwitchAPIManager());
         return $user->getEnriched();
     }
 }

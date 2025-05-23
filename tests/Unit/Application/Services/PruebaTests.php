@@ -13,6 +13,6 @@ class PruebaTests extends TestCase
      */
     public function primerTest(): void
     {
-        $this->assertEquals(1,1);
+        $this->assertEquals(1, 1);
     }
 }

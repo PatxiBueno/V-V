@@ -6,15 +6,12 @@ use Illuminate\Http\Request;
 use TwitchAnalytics\ResponseTwitchData;
 use TwitchAnalytics\Managers\TwitchAPIManager;
 
-
-
-
 class User
 {
     private Request $request;
     private ResponseTwitchData $responseTwitchData;
     private TwitchAPIManager $twitchAPIManager;
-    public function __construct($request,$twitchAPIManager)
+    public function __construct($request, $twitchAPIManager)
     {
         $this->request = $request;
         $this->twitchAPIManager = $twitchAPIManager;
@@ -30,29 +27,30 @@ class User
     {
         $this->responseTwitchData = $this->twitchAPIManager->curlToTwitchApiForUserEndPoint($idUser);
 
-        if ( $this->responseTwitchData->getHttpResponseCode() == 400) {
+        $httpResponseCode = $this->responseTwitchData->getHttpResponseCode();
+        if ($httpResponseCode == 400) {
             return ['data' => ["error" => "Invalid or missing 'id' parameter."], 'http_code' => 400];
         }
-        if ($this->responseTwitchData->getHttpResponseCode() == 401) {
+        if ($httpResponseCode == 401) {
             return ['data' => ["error" => "Unauthorized. Twitch access token is invalid or has expired."], 'http_code' => 401];
         }
-        if ($this->responseTwitchData->getHttpResponseCode() == 404) {
+        if ($httpResponseCode == 404) {
             return ['data' => ["error" => "User not found."], 'http_code' => 404];
         }
-        if ($this->responseTwitchData->getHttpResponseCode() != 200) {
+        if ($httpResponseCode != 200) {
             return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
         }
 
-        $responseData = json_decode($this->responseTwitchData->getHttpResponseUserData(), true);
+        $responseData = json_decode($this->responseTwitchData->getHttpResponseData(), true);
         if ($responseData === null || empty($responseData["data"])) {
             return ['data' => ["error" => "User not found."], 'http_code' => 404];
         }
-        $twitchUserData = $this->parseTwitchDataToOurFormat($responseData["data"]);
+        $twitchUserData = $this->parseTwitchDataToUsersFormat($responseData["data"]);
         return ['data' => $twitchUserData, 'http_code' => 200];
     }
 
 
-    private function parseTwitchDataToOurFormat($data): array
+    private function parseTwitchDataToUsersFormat($data): array
     {
         foreach ($data as $twitchUser) {
             $twitchUserData = [

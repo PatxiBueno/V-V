@@ -6,11 +6,13 @@ grumphp:
                 - "vendor/*"
                 - "endPoints/*"
                 - "bbdd/*"
-                - "tests/*"
+                - "tests/Feature"
+                - "twirch/*"
+                - "autenticacion.php"
         phpmd: #estos rules deberian verse desde phpmd-ruleset.xml
             ruleset:
                 - cleancode
                 - codesize
                 - naming
                 - unusedcode
-            exclude: [ 'vendor', 'endPoints','bbdd','tests']
+            exclude: [ 'vendor', 'endPoints','bbdd','tests/Feature','twirch','autenticacion.php']

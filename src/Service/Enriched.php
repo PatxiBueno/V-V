@@ -43,7 +43,7 @@ class Enriched
 
         if ($httpCodeStreams == 200) {
             $infoStreamsEnriquecidos = [];
-            $dataStreams = json_decode($this->responseTwitchData->getHttpResponseUserData(),true);
+            $dataStreams = json_decode($this->responseTwitchData->getHttpResponseData(),true);
             foreach ($dataStreams["data"] as $stream) {
                 if ($limit > 0) {
                     $responseUserForEnriched = $this->apiManager->curlToTwitchApiForUserEndPoint($stream["user_id"]);
@@ -54,7 +54,7 @@ class Enriched
                     }
 
                     if ($httpCodeUser == 200) {
-                        $userDataForEnriched = json_decode($responseUserForEnriched->getHttpResponseUserData(),true);
+                        $userDataForEnriched = json_decode($responseUserForEnriched->getHttpResponseData(),true);
 
                         $nuevoStreamEnriquecido = $this->parseTwitchDataToOurFormat($userDataForEnriched,$stream);
                         $infoStreamsEnriquecidos[] = $nuevoStreamEnriquecido;

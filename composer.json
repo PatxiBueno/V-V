@@ -28,12 +28,12 @@
       }
   },
   "scripts": {
-      "cs": "phpcs --standard=PSR12 .",
-      "fix": "phpcbf --standard=PSR12 --ignore=vendor/*,tests/*,endPoints/*,bbdd/* .",
-      "test": "phpunit",
-      "test:coverage": "phpunit --coverage-html coverage",
+      "cs": "phpcs  --ignore=vendor/*,endPoints/*,bbdd/*,twirch/*,autenticacion.php .",
+      "fix": "phpcbf  --ignore=vendor/*,endPoints/*,bbdd/*,twirch/*,autenticacion.php .",
       "cs-check": "phpcs",
       "cs-fix": "phpcbf",
+      "test": "phpunit",
+      "test:coverage": "phpunit --coverage-html coverage",
       "start": "php -S localhost:8000 -t public",
       "post-root-package-install": [
           "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
