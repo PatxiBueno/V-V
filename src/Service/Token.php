@@ -55,21 +55,26 @@ class Token
         }
 
         if (hash("sha256", $keyUsuario) == $keyBBDD) {
-            $newToken = $this->generateToken();
-            $resultadoToken = $this->queryToken($idUsuario);
+            return $this->giveTokenToUser($idUsuario);
+        }
+    }
 
-            if (!$resultadoToken || $resultadoToken->num_rows == 0) {
-                if (!$this->insertToken($idUsuario,$newToken)) {
-                    return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
-                }
-                return ['data' => ["token" => $newToken], 'http_code' => 200];
-            }
+    private function giveTokenToUser($idUsuario)
+    {
+        $newToken = $this->generateToken();
+        $resultadoToken = $this->queryToken($idUsuario);
 
-            if (!$this->queryUpdate($idUsuario,$newToken)) {
+        if (!$resultadoToken || $resultadoToken->num_rows == 0) {
+            if (!$this->insertToken($idUsuario, $newToken)) {
                 return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
             }
             return ['data' => ["token" => $newToken], 'http_code' => 200];
         }
+
+        if (!$this->queryUpdate($idUsuario, $newToken)) {
+            return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
+        }
+        return ['data' => ["token" => $newToken], 'http_code' => 200];
     }
 
     private function queryEmail($email)
@@ -78,13 +83,13 @@ class Token
         return $this->conexion->query($query);
     }
 
-    private function insertToken($idUsuario,$newToken)
+    private function insertToken($idUsuario, $newToken)
     {
         $query = "INSERT INTO token (id_usuario, token) VALUES ('$idUsuario', '$newToken')";
         return $this->conexion->query($query);
     }
 
-    private function queryUpdate($idUsuario,$newToken) 
+    private function queryUpdate($idUsuario, $newToken)
     {
         $query = "UPDATE token SET token = '$newToken', fecha_token = CURRENT_TIMESTAMP WHERE id_usuario = '$idUsuario'";
         return $this->conexion->query($query);
@@ -106,5 +111,4 @@ class Token
         $query = "SELECT id, api_key FROM usuarios WHERE email LIKE  '$email' ";
          return $this->conexion->query($query);
     }
-
 }
