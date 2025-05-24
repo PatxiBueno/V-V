@@ -15,7 +15,7 @@ class TopsOfTheTops
     private ResponseTwitchData $responseTwitchData;
 
     private TwitchAPIManager $twitchAPIManager;
-    public function __construct($request,$twitchAPIManager)
+    public function __construct($request, $twitchAPIManager)
     {
         $this->request = $request;
         $this->twitchAPIManager = $twitchAPIManager;
@@ -26,7 +26,7 @@ class TopsOfTheTops
         $response = $this->getTopOfTheTops($since);
         return response()->json($response['data'], $response['http_code']);
     }
-    function getTopOfTheTops($since)
+    private function getTopOfTheTops($since)
     {
         if ($since < 0) {
             return ['data' => ["error" => "Bad request. Invalid or missing parameters."], 'http_code' => 400];
@@ -37,24 +37,21 @@ class TopsOfTheTops
         $con = conexion();
 
 
-        $consultaFecha = "SELECT fecha_insercion FROM ttt_fecha";
-        $resultadoFecha = $con->query($consultaFecha);
+        $resultadoFecha = $this->queryDate($con);
 
         if ($resultadoFecha && $resultadoFecha->num_rows > 0) {
             $fila = $resultadoFecha->fetch_assoc();
             $ultimaActualizacion = time() - strtotime($fila['fecha_insercion']);
         } else {
             $ultimaActualizacion = 601;
-            $consultaInsert = "INSERT INTO ttt_fecha (fecha_insercion) VALUES (CURRENT_TIMESTAMP)";
 
-            if (!$con->query($consultaInsert)) {
+            if (!$this->queryInsertDate($con)) {
                 return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
             }
         }
 
         if ($ultimaActualizacion <= $since) {
-            $consultaRAM = "SELECT * FROM ttt";
-            $resultado = $con->query($consultaRAM);
+            $resultado = $this->getTopsOfTheTopsData($con);
 
             if ($resultado->num_rows > 0) {
                 $result = [];
@@ -64,13 +61,11 @@ class TopsOfTheTops
                 return ['data' => $result, 'http_code' => 200];
             }
         }
-        $consultaBorrar = "DELETE FROM ttt";
-        if (!$con->query($consultaBorrar)) {
+        if (!$this->queryDeleteCache($con)) {
             return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
         }
 
         $this->responseTwitchData = $this->twitchAPIManager->curlToTwitchApiForTopThreeGames();
-
 
         if ($this->responseTwitchData->getHttpResponseCode() != 200) {
             return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
@@ -78,9 +73,7 @@ class TopsOfTheTops
 
         $dataGames = json_decode($this->responseTwitchData->getHttpResponseData(), true);
         $infoUsers = [];
-
         foreach ($dataGames["data"] as $game) {
-
             $responseOfGame = $this->twitchAPIManager->curlToTwitchApiForGameById($game["id"]);
 
             if ($responseOfGame->getHttpResponseCode() == 200) {
@@ -89,7 +82,6 @@ class TopsOfTheTops
                 foreach ($dataVideos["data"] as $video) {
                     $userId = $video["user_id"];
                     if (!isset($listOfUsers[$userId])) {
-
                         $listOfUsers[$video["user_id"]] = [
                             "userName" => $video["user_name"],
                             "totalVideos" => 1,
@@ -120,40 +112,78 @@ class TopsOfTheTops
 
                     $infoUsers[] = $newUser;
 
-                    $stmt = $con->prepare("INSERT INTO ttt 
-                (game_id, game_name, user_name, total_videos, total_views,  
-                 most_viewed_title, most_viewed_views, most_viewed_duration, most_viewed_created_at)
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
-                    $stmt->bind_param(
-                        "sssiissss",
-                        $game["id"],
-                        $game["name"],
-                        $usuario["userName"],
-                        $usuario["totalVideos"],
-                        $usuario["totalViews"],
-                        $usuario["mostTitle"],
-                        $usuario["mostViews"],
-                        $usuario["mostDuration"],
-                        $usuario["mostDate"]
-                    );
-
-                    if (!$stmt->execute()) {
+                    if (!$this->insertDataIntoCache($con, $game, $usuario)) {
                         return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
                     }
-                    $stmt->close();
 
-                    $consultaUpdate = "delete from ttt_fecha";
-                    if (!$con->query($consultaUpdate)) {
+
+                    if (!$this->deleteDate($con)) {
                         return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
                     }
-                    $consultaInsert = "INSERT INTO ttt_fecha (fecha_insercion) VALUES (CURRENT_TIMESTAMP)";
-                    if (!$con->query($consultaInsert)) {
+
+                    if (!$this->queryInsertDate($con)) {
                         return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
                     }
                 }
             }
         }
         return ['data' => $infoUsers, 'http_code' => 200];
+    }
+
+
+    private function queryDate(?\mysqli $con): bool|\mysqli_result
+    {
+        $consultaFecha = "SELECT fecha_insercion FROM ttt_fecha";
+        return $con->query($consultaFecha);
+    }
+
+
+    private function queryInsertDate(?\mysqli $con): bool
+    {
+        $consultaInsert = "INSERT INTO ttt_fecha (fecha_insercion) VALUES (CURRENT_TIMESTAMP)";
+        return $con->query($consultaInsert);
+    }
+
+
+    private function getTopsOfTheTopsData(?\mysqli $con): bool|\mysqli_result
+    {
+        $queryCache = "SELECT * FROM ttt";
+        return  $con->query($queryCache);
+    }
+
+
+    private function queryDeleteCache(?\mysqli $con): string
+    {
+        $consultaBorrar = "DELETE FROM ttt";
+        return $con->query($consultaBorrar);
+    }
+
+    private function deleteDate(?\mysqli $con): string
+    {
+        $consultaUpdate = "delete from ttt_fecha";
+        return $con->query($consultaUpdate);
+    }
+    private function insertDataIntoCache(?\mysqli $con, $game, $usuario): bool
+    {
+        $stmt = $con->prepare("INSERT INTO ttt 
+                (game_id, game_name, user_name, total_videos, total_views,  
+                 most_viewed_title, most_viewed_views, most_viewed_duration, most_viewed_created_at)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+        $stmt->bind_param(
+            "sssiissss",
+            $game["id"],
+            $game["name"],
+            $usuario["userName"],
+            $usuario["totalVideos"],
+            $usuario["totalViews"],
+            $usuario["mostTitle"],
+            $usuario["mostViews"],
+            $usuario["mostDuration"],
+            $usuario["mostDate"]
+        );
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
     }
 }
