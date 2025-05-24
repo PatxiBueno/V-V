@@ -30,7 +30,7 @@ class MYSQLDBManager
 
     public function getUserByEmail(string $email): ?array
     {
-        $stmt = $this->connection->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt = $this->connection->prepare("SELECT * FROM usuarios WHERE email = ?");
         if (!$stmt) {
             throw new RuntimeException("Error en la preparación de la consulta: " . $this->connection->error);
         }
@@ -44,5 +44,37 @@ class MYSQLDBManager
         }
 
         return $result->fetch_assoc();
+    }
+
+    public function insertUserWithHashedApiKey(string $email, string $hashedApiKey): bool
+    {
+        $stmt = $this->connection->prepare("INSERT INTO usuarios (email, api_key) VALUES (?, ?)");
+        if (!$stmt) {
+            throw new RuntimeException("Error en la preparación de la consulta: " . $this->connection->error);
+        }
+
+        $stmt->bind_param("ss", $email, $hashedApiKey);
+
+        if (!$stmt->execute()) {
+            throw new RuntimeException("Error al ejecutar la consulta: " . $stmt->error);
+        }
+
+        return true;
+    }
+
+    public function updateUserHashedKey(string $hashedApiKey, string $email): bool
+    {
+        $stmt = $this->connection->prepare("UPDATE usuarios SET api_key = ? WHERE email = ?");
+        if (!$stmt) {
+            throw new RuntimeException("Error en la preparación de la consulta: " . $this->connection->error);
+        }
+
+        $stmt->bind_param("ss", $hashedApiKey, $email);
+
+        if (!$stmt->execute()) {
+            throw new RuntimeException("Error al ejecutar la consulta: " . $stmt->error);
+        }
+
+        return $stmt->affected_rows > 0;
     }
 }
