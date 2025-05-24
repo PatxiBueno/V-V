@@ -16,29 +16,13 @@ class Token
         $this->request = $request;
         $this->dbManager = $dbManager;
     }
-    public function genToken()
+    public function genToken($email, $apiKey)
     {
-        $data = $this->request->json()->all();
-        $response = $this->generateToken($data);
-        return response()->json($response['data'], $response['http_code']);
+        return $this->generateToken($email, $apiKey);
     }
 
-    private function generateToken($data)
+    private function generateToken($email, $apiKey)
     {
-        if (!isset($data["email"])) {
-            return ['data' => ["error" => "The email is mandatory"], 'http_code' => 400];
-        }
-
-        $email = filter_var($data["email"], FILTER_SANITIZE_EMAIL);
-
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return ['data' => ["error" => "The email must be a valid email address"], 'http_code' => 400];
-        }
-
-        if (!isset($data["api_key"])) {
-            return ['data' => ["error" => "The api_key is mandatory"], 'http_code' => 400];
-        }
-
         $userData = $this->dbManager->getUserApiKey($email);
         if (!$userData) {
             return ['data' => ["error" => "The email must be a valid email address"], 'http_code' => 400];
@@ -46,9 +30,8 @@ class Token
 
         $dbApiKey = $userData['api_key'];
         $dbUserId = $userData['id'];
-        $requestApiKey = $data["api_key"];
 
-        if (hash("sha256", $requestApiKey) !== $dbApiKey) {
+        if (hash("sha256", $apiKey) !== $dbApiKey) {
             return ['data' => ["error" => "Unauthorized. API access token is invalid."], 'http_code' => 401];
         }
         return $this->giveTokenToUser($dbUserId);

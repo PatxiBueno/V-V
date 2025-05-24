@@ -4,6 +4,7 @@ namespace TwitchAnalytics\Managers;
 
 use mysqli;
 use RuntimeException;
+
 class MYSQLDBManager
 {
     protected mysqli $connection;
@@ -110,11 +111,10 @@ class MYSQLDBManager
         if ($result->num_rows === 0) {
             return null;
         }
-
         return $result->fetch_assoc();
     }
 
-    public function insertToken($userId, string $token):bool
+    public function insertToken($userId, string $token): bool
     {
         $stmt = $this->connection->prepare("INSERT INTO token (id_usuario, token) VALUES (?, ?)");
         if (!$stmt) {
@@ -125,7 +125,7 @@ class MYSQLDBManager
         return $stmt->execute();
     }
 
-    public function updateToken($userId, string $token):bool
+    public function updateToken($userId, string $token): bool
     {
         $stmt = $this->connection->prepare("UPDATE token SET token = ?, fecha_token = CURRENT_TIMESTAMP WHERE id_usuario = ?");
         if (!$stmt) {
