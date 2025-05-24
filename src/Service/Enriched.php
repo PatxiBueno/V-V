@@ -8,37 +8,31 @@ use TwitchAnalytics\Managers\TwitchAPIManager;
 
 class Enriched
 {
-    private Request $request;
     private TwitchAPIManager $apiManager;
     private ResponseTwitchData $responseTwitchData;
 
-    public function __construct($request, $apiManager)
+    public function __construct($apiManager)
     {
-        $this->request = $request;
         $this->apiManager = $apiManager;
     }
-    public function getEnriched(): \Illuminate\Http\JsonResponse
+    public function getEnriched($limit): array
     {
-        $limit = $this->request->get('limit');
-        $response = $this->enriched($limit);
-        return response()->json($response['data'], $response['http_code']);
+
+        return $this->enriched($limit);
     }
 
     private function enriched($limit)
     {
-        if (!$this->isValidLimit($limit)) {
-            return ['data' => ["error" => "Invalid limit parameter"], 'http_code' => 400];
-        }
 
         $this->responseTwitchData = $this->apiManager->curlToTwitchApiForEnrichedEndPoint($limit);
         $httpCodeStreams = $this->responseTwitchData->getHttpResponseCode();
 
         if ($httpCodeStreams == 401) {
-            return ['data' => ["error" => "Unauthorized. Twitch access token is invalid or has expired"], 'http_code' => $httpCodeStreams];
+            return ['data' => ["error" => "Unauthorized. Twitch access token is invalid or has expired"], 'http_code' => 401];
         }
 
         if ($httpCodeStreams == 500) {
-            return ['data' => ["error" => "Internal server error"], 'http_code' => $httpCodeStreams];
+            return ['data' => ["error" => "Internal server error"], 'http_code' => 500];
         }
 
         if ($httpCodeStreams == 200) {
@@ -85,10 +79,5 @@ class Enriched
             "profile_image_url" => $profile_image_url
         ];
         return $enrichedStreamer;
-    }
-
-    private function isValidLimit($limit): bool
-    {
-        return $limit >= 1 && $limit <= 100;
     }
 }
