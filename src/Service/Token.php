@@ -16,12 +16,12 @@ class Token
         $this->request = $request;
         $this->dbManager = $dbManager;
     }
-    public function genToken($data)
+    public function genToken($email, $apiKey)
     {
-        return $this->generarToken($data);
+        return $this->generateToken($email, $apiKey);
     }
 
-    private function generateToken($data)
+    private function generateToken($email, $apiKey)
     {
         $userData = $this->dbManager->getUserApiKey($email);
         if (!$userData) {
@@ -30,9 +30,8 @@ class Token
 
         $dbApiKey = $userData['api_key'];
         $dbUserId = $userData['id'];
-        $requestApiKey = $data["api_key"];
 
-        if (hash("sha256", $requestApiKey) !== $dbApiKey) {
+        if (hash("sha256", $apiKey) !== $dbApiKey) {
             return ['data' => ["error" => "Unauthorized. API access token is invalid."], 'http_code' => 401];
         }
         return $this->giveTokenToUser($dbUserId);
