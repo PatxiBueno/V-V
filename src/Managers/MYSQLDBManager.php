@@ -77,4 +77,62 @@ class MYSQLDBManager
 
         return $stmt->affected_rows > 0;
     }
+
+    public function getUserApiKey(string $email): ?array
+    {
+        $stmt = $this->connection->prepare("SELECT id, api_key FROM usuarios WHERE email = ?");
+        if (!$stmt) {
+            throw new RuntimeException("Prepare failed: " . $this->connection->error);
+        }
+
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        if ($result->num_rows === 0) {
+            return null;
+        }
+
+        return $result->fetch_assoc();
+    }
+
+    public function getTokenByUserId($userId): ?array
+    {
+        $stmt = $this->connection->prepare("SELECT * FROM token WHERE id_usuario = ?");
+        if (!$stmt) {
+            throw new RuntimeException("Prepare failed: " . $this->connection->error);
+        }
+
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        if ($result->num_rows === 0) {
+            return null;
+        }
+
+        return $result->fetch_assoc();
+    }
+
+    public function insertToken($userId, string $token):bool
+    {
+        $stmt = $this->connection->prepare("INSERT INTO token (id_usuario, token) VALUES (?, ?)");
+        if (!$stmt) {
+            throw new RuntimeException("Prepare failed: " . $this->connection->error);
+        }
+
+        $stmt->bind_param("is", $userId, $token);
+        return $stmt->execute();
+    }
+
+    public function updateToken($userId, string $token):bool
+    {
+        $stmt = $this->connection->prepare("UPDATE token SET token = ?, fecha_token = CURRENT_TIMESTAMP WHERE id_usuario = ?");
+        if (!$stmt) {
+            throw new RuntimeException("Prepare failed: " . $this->connection->error);
+        }
+
+        $stmt->bind_param("si", $token, $userId);
+        return $stmt->execute();
+    }
 }
