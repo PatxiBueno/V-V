@@ -15,53 +15,40 @@ class TopsOfTheTops
     private ResponseTwitchData $responseTwitchData;
 
     private TwitchAPIManager $twitchAPIManager;
+    private ?\mysqli $conexion;
     public function __construct($request, $twitchAPIManager)
     {
         $this->request = $request;
         $this->twitchAPIManager = $twitchAPIManager;
+        $this->conexion = conexion();
     }
     public function getTops()
     {
         $since = $this->request->get('since');
+
+        if ($since < 0) {
+            return ['data' => ["error" => "Bad request. Invalid or missing parameters."], 'http_code' => 400];
+        }
+        if ($since > 600) {
+            $since = 600;
+        }
+        $resultDate = $this->queryDate();
+
+        if ($resultDate && $resultDate->num_rows > 0) {
+            $fila = $resultDate->fetch_assoc();
+            $ultimaActualizacion = time() - strtotime($fila['fecha_insercion']);
+
+            if ($ultimaActualizacion <= $since) {
+                return $this->getTopOfTheTopsCache();
+            }
+        }
+
         $response = $this->getTopOfTheTops($since);
         return response()->json($response['data'], $response['http_code']);
     }
-    private function getTopOfTheTops($since)
+    private function getTopOfTheTops()
     {
-        if ($since < 0) {
-            return ['data' => ["error" => "Bad request. Invalid or missing parameters."], 'http_code' => 400];
-        } elseif ($since > 600) {
-            $since = 600;
-        }
-
-        $con = conexion();
-
-
-        $resultadoFecha = $this->queryDate($con);
-
-        if ($resultadoFecha && $resultadoFecha->num_rows > 0) {
-            $fila = $resultadoFecha->fetch_assoc();
-            $ultimaActualizacion = time() - strtotime($fila['fecha_insercion']);
-        } else {
-            $ultimaActualizacion = 601;
-
-            if (!$this->queryInsertDate($con)) {
-                return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
-            }
-        }
-
-        if ($ultimaActualizacion <= $since) {
-            $resultado = $this->getTopsOfTheTopsData($con);
-
-            if ($resultado->num_rows > 0) {
-                $result = [];
-                while ($fila = $resultado->fetch_assoc()) {
-                    $result[] = $fila;
-                }
-                return ['data' => $result, 'http_code' => 200];
-            }
-        }
-        if (!$this->queryDeleteCache($con)) {
+        if (!$this->queryDeleteCache()) {
             return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
         }
 
@@ -77,51 +64,12 @@ class TopsOfTheTops
             $responseOfGame = $this->twitchAPIManager->curlToTwitchApiForGameById($game["id"]);
 
             if ($responseOfGame->getHttpResponseCode() == 200) {
-                $dataVideos = json_decode($responseOfGame->getHttpResponseData(), true);
-                $listOfUsers = [];
-                foreach ($dataVideos["data"] as $video) {
-                    $userId = $video["user_id"];
-                    if (!isset($listOfUsers[$userId])) {
-                        $listOfUsers[$video["user_id"]] = [
-                            "userName" => $video["user_name"],
-                            "totalVideos" => 1,
-                            "totalViews" => $video["view_count"],
-                            "mostTitle" => $video["title"],
-                            "mostViews" => $video["view_count"],
-                            "mostDuration" => $video["duration"],
-                            "mostDate" => date('Y-m-d H:i:s', strtotime($video["created_at"]))
-                        ];
-                    } else {
-                        $listOfUsers[$video["user_id"]]["totalVideos"]++;
-                        $listOfUsers[$video["user_id"]]["totalViews"] += $video["view_count"];
-                    }
-                }
+                $listOfUsers = $this->parseVideoData($responseOfGame);
 
-                foreach ($listOfUsers as $userId => $usuario) {
-                    $newUser = [
-                        "game_id" => $game["id"],
-                        "game_name" => $game["name"],
-                        "user_name" => $usuario["userName"],
-                        "total_videos" => $usuario["totalVideos"] . '',
-                        "total_views" => $usuario["totalViews"] . '',
-                        "most_viewed_title" => $usuario["mostTitle"],
-                        "most_viewed_views" => $usuario["mostViews"] . '',
-                        "most_viewed_duration" => $usuario["mostDuration"],
-                        "most_viewed_created_at" => $usuario["mostDate"]
-                    ];
+                foreach ($listOfUsers as $usuario) {
+                    $infoUsers[] = $this->parseStreamerData($game, $usuario);
 
-                    $infoUsers[] = $newUser;
-
-                    if (!$this->insertDataIntoCache($con, $game, $usuario)) {
-                        return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
-                    }
-
-
-                    if (!$this->deleteDate($con)) {
-                        return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
-                    }
-
-                    if (!$this->queryInsertDate($con)) {
+                    if (!$this->insertDataIntoCache($game, $usuario) || !$this->deleteDate() || !$this->queryInsertDate()) {
                         return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
                     }
                 }
@@ -131,41 +79,41 @@ class TopsOfTheTops
     }
 
 
-    private function queryDate(?\mysqli $con): bool|\mysqli_result
+    private function queryDate(): bool|\mysqli_result
     {
         $consultaFecha = "SELECT fecha_insercion FROM ttt_fecha";
-        return $con->query($consultaFecha);
+        return $this->conexion->query($consultaFecha);
     }
 
 
-    private function queryInsertDate(?\mysqli $con): bool
+    private function queryInsertDate(): bool
     {
         $consultaInsert = "INSERT INTO ttt_fecha (fecha_insercion) VALUES (CURRENT_TIMESTAMP)";
-        return $con->query($consultaInsert);
+        return $this->conexion->query($consultaInsert);
     }
 
 
-    private function getTopsOfTheTopsData(?\mysqli $con): bool|\mysqli_result
+    private function getTopsOfTheTopsData(): bool|\mysqli_result
     {
         $queryCache = "SELECT * FROM ttt";
-        return  $con->query($queryCache);
+        return  $this->conexion->query($queryCache);
     }
 
 
-    private function queryDeleteCache(?\mysqli $con): string
+    private function queryDeleteCache(): string
     {
         $consultaBorrar = "DELETE FROM ttt";
-        return $con->query($consultaBorrar);
+        return $this->conexion->query($consultaBorrar);
     }
 
-    private function deleteDate(?\mysqli $con): string
+    private function deleteDate(): string
     {
         $consultaUpdate = "delete from ttt_fecha";
-        return $con->query($consultaUpdate);
+        return $this->conexion->query($consultaUpdate);
     }
-    private function insertDataIntoCache(?\mysqli $con, $game, $usuario): bool
+    private function insertDataIntoCache($game, $usuario): bool
     {
-        $stmt = $con->prepare("INSERT INTO ttt 
+        $stmt = $this->conexion->prepare("INSERT INTO ttt 
                 (game_id, game_name, user_name, total_videos, total_views,  
                  most_viewed_title, most_viewed_views, most_viewed_duration, most_viewed_created_at)
                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
@@ -185,5 +133,67 @@ class TopsOfTheTops
         $result = $stmt->execute();
         $stmt->close();
         return $result;
+    }
+
+
+    public function parseDataFromCache(\mysqli_result|bool $resultado): array
+    {
+        $result = [];
+        while ($fila = $resultado->fetch_assoc()) {
+            $result[] = $fila;
+        }
+        return $result;
+    }
+
+
+    public function parseVideoData(ResponseTwitchData $responseOfGame): array
+    {
+        $dataVideos = json_decode($responseOfGame->getHttpResponseData(), true);
+        $listOfUsers = [];
+        foreach ($dataVideos["data"] as $video) {
+            $userId = $video["user_id"];
+            if (!isset($listOfUsers[$userId])) {
+                $listOfUsers[$video["user_id"]] = [
+                    "userName" => $video["user_name"],
+                    "totalVideos" => 1,
+                    "totalViews" => $video["view_count"],
+                    "mostTitle" => $video["title"],
+                    "mostViews" => $video["view_count"],
+                    "mostDuration" => $video["duration"],
+                    "mostDate" => date('Y-m-d H:i:s', strtotime($video["created_at"]))
+                ];
+            }
+            if (isset($listOfUsers[$userId])){
+                $listOfUsers[$video["user_id"]]["totalVideos"]++;
+                $listOfUsers[$video["user_id"]]["totalViews"] += $video["view_count"];
+            }
+        }
+        return $listOfUsers;
+    }
+
+    public function parseStreamerData(mixed $game, mixed $usuario): array
+    {
+        $newStreamer = [
+            "game_id" => $game["id"],
+            "game_name" => $game["name"],
+            "user_name" => $usuario["userName"],
+            "total_videos" => $usuario["totalVideos"] . '',
+            "total_views" => $usuario["totalViews"] . '',
+            "most_viewed_title" => $usuario["mostTitle"],
+            "most_viewed_views" => $usuario["mostViews"] . '',
+            "most_viewed_duration" => $usuario["mostDuration"],
+            "most_viewed_created_at" => $usuario["mostDate"]
+        ];
+        return $newStreamer;
+    }
+
+    private function getTopOfTheTopsCache()
+    {
+        $topsOfTheTopsData = $this->getTopsOfTheTopsData();
+
+        if ($topsOfTheTopsData->num_rows > 0) {
+            $result = $this->parseDataFromCache($topsOfTheTopsData);
+            return ['data' => $result, 'http_code' => 200];
+        }
     }
 }
