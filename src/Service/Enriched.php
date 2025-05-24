@@ -26,7 +26,7 @@ class Enriched
 
     private function enriched($limit)
     {
-        if ($this->isValidLimit($limit)) {
+        if (!$this->isValidLimit($limit)) {
             return ['data' => ["error" => "Invalid limit parameter"], 'http_code' => 400];
         }
 
@@ -42,27 +42,28 @@ class Enriched
         }
 
         if ($httpCodeStreams == 200) {
-            $infoStreamsEnriquecidos = [];
+            $enrichedInfo = [];
             $dataStreams = json_decode($this->responseTwitchData->getHttpResponseData(), true);
+
             foreach ($dataStreams["data"] as $stream) {
                 if ($limit > 0) {
-                    $responseUserForEnriched = $this->apiManager->curlToTwitchApiForUserEndPoint($stream["user_id"]);
-                    $httpCodeUser = $responseUserForEnriched->getHttpResponseCode();
+                    $userForEnriched = $this->apiManager->curlToTwitchApiForUserEndPoint($stream["user_id"]);
+                    $httpCodeUser = $userForEnriched->getHttpResponseCode();
 
                     if ($httpCodeUser != 200) {
                         return ['data' => ["error" => "Internal server error."], 'http_code' => $httpCodeUser];
                     }
 
                     if ($httpCodeUser == 200) {
-                        $userDataForEnriched = json_decode($responseUserForEnriched->getHttpResponseData(), true);
+                        $userDataForEnriched = json_decode($userForEnriched->getHttpResponseData(), true);
 
-                        $nuevoStreamEnriquecido = $this->parseTwitchDataToOurFormat($userDataForEnriched, $stream);
-                        $infoStreamsEnriquecidos[] = $nuevoStreamEnriquecido;
+                        $enrichedStreamer = $this->parseTwitchDataToOurFormat($userDataForEnriched, $stream);
+                        $enrichedInfo[] = $enrichedStreamer;
                     }
                     $limit--;
                 }
             }
-            return ['data' => $infoStreamsEnriquecidos, 'http_code' => $httpCodeStreams];
+            return ['data' => $enrichedInfo, 'http_code' => $httpCodeStreams];
         }
     }
 
@@ -74,7 +75,7 @@ class Enriched
             $profile_image_url = $streamer["profile_image_url"];
         }
 
-        $nuevoStreamEnriquecido = [
+        $enrichedStreamer = [
             "stream_id" => $stream["id"],
             "user_id" => $stream["user_id"],
             "user_name" => $user_name,
@@ -83,7 +84,7 @@ class Enriched
             "user_display_name" => $display_name,
             "profile_image_url" => $profile_image_url
         ];
-        return $nuevoStreamEnriquecido;
+        return $enrichedStreamer;
     }
 
     private function isValidLimit($limit): bool
