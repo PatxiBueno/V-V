@@ -8,29 +8,22 @@ use TwitchAnalytics\Managers\TwitchAPIManager;
 
 class User
 {
-    private Request $request;
     private ResponseTwitchData $responseTwitchData;
     private TwitchAPIManager $twitchAPIManager;
-    public function __construct($request, $twitchAPIManager)
+    public function __construct($twitchAPIManager)
     {
-        $this->request = $request;
         $this->twitchAPIManager = $twitchAPIManager;
     }
-    public function getUser(): \Illuminate\Http\JsonResponse
+    public function getUser($userId): array
     {
-        $idUser = $this->request->get('id');//no hace falta validarlo, ya que twitch no da los cogigos de error que no interesa
-        $response = $this->getUserFromApi($idUser);
-        return response()->json($response['data'], $response['http_code']);
+        return $this->getUserFromApi($userId);
     }
 
-    private function getUserFromApi($idUser): array
+    private function getUserFromApi($streamerId): array
     {
-        $this->responseTwitchData = $this->twitchAPIManager->curlToTwitchApiForUserEndPoint($idUser);
+        $this->responseTwitchData = $this->twitchAPIManager->curlToTwitchApiForUserEndPoint($streamerId);
 
         $httpResponseCode = $this->responseTwitchData->getHttpResponseCode();
-        if ($httpResponseCode == 400) {
-            return ['data' => ["error" => "Invalid or missing 'id' parameter."], 'http_code' => 400];
-        }
         if ($httpResponseCode == 401) {
             return ['data' => ["error" => "Unauthorized. Twitch access token is invalid or has expired."], 'http_code' => 401];
         }

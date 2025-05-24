@@ -2,6 +2,7 @@
 
 namespace TwitchAnalytics\Controllers;
 
+use TwitchAnalytics\Managers\MYSQLDBManager;
 use TwitchAnalytics\Service\Token;
 use Illuminate\Http\Request;
 use TwitchAnalytics\Validators\apiKeyValidator;
@@ -17,9 +18,7 @@ class TokenController
         if (!$apikeyValidator->existsApiKey($data)) {
             return response()->json(["error" => "The api_key is mandatory"], 400);
         }
-
-        $token = new Token();
-        $response = $token->genToken($data);
-        return response()->json($response['data'], $response['http_code']);
+        $token = new Token($request, new MYSQLDBManager());
+        return $token->genToken($data);
     }
 }
