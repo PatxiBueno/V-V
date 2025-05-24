@@ -16,29 +16,13 @@ class Token
         $this->request = $request;
         $this->dbManager = $dbManager;
     }
-    public function genToken()
+    public function genToken($data)
     {
-        $data = $this->request->json()->all();
-        $response = $this->generateToken($data);
-        return response()->json($response['data'], $response['http_code']);
+        return $this->generarToken($data);
     }
 
     private function generateToken($data)
     {
-        if (!isset($data["email"])) {
-            return ['data' => ["error" => "The email is mandatory"], 'http_code' => 400];
-        }
-
-        $email = filter_var($data["email"], FILTER_SANITIZE_EMAIL);
-
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return ['data' => ["error" => "The email must be a valid email address"], 'http_code' => 400];
-        }
-
-        if (!isset($data["api_key"])) {
-            return ['data' => ["error" => "The api_key is mandatory"], 'http_code' => 400];
-        }
-
         $userData = $this->dbManager->getUserApiKey($email);
         if (!$userData) {
             return ['data' => ["error" => "The email must be a valid email address"], 'http_code' => 400];
