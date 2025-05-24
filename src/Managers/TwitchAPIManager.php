@@ -22,6 +22,16 @@ class TwitchAPIManager
         $urlForEnriched = "streams?first=" . $limit;
         return $this->curlToTwitch($urlForEnriched);
     }
+    public function curlToTwitchApiForTopThreeGames(): ResponseTwitchData
+    {
+        $urlForTopThreeGames = "games/top?first=3" ;
+        return $this->curlToTwitch($urlForTopThreeGames);
+    }
+    public function curlToTwitchApiForGameById($gameId): ResponseTwitchData
+    {
+        $urlForGameById = "videos?game_id=" . $gameId . "&sort=views&first=40" ;
+        return $this->curlToTwitch($urlForGameById);
+    }
 
     private function curlToTwitch($endPointUrl): ResponseTwitchData
     {
