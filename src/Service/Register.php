@@ -3,17 +3,17 @@
 namespace TwitchAnalytics\Service;
 
 use Illuminate\Http\Request;
+use TwitchAnalytics\Managers\MYSQLDBManager;
 use TwitchAnalytics\ResponseTwitchData;
-
-require_once __DIR__ . '/../../bbdd/conexion.php';
 
 class Register
 {
     private Request $request;
-
-    public function __construct($request)
+    private MYSQLDBManager $dbManager;
+    public function __construct($request, $dbManager)
     {
         $this->request = $request;
+        $this->dbManager = $dbManager;
     }
     public function registerUser(): \Illuminate\Http\JsonResponse
     {
@@ -35,37 +35,17 @@ class Register
         $newApiKey = bin2hex(random_bytes(8));
         $hashedNewApiKey = hash("sha256", $newApiKey);
 
-        $con = conexion();
+        $user = $this->dbManager->getUserByEmail($email);
 
-        $resultado = $this->getUserByEmail($email, $con);
-
-        if (!$resultado || $resultado->num_rows === 0) {
-            if (!$this->setUserWithKey($email, $hashedNewApiKey, $con)) {
+        if (!$user) {
+            if (!$this->dbManager->insertUserWithHashedApiKey($email, $hashedNewApiKey)) {
                 return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
             }
         }
-
-        if (!$this->updateUserKey($hashedNewApiKey, $email, $con)) {
+        if (!$this->dbManager->updateUserHashedKey($hashedNewApiKey, $email)) {
             return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
         }
+
         return ['data' => ["api_key" => $newApiKey], 'http_code' => 200];
-    }
-
-    public function getUserByEmail(mixed $email, ?\mysqli $con): bool|\mysqli_result
-    {
-        $querySelect = "SELECT * FROM usuarios where email like '$email' ";
-        return $con->query($querySelect);
-    }
-
-    public function setUserWithKey(mixed $email, string $newApiKeyHasheada, ?\mysqli $con): bool
-    {
-        $queryInsert = "INSERT INTO usuarios (email, api_key) VALUES ('$email', '$newApiKeyHasheada')";
-        return $con->query($queryInsert);
-    }
-
-    public function updateUserKey(string $newApiKeyHasheada, mixed $email, ?\mysqli $con): bool
-    {
-        $queryUpdate = "UPDATE usuarios SET api_key = '$newApiKeyHasheada' WHERE email = '$email'";
-        return $con->query($queryUpdate);
     }
 }
