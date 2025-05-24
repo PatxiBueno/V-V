@@ -45,7 +45,7 @@ class Register
             }
         }
 
-        if (!$this->updateUserKey($hashedNewApiKey, $email)) {
+        if (!$this->updateUserKey($hashedNewApiKey, $email, $con)) {
             return ['data' => ["error" => "Internal server error."], 'http_code' => 500];
         }
         return ['data' => ["api_key" => $newApiKey], 'http_code' => 200];
