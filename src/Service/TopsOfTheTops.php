@@ -22,16 +22,8 @@ class TopsOfTheTops
         $this->twitchAPIManager = $twitchAPIManager;
         $this->conexion = conexion();
     }
-    public function getTops()
+    public function getTops($since)
     {
-        $since = $this->request->get('since');
-
-        if ($since < 0) {
-            return ['data' => ["error" => "Bad request. Invalid or missing parameters."], 'http_code' => 400];
-        }
-        if ($since > 600) {
-            $since = 600;
-        }
         $resultDate = $this->queryDate();
 
         if ($resultDate && $resultDate->num_rows > 0) {
@@ -42,9 +34,7 @@ class TopsOfTheTops
                 return $this->getTopOfTheTopsCache();
             }
         }
-
-        $response = $this->getTopOfTheTops($since);
-        return response()->json($response['data'], $response['http_code']);
+        return $this->getTopOfTheTops();
     }
     private function getTopOfTheTops()
     {
@@ -163,7 +153,7 @@ class TopsOfTheTops
                     "mostDate" => date('Y-m-d H:i:s', strtotime($video["created_at"]))
                 ];
             }
-            if (isset($listOfUsers[$userId])){
+            if (isset($listOfUsers[$userId])) {
                 $listOfUsers[$video["user_id"]]["totalVideos"]++;
                 $listOfUsers[$video["user_id"]]["totalViews"] += $video["view_count"];
             }
