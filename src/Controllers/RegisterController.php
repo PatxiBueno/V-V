@@ -20,7 +20,8 @@ class RegisterController
             return response()->json(["error" => "The email must be a valid email address"], 400);
         }
         $register = new Register(new MYSQLDBManager());
-        $response = $register->registerUser($data);
+        $sanitizedEmail = filter_var($data["email"], FILTER_SANITIZE_EMAIL);
+        $response = $register->registerUser($sanitizedEmail);
         return response()->json($response['data'], $response['http_code']);
     }
 }

@@ -17,10 +17,8 @@ class Register
     {
         return $this->register($data);
     }
-    private function register($data)
+    private function register($email)
     {
-        $email = filter_var($data["email"], FILTER_SANITIZE_EMAIL);
-
         $newApiKey = bin2hex(random_bytes(8));
         $hashedNewApiKey = hash("sha256", $newApiKey);
 
