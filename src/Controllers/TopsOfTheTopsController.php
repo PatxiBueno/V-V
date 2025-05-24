@@ -14,7 +14,7 @@ class TopsOfTheTopsController
         $topsValidator = new TopsOfTheTopsValidator();
         $since = $request->get("since", 600);
 
-        if(!$topsValidator->validateSince($since)) {
+        if (!$topsValidator->validateSince($since)) {
             return response()->json(["error" => "Bad request. Invalid or missing parameters."], 400);
         }
 
