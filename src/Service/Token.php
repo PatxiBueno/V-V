@@ -7,19 +7,15 @@ use Illuminate\Http\Request;
 
 class Token
 {
-    private Request $request;
     private ?\mysqli $conexion;
 
-    public function __construct($request)
+    public function __construct()
     {
-        $this->request = $request;
         $this->conexion = conexion();
     }
-    public function genToken()
+    public function genToken($data)
     {
-        $data = $this->request->json()->all();
-        $response = $this->generarToken($data);
-        return response()->json($response['data'], $response['http_code']);
+        return $this->generarToken($data);
     }
 
     private function generarToken($data)
@@ -45,18 +41,11 @@ class Token
         $keyBBDD = $userInfo['api_key'];
         $idUsuario = $userInfo['id'];
 
-        if (!isset($data["api_key"])) {
-            return ['data' => ["error" => "The api_key is mandatory"], 'http_code' => 400];
-        }
-
         $keyUsuario = $data["api_key"];
         if (hash("sha256", $keyUsuario) != $keyBBDD) {
             return ['data' => ["error" => "Unauthorized. API access token is invalid."], 'http_code' => 401];
         }
-
-        if (hash("sha256", $keyUsuario) == $keyBBDD) {
-            return $this->giveTokenToUser($idUsuario);
-        }
+        return $this->giveTokenToUser($idUsuario);
     }
 
     private function giveTokenToUser($idUsuario)
