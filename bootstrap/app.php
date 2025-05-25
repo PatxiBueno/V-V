@@ -19,6 +19,7 @@ use TwitchAnalytics\Service\Register;
 use TwitchAnalytics\Service\Streams;
 use TwitchAnalytics\Service\Token;
 use TwitchAnalytics\Service\TopsOfTheTops;
+use TwitchAnalytics\Service\User;
 use TwitchAnalytics\Validators\ApiKeyValidator;
 use TwitchAnalytics\Validators\EnrichedValidator;
 use TwitchAnalytics\Validators\EmailValidator;
@@ -42,9 +43,7 @@ $app->singleton(
 $app->singleton(VerifyToken::class, function () {
     return new VerifyToken(new MYSQLDBManager());
 });
-$app->singleton(UserController::class, function () {
-    return new UserController(new TwitchAPIManager(), new UserValidator());
-});
+
 
 
 $app->singleton(TopsOfTheTops::class, function ($app) {
@@ -61,5 +60,8 @@ $app->singleton(Streams::class, function ($app) {
 });
 $app->singleton(Token::class, function ($app) {
     return new Token($app->make(MYSQLDBManager::class));
+});
+$app->singleton(User::class, function ($app) {
+    return new User($app->make(TwitchAPIManager::class));
 });
 return $app;
