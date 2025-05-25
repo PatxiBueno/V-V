@@ -136,7 +136,7 @@ class MYSQLDBManager
         return $stmt->execute();
     }
 
-    public function getUserTokenFromDataBase(string $userToken): ?array
+    public function getExpirationDayOfToken(string $userToken): ?array
     {
         $stmt = $this->connection->prepare("SELECT fecha_token FROM token WHERE token = ?");
         if (!$stmt) {

@@ -36,13 +36,13 @@ class VerifyToken
             return false;
         }
 
-        $resultado = $this->dbManager->getUserTokenFromDataBase($userToken);
+        $expirationDate = $this->dbManager->getExpirationDayOfToken($userToken);
 
-        if (!$resultado) {
+        if (!$expirationDate) {
             return false;
         }
 
-        $timestampToken = $resultado['fecha_token'];
+        $timestampToken = $expirationDate['fecha_token'];
         $tiempoDelToken = time() - strtotime($timestampToken);
 
         if ($tiempoDelToken > 259200) {
