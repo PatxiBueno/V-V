@@ -8,11 +8,10 @@ use TwitchAnalytics\ResponseTwitchData;
 
 class Streams
 {
-    private Request $request;
+
     private TwitchAPIManager $twitchAPIManager;
-    public function __construct($request, $twitchAPIManager)
+    public function __construct($twitchAPIManager)
     {
-        $this->request = $request;
         $this->twitchAPIManager = $twitchAPIManager;
     }
     public function getStreams(): \Illuminate\Http\JsonResponse

@@ -8,9 +8,16 @@ use Illuminate\Http\Request;
 
 class StreamController
 {
+    private TwitchAPIManager $twitchAPIManager;
+
+    public function __construct($twitchAPIManager)
+    {
+        $this->twitchAPIManager = $twitchAPIManager;
+    }
+
     public function getStreams(Request $request): \Illuminate\Http\JsonResponse
     {
-        $streams = new Streams($request, new TwitchAPIManager());
+        $streams = new Streams($this->twitchAPIManager);
         return $streams->getStreams();
     }
 }
