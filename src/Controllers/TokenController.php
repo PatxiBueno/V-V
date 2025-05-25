@@ -10,6 +10,12 @@ use TwitchAnalytics\Validators\EmailValidator;
 
 class TokenController
 {
+    private MYSQLDBManager $dbManager;
+    public function __construct($dbManager)
+    {
+        $this->dbManager = $dbManager;
+    }
+
     public function getToken(Request $request)
     {
         $data = $request->json()->all();
@@ -26,7 +32,7 @@ class TokenController
         if (!$emailValidator->emailIsValid($data["email"])) {
             return response()->json(["error" => "The email must be a valid email address"], 400);
         }
-        $token = new Token($request, new MYSQLDBManager());
+        $token = new Token($this->dbManager);
         $sanitizedEmail = filter_var($data["email"], FILTER_SANITIZE_EMAIL);
         $apiKey = $request->get("api_key");
 

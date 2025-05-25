@@ -8,12 +8,11 @@ use TwitchAnalytics\Managers\MYSQLDBManager;
 class Token
 {
     private const int TOKEN_LENGHT = 10;
-    private Request $request;
+
     private MYSQLDBManager $dbManager;
 
-    public function __construct($request, $dbManager)
+    public function __construct($dbManager)
     {
-        $this->request = $request;
         $this->dbManager = $dbManager;
     }
     public function genToken($email, $apiKey)

@@ -8,6 +8,7 @@ $app = new Laravel\Lumen\Application(dirname(__DIR__));
 use TwitchAnalytics\Controllers\EnrichedController;
 use TwitchAnalytics\Controllers\RegisterController;
 use TwitchAnalytics\Controllers\StreamController;
+use TwitchAnalytics\Controllers\TokenController;
 use TwitchAnalytics\Managers\MYSQLDBManager;
 use TwitchAnalytics\Managers\TwitchAPIManager;
 use TwitchAnalytics\Middleware\VerifyToken;
@@ -39,5 +40,8 @@ $app->singleton(RegisterController::class, function () {
 });
 $app->singleton(StreamController::class, function () {
     return new StreamController(new TwitchAPIManager());
+});
+$app->singleton(TokenController::class, function () {
+    return new TokenController(new MYSQLDBManager());
 });
 return $app;
