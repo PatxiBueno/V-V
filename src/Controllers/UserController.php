@@ -11,7 +11,7 @@ class UserController
 {
     private User $userService;
     private UserValidator $userValidator;
-    public function __construct(UserValidator $userValidator,User $userService)
+    public function __construct(UserValidator $userValidator, User $userService)
     {
         $this->userValidator = $userValidator;
         $this->userService = $userService;

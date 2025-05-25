@@ -1,9 +1,11 @@
 <?php
 
 namespace TwitchAnalytics\Service;
+
 use TwitchAnalytics\Managers\MYSQLDBManager;
 use TwitchAnalytics\ResponseTwitchData;
 use TwitchAnalytics\Managers\TwitchAPIManager;
+
 use function PHPUnit\Framework\isEmpty;
 
 class TopsOfTheTops
@@ -11,7 +13,7 @@ class TopsOfTheTops
     private ResponseTwitchData $responseTwitchData;
     private MYSQLDBManager $dbManager;
     private TwitchAPIManager $twitchAPIManager;
-  
+
     public function __construct($twitchAPIManager, $dbManager)
     {
         $this->twitchAPIManager = $twitchAPIManager;

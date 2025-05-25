@@ -27,8 +27,8 @@
       }
   },
   "scripts": {
-      "cs": "phpcs  --ignore=vendor/*,endPoints/*,bbdd/*,twirch/*,autenticacion.php .",
-      "fix": "phpcbf  --ignore=vendor/*,endPoints/*,bbdd/*,twirch/*,autenticacion.php .",
+      "cs": "phpcs  --ignore=vendor/* .",
+      "fix": "phpcbf  --ignore=vendor/* .",
       "cs-check": "phpcs",
       "cs-fix": "phpcbf",
       "test": "phpunit",

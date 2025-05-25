@@ -23,7 +23,6 @@ class TopsOfTheTopsController
     {
         $since = $request->get("since", 600);
         if (!$this->topsValidator->validateSince($since)) {
-
             return response()->json(["error" => "Bad request. Invalid or missing parameters."], 400);
         }
 
