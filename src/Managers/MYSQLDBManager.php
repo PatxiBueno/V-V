@@ -171,5 +171,90 @@ class MYSQLDBManager
         return $result->fetch_assoc();
     }
 
+    public function cleanTopOfTheTopsCache(): bool
+    {
+        $stmt = $this->connection->prepare("DELETE FROM ttt");
+        if (!$stmt) {
+            throw new RuntimeException("Prepare failed: " . $this->connection->error);
+        }
+        $result = $stmt->execute();
+        if (!$result) {
+            throw new RuntimeException("Error executing the query: " . $stmt->error);
+        }
+        $stmt->close();
+        return $result;
+    }
 
+    public function insertTopsCache(array $game, array $usuario): bool
+    {
+        $stmt = $this->connection->prepare("INSERT INTO ttt 
+        (game_id, game_name, user_name, total_videos, total_views,  
+         most_viewed_title, most_viewed_views, most_viewed_duration, most_viewed_created_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+        if (!$stmt) {
+            throw new RuntimeException("Prepare failed: " . $this->connection->error);
+        }
+        $stmt->bind_param(
+            "sssiissss",
+            $game["id"],
+            $game["name"],
+            $usuario["userName"],
+            $usuario["totalVideos"],
+            $usuario["totalViews"],
+            $usuario["mostTitle"],
+            $usuario["mostViews"],
+            $usuario["mostDuration"],
+            $usuario["mostDate"]
+        );
+
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
+    }
+
+    public function deleteTopsDate(): bool
+    {
+        $stmt = $this->connection->prepare("DELETE FROM ttt_fecha");
+        if (!$stmt) {
+            throw new RuntimeException("Prepare failed: " . $this->connection->error);
+        }
+
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
+    }
+
+    public function insertTopsDate(): bool
+    {
+        $stmt = $this->connection->prepare("INSERT INTO ttt_fecha (fecha_insercion) VALUES (CURRENT_TIMESTAMP)");
+        if (!$stmt) {
+            throw new RuntimeException("Prepare failed: " . $this->connection->error);
+        }
+
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;
+    }
+
+    public function getTopsCacheData(): array
+    {
+        $stmt = $this->connection->prepare("SELECT * FROM ttt");
+
+        if (!$stmt) {
+            throw new RuntimeException("Prepare failed: " . $this->connection->error);
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $data = [];
+        while ($row = $result->fetch_assoc()) {
+            $data[] = $row;
+        }
+
+        $stmt->close();
+
+        return $data;
+    }
 }
