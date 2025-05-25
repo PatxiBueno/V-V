@@ -8,7 +8,6 @@ use TwitchAnalytics\ResponseTwitchData;
 
 class Streams
 {
-
     private TwitchAPIManager $twitchAPIManager;
     public function __construct($twitchAPIManager)
     {

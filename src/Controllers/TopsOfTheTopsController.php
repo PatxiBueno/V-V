@@ -12,7 +12,7 @@ class TopsOfTheTopsController
     private TwitchAPIManager $twitchAPIManager;
     private TopsOfTheTopsValidator $topsValidator;
 
-    public function __construct($twitchAPIManager,$topsValidator)
+    public function __construct($twitchAPIManager, $topsValidator)
     {
         $this->twitchAPIManager = $twitchAPIManager;
         $this->topsValidator = $topsValidator;
@@ -21,7 +21,6 @@ class TopsOfTheTopsController
     public function getTopsOfTheTops(Request $request)
     {
         $since = $request->get("since", 600);
-
         if (!$this->topsValidator->validateSince($since)) {
 
             return response()->json(["error" => "Bad request. Invalid or missing parameters."], 400);

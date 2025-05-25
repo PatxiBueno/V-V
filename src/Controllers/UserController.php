@@ -11,7 +11,7 @@ class UserController
 {
     private TwitchAPIManager $twitchAPIManager;
     private UserValidator $userValidator;
-    public function __construct($twitchAPIManager,$userValidator)
+    public function __construct($twitchAPIManager, $userValidator)
     {
         $this->twitchAPIManager = $twitchAPIManager;
         $this->userValidator = $userValidator;

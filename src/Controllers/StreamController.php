@@ -15,7 +15,7 @@ class StreamController
         $this->twitchAPIManager = $twitchAPIManager;
     }
 
-    public function getStreams(Request $request): \Illuminate\Http\JsonResponse
+    public function getStreams(): \Illuminate\Http\JsonResponse
     {
         $streams = new Streams($this->twitchAPIManager);
         return $streams->getStreams();
