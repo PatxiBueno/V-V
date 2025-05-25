@@ -2,10 +2,9 @@
 
 namespace TwitchAnalytics\Controllers;
 
-use TwitchAnalytics\Managers\MYSQLDBManager;
 use TwitchAnalytics\Service\Token;
 use Illuminate\Http\Request;
-use TwitchAnalytics\Validators\apiKeyValidator;
+use TwitchAnalytics\Validators\ApiKeyValidator;
 use TwitchAnalytics\Validators\EmailValidator;
 
 class TokenController
