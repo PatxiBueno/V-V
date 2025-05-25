@@ -153,4 +153,23 @@ class MYSQLDBManager
 
         return $result->fetch_assoc();
     }
+
+    public function getCacheInsertTime(): false|array|null
+    {
+        $stmt = $this->connection->prepare("SELECT fecha_insercion FROM ttt_fecha ORDER BY fecha_insercion DESC LIMIT 1");
+        if (!$stmt) {
+            throw new RuntimeException("Prepare failed: " . $this->connection->error);
+        }
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows === 0) {
+            return null;
+        }
+
+        return $result->fetch_assoc();
+    }
+
+
 }

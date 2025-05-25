@@ -3,17 +3,17 @@
 namespace TwitchAnalytics\Service;
 
 use Illuminate\Http\Request;
+use TwitchAnalytics\Managers\MYSQLDBManager;
 use TwitchAnalytics\ResponseTwitchData;
 use TwitchAnalytics\Managers\TwitchAPIManager;
 
 require_once __DIR__ . '/../../bbdd/conexion.php';
 
-
 class TopsOfTheTops
 {
     private Request $request;
     private ResponseTwitchData $responseTwitchData;
-
+    private MYSQLDBManager $dbManager;
     private TwitchAPIManager $twitchAPIManager;
     private ?\mysqli $conexion;
     public function __construct($request, $twitchAPIManager)
@@ -21,16 +21,15 @@ class TopsOfTheTops
         $this->request = $request;
         $this->twitchAPIManager = $twitchAPIManager;
         $this->conexion = conexion();
+        $this->dbManager = new MYSQLDBManager();
     }
     public function getTops($since)
     {
-        $resultDate = $this->queryDate();
+        $insertTime = $this->dbManager->getCacheInsertTime();
 
-        if ($resultDate && $resultDate->num_rows > 0) {
-            $fila = $resultDate->fetch_assoc();
-            $ultimaActualizacion = time() - strtotime($fila['fecha_insercion']);
-
-            if ($ultimaActualizacion <= $since) {
+        if ($insertTime) {
+            $dbSince = time() - strtotime($insertTime['fecha_insercion']);
+            if ($dbSince <= $since) {
                 return $this->getTopOfTheTopsCache();
             }
         }
@@ -67,14 +66,6 @@ class TopsOfTheTops
         }
         return ['data' => $infoUsers, 'http_code' => 200];
     }
-
-
-    private function queryDate(): bool|\mysqli_result
-    {
-        $consultaFecha = "SELECT fecha_insercion FROM ttt_fecha";
-        return $this->conexion->query($consultaFecha);
-    }
-
 
     private function queryInsertDate(): bool
     {
