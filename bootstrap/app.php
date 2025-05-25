@@ -18,6 +18,7 @@ use TwitchAnalytics\Validators\ApiKeyValidator;
 use TwitchAnalytics\Validators\EnrichedValidator;
 use TwitchAnalytics\Validators\EmailValidator;
 use TwitchAnalytics\Validators\TopsOfTheTopsValidator;
+use TwitchAnalytics\Validators\UserValidator;
 
 $app->routeMiddleware([
     'auth.token' => VerifyToken::class,
@@ -52,6 +53,6 @@ $app->singleton(TopsOfTheTopsController::class, function () {
     return new TopsOfTheTopsController(new TwitchAPIManager(), new TopsOfTheTopsValidator());
 });
 $app->singleton(UserController::class, function () {
-    return new UserController(new TwitchAPIManager());
+    return new UserController(new TwitchAPIManager(), new UserValidator());
 });
 return $app;
