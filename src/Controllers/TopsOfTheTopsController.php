@@ -10,18 +10,19 @@ use TwitchAnalytics\Validators\TopsOfTheTopsValidator;
 class TopsOfTheTopsController
 {
     private TwitchAPIManager $twitchAPIManager;
+    private TopsOfTheTopsValidator $topsValidator;
 
-    public function __construct($twitchAPIManager)
+    public function __construct($twitchAPIManager,$topsValidator)
     {
         $this->twitchAPIManager = $twitchAPIManager;
+        $this->topsValidator = $topsValidator;
     }
 
     public function getTopsOfTheTops(Request $request)
     {
-        $topsValidator = new TopsOfTheTopsValidator();
         $since = $request->get("since", 600);
 
-        if (!$topsValidator->validateSince($since)) {
+        if (!$this->topsValidator->validateSince($since)) {
 
             return response()->json(["error" => "Bad request. Invalid or missing parameters."], 400);
         }
