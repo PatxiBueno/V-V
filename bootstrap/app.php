@@ -40,8 +40,8 @@ $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
     TwitchAnalytics\Exceptions\Handler::class
 );
-$app->singleton(VerifyToken::class, function () {
-    return new VerifyToken(new MYSQLDBManager());
+$app->singleton(VerifyToken::class, function ($app) {
+    return new VerifyToken($app->make(MYSQLDBManager::class));
 });
 
 
