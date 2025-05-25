@@ -19,7 +19,7 @@ class UserController
         }
 
         $user = new User(new TwitchAPIManager());
-        $response = $user->getUser($userId);
+        $response = $user->getUserData($userId);
         return response()->json($response['data'], $response['http_code']);
     }
 }

@@ -15,7 +15,7 @@ class Streams
         $this->request = $request;
         $this->twitchAPIManager = $twitchAPIManager;
     }
-    public function getStreams(): \Illuminate\Http\JsonResponse
+    public function getStreamsData(): \Illuminate\Http\JsonResponse
     {
         $response = $this->getStreamsFromApi();
         return response()->json($response['data'], $response['http_code']);
@@ -35,8 +35,8 @@ class Streams
         }
 
         $responseData = json_decode($responseTwitchData->getHttpResponseData(), true);
-        $twitchUserData = $this->parseTwitchDataToStreamsFormat($responseData["data"]);
-        return ['data' => $twitchUserData, 'http_code' => 200];
+        $twitchStreamsData = $this->parseTwitchDataToStreamsFormat($responseData["data"]);
+        return ['data' => $twitchStreamsData, 'http_code' => 200];
     }
 
     private function parseTwitchDataToStreamsFormat(mixed $data): array

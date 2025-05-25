@@ -11,16 +11,16 @@ class TopsOfTheTopsController
 {
     public function getTopsOfTheTops(Request $request)
     {
-        $topsValidator = new TopsOfTheTopsValidator();
+        $topsOfTheTopsValidator = new TopsOfTheTopsValidator();
         $since = $request->get("since", 600);
 
-        if (!$topsValidator->validateSince($since)) {
+        if (!$topsOfTheTopsValidator->validateSince($since)) {
 
             return response()->json(["error" => "Bad request. Invalid or missing parameters."], 400);
         }
 
         $topsOfTheTops = new TopsOfTheTops($request, new TwitchAPIManager());
-        $response = $topsOfTheTops->getTops($since);
+        $response = $topsOfTheTops->getTopsData($since);
         return response()->json($response['data'], $response['http_code']);
     }
 }

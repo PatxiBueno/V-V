@@ -36,7 +36,7 @@ class VerifyToken
             return false;
         }
 
-        $expirationDate = $this->dbManager->getExpirationDayOfToken($userToken);
+        $expirationDate = $this->dbManager->getExpirationDateOfOurToken($userToken);
 
         if (!$expirationDate) {
             return false;

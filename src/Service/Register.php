@@ -13,7 +13,7 @@ class Register
     {
         $this->dbManager = $dbManager;
     }
-    public function registerUser($data): array
+    public function registerUserData($data): array
     {
         return $this->register($data);
     }

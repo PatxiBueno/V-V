@@ -19,7 +19,7 @@ class EnrichedController
         }
 
         $enriched = new Enriched(new TwitchAPIManager());
-        $response = $enriched->getEnriched($limit);
+        $response = $enriched->getEnrichedData($limit);
         return response()->json($response['data'], $response['http_code']);
     }
 }
