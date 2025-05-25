@@ -2,6 +2,7 @@
 
 namespace TwitchAnalytics\Controllers;
 
+use TwitchAnalytics\Managers\MYSQLDBManager;
 use TwitchAnalytics\Service\TopsOfTheTops;
 use Illuminate\Http\Request;
 use TwitchAnalytics\Managers\TwitchAPIManager;
@@ -26,7 +27,8 @@ class TopsOfTheTopsController
             return response()->json(["error" => "Bad request. Invalid or missing parameters."], 400);
         }
 
-        $topsOfTheTops = new TopsOfTheTops($this->twitchAPIManager);
+        $topsOfTheTops = new TopsOfTheTops(new TwitchAPIManager(), new MYSQLDBManager());
+
         $response = $topsOfTheTops->getTops($since);
         return response()->json($response['data'], $response['http_code']);
     }
