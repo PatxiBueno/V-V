@@ -5,7 +5,9 @@ require_once __DIR__ . '/../vendor/autoload.php';
 date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
 $app = new Laravel\Lumen\Application(dirname(__DIR__));
 
+use TwitchAnalytics\Controllers\EnrichedController;
 use TwitchAnalytics\Managers\MYSQLDBManager;
+use TwitchAnalytics\Managers\TwitchAPIManager;
 use TwitchAnalytics\Middleware\VerifyToken;
 $app->routeMiddleware([
     'auth.token' => VerifyToken::class,
@@ -23,5 +25,8 @@ $app->singleton(
 );
 $app->singleton(VerifyToken::class, function () {
     return new VerifyToken(new MYSQLDBManager());
+});
+$app->singleton(EnrichedController::class, function () {
+    return new EnrichedController(new TwitchAPIManager());
 });
 return $app;
