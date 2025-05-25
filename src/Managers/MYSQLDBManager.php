@@ -33,7 +33,7 @@ class MYSQLDBManager
     {
         $stmt = $this->connection->prepare("SELECT * FROM usuarios WHERE email = ?");
         if (!$stmt) {
-            throw new RuntimeException("Error en la preparación de la consulta: " . $this->connection->error);
+            throw new RuntimeException("Prepare failed: " . $this->connection->error);
         }
 
         $stmt->bind_param("s", $email);
@@ -51,7 +51,7 @@ class MYSQLDBManager
     {
         $stmt = $this->connection->prepare("INSERT INTO usuarios (email, api_key) VALUES (?, ?)");
         if (!$stmt) {
-            throw new RuntimeException("Error en la preparación de la consulta: " . $this->connection->error);
+            throw new RuntimeException("Prepare failed: " . $this->connection->error);
         }
 
         $stmt->bind_param("ss", $email, $hashedApiKey);
@@ -67,7 +67,7 @@ class MYSQLDBManager
     {
         $stmt = $this->connection->prepare("UPDATE usuarios SET api_key = ? WHERE email = ?");
         if (!$stmt) {
-            throw new RuntimeException("Error en la preparación de la consulta: " . $this->connection->error);
+            throw new RuntimeException("Prepare failed: " . $this->connection->error);
         }
 
         $stmt->bind_param("ss", $hashedApiKey, $email);
@@ -134,5 +134,23 @@ class MYSQLDBManager
 
         $stmt->bind_param("si", $token, $userId);
         return $stmt->execute();
+    }
+
+    public function getExpirationDayOfToken(string $userToken): ?array
+    {
+        $stmt = $this->connection->prepare("SELECT fecha_token FROM token WHERE token = ?");
+        if (!$stmt) {
+            throw new RuntimeException("Prepare failed: " . $this->connection->error);
+        }
+
+        $stmt->bind_param("s", $userToken);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        if ($result->num_rows === 0) {
+            return null;
+        }
+
+        return $result->fetch_assoc();
     }
 }

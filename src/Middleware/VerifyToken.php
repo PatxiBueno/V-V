@@ -4,10 +4,16 @@ namespace TwitchAnalytics\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use TwitchAnalytics\Managers\MYSQLDBManager;
 
-require_once __DIR__ . '/../../bbdd/conexion.php';
 class VerifyToken
 {
+    private MYSQLDBManager $dbManager;
+    public function __construct($dbManager)
+    {
+        $this->dbManager = $dbManager;
+    }
+
     public function handle(Request $request, Closure $next)
     {
         $headers = $request->headers->all();
@@ -24,32 +30,24 @@ class VerifyToken
             return false;
         }
 
-        list($bearer, $tokenUsuario) = explode(" ", $headers['authorization'][0], 2);
+        list($bearer, $userToken) = explode(" ", $headers['authorization'][0], 2);
 
         if (strcasecmp($bearer, "Bearer") != 0) {
             return false;
         }
-        $con = conexion();
-        $resultado = $this->getUserTokenFromDataBase($tokenUsuario, $con);
 
-        if (!$resultado || $resultado->num_rows === 0) {
+        $expirationDate = $this->dbManager->getExpirationDayOfToken($userToken);
+
+        if (!$expirationDate) {
             return false;
         }
 
-        $fila = $resultado->fetch_assoc();
-        $timestampToken = $fila['fecha_token'];
+        $timestampToken = $expirationDate['fecha_token'];
         $tiempoDelToken = time() - strtotime($timestampToken);
 
         if ($tiempoDelToken > 259200) {
             return false;
         }
         return true;
-    }
-
-    public function getUserTokenFromDataBase(string $userToken, ?\mysqli $con): bool|\mysqli_result
-    {
-        $queryToken = "SELECT fecha_token FROM token WHERE token LIKE  '$userToken'";
-        $resultado = $con->query($queryToken);
-        return $resultado;
     }
 }
