@@ -128,4 +128,41 @@ class TokenEndPointTest extends TestCase
             $responseData
         );
     }
+
+        /**
+     * @test
+     *
+     */
+    public function incorrectApiKeyErrorCode400(): void
+    {
+        $json = json_encode(['email' => 'motto@gmial.com','api_key' => 'apikimokery']);
+        $body = fopen('php://memory', 'r+');
+        fwrite($body, $json);
+        rewind($body);
+        $server = [
+            'REQUEST_METHOD' => 'POST',
+            'REQUEST_URI'    => '/token',
+            'CONTENT_TYPE'   => 'application/json',
+        ];
+        $request = new Request([], [], [], [], [], $server, $body);
+
+        $mysqlManager = mock(MYSQLDBManager::class);
+        $mysqlManager
+        ->shouldReceive('getUserApiKey')
+        ->andReturn([
+            'api_key' => 'invalid_hash_value',
+            'id' => 123
+            ]);
+
+        $token = new Token($request, $mysqlManager);
+        $response = $token->genToken();
+        $responseData = json_decode($response->getContent(), true);
+
+        $this->assertEquals(401, $response->getStatusCode());
+        $this->assertEquals(
+            [
+            'error' => "Unauthorized. API access token is invalid."],
+            $responseData
+        );
+    }
 }
