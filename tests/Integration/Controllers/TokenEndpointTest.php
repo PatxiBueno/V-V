@@ -22,9 +22,6 @@ class TokenEndPointTest extends TestCase
     {
         $request = new Request();
         $mysqlManager = mock(MYSQLDBManager::class);
-        $mysqlManager
-            ->shouldReceive('curlToTwitchApiForUserEndPoint')
-            ->andReturn(new ResponseTwitchData(400, ""));
         $token = new Token($request, $mysqlManager);
 
         $response = $token->genToken();
@@ -34,6 +31,30 @@ class TokenEndPointTest extends TestCase
         $this->assertEquals(
             [
             'error' => "The email is mandatory"],
+            $responseData
+        );
+    }
+
+    /**
+     * @test
+     *
+     */
+    public function invalidMailIdErrorCode400(): void
+    {
+        $request = Request::create('/token', 'POST', [], [], [], [
+        'CONTENT_TYPE' => 'application/json',
+        ], json_encode(['email' => 'motto#gmial.com']));
+
+        $mysqlManager = mock(MYSQLDBManager::class);
+        $token = new Token($request, $mysqlManager);
+
+        $response = $token->genToken();
+        $responseData = json_decode($response->getContent(), true);
+
+        $this->assertEquals(400, $response->getStatusCode());
+        $this->assertEquals(
+            [
+            'error' => "The email must be a valid email address"],
             $responseData
         );
     }
