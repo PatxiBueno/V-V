@@ -12,19 +12,21 @@ class TokenController
 {
     private MYSQLDBManager $dbManager;
     private EmailValidator $emailValidator;
-    public function __construct($dbManager,$emailValidator)
+    private ApiKeyValidator $apiKeyValidator;
+
+
+    public function __construct($dbManager, $emailValidator, $apiKeyValidator)
     {
         $this->dbManager = $dbManager;
         $this->emailValidator = $emailValidator;
+        $this->apiKeyValidator = $apiKeyValidator;
     }
 
     public function getToken(Request $request)
     {
         $data = $request->json()->all();
 
-        $apikeyValidator = new ApiKeyValidator();
-
-        if (!$apikeyValidator->existsApiKey($data)) {
+        if (!$this->apiKeyValidator->existsApiKey($data)) {
             return response()->json(["error" => "The api_key is mandatory"], 400);
         }
         if (!$this->emailValidator->existsEmail($data)) {

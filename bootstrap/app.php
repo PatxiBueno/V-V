@@ -12,6 +12,7 @@ use TwitchAnalytics\Controllers\TokenController;
 use TwitchAnalytics\Managers\MYSQLDBManager;
 use TwitchAnalytics\Managers\TwitchAPIManager;
 use TwitchAnalytics\Middleware\VerifyToken;
+use TwitchAnalytics\Validators\ApiKeyValidator;
 use TwitchAnalytics\Validators\EnrichedValidator;
 use TwitchAnalytics\Validators\EmailValidator;
 
@@ -42,6 +43,6 @@ $app->singleton(StreamController::class, function () {
     return new StreamController(new TwitchAPIManager());
 });
 $app->singleton(TokenController::class, function () {
-    return new TokenController(new MYSQLDBManager(),new EmailValidator());
+    return new TokenController(new MYSQLDBManager(), new EmailValidator(), new ApiKeyValidator());
 });
 return $app;
