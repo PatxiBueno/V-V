@@ -42,6 +42,6 @@ $app->singleton(StreamController::class, function () {
     return new StreamController(new TwitchAPIManager());
 });
 $app->singleton(TokenController::class, function () {
-    return new TokenController(new MYSQLDBManager());
+    return new TokenController(new MYSQLDBManager(),new EmailValidator());
 });
 return $app;

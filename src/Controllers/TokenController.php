@@ -11,9 +11,11 @@ use TwitchAnalytics\Validators\EmailValidator;
 class TokenController
 {
     private MYSQLDBManager $dbManager;
-    public function __construct($dbManager)
+    private EmailValidator $emailValidator;
+    public function __construct($dbManager,$emailValidator)
     {
         $this->dbManager = $dbManager;
+        $this->emailValidator = $emailValidator;
     }
 
     public function getToken(Request $request)
@@ -21,15 +23,14 @@ class TokenController
         $data = $request->json()->all();
 
         $apikeyValidator = new ApiKeyValidator();
-        $emailValidator = new EmailValidator();
 
         if (!$apikeyValidator->existsApiKey($data)) {
             return response()->json(["error" => "The api_key is mandatory"], 400);
         }
-        if (!$emailValidator->existsEmail($data)) {
+        if (!$this->emailValidator->existsEmail($data)) {
             return response()->json(["error" => "The email is mandatory"], 400);
         }
-        if (!$emailValidator->emailIsValid($data["email"])) {
+        if (!$this->emailValidator->emailIsValid($data["email"])) {
             return response()->json(["error" => "The email must be a valid email address"], 400);
         }
         $token = new Token($this->dbManager);
