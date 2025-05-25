@@ -52,7 +52,7 @@ class Token
 
         return ['data' => ["token" => $newToken], 'http_code' => 200];
     }
-    private function generateRandomToken():string
+    private function generateRandomToken(): string
     {
         return bin2hex(random_bytes(self::TOKEN_LENGHT));
     }

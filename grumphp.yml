@@ -4,15 +4,12 @@ grumphp:
             standard: ./phpcs.xml
             ignore_patterns:
                 - "vendor/*"
-                - "endPoints/*"
-                - "bbdd/*"
                 - "tests/Feature"
-                - "twirch/*"
-                - "autenticacion.php"
+                - "src/Exceptions/*"
         phpmd: #estos rules deberian verse desde phpmd-ruleset.xml
             ruleset:
                 - cleancode
                 - codesize
                 - naming
                 - unusedcode
-            exclude: [ 'vendor', 'endPoints','bbdd','tests/Feature','twirch','autenticacion.php']
+            exclude: [ 'vendor', 'tests/Feature', 'src/Exceptions']

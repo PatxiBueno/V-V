@@ -9,7 +9,6 @@ use TwitchAnalytics\Validators\EnrichedValidator;
 
 class EnrichedController
 {
-
     private EnrichedValidator $enrichedValidator;
     private Enriched $enrichedService;
     public function __construct(EnrichedValidator $enrichedValidator, Enriched $enrichedService)

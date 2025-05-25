@@ -209,6 +209,6 @@ class TokenEndPointTest extends TestCase
         $response = $token->genToken();
         $responseData = json_decode($response->getContent(), true);
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(200, $responseData->getStatusCode());
     }
 }
