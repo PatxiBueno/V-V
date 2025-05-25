@@ -9,6 +9,13 @@ use TwitchAnalytics\Validators\EmailValidator;
 
 class RegisterController
 {
+    private MYSQLDBManager $dbManager;
+
+    public function __construct($dbManager)
+    {
+        $this->dbManager = $dbManager;
+    }
+
     public function registerUser(Request $request)
     {
         $emailValidator = new EmailValidator();
@@ -19,7 +26,7 @@ class RegisterController
         if (!$emailValidator->emailIsValid($data["email"])) {
             return response()->json(["error" => "The email must be a valid email address"], 400);
         }
-        $register = new Register(new MYSQLDBManager());
+        $register = new Register($this->dbManager);
         $sanitizedEmail = filter_var($data["email"], FILTER_SANITIZE_EMAIL);
         $response = $register->registerUser($sanitizedEmail);
         return response()->json($response['data'], $response['http_code']);

@@ -6,6 +6,7 @@ date_default_timezone_set(env('APP_TIMEZONE', 'UTC'));
 $app = new Laravel\Lumen\Application(dirname(__DIR__));
 
 use TwitchAnalytics\Controllers\EnrichedController;
+use TwitchAnalytics\Controllers\RegisterController;
 use TwitchAnalytics\Managers\MYSQLDBManager;
 use TwitchAnalytics\Managers\TwitchAPIManager;
 use TwitchAnalytics\Middleware\VerifyToken;
@@ -30,5 +31,8 @@ $app->singleton(VerifyToken::class, function () {
 });
 $app->singleton(EnrichedController::class, function () {
     return new EnrichedController(new TwitchAPIManager(), new EnrichedValidator());
+});
+$app->singleton(RegisterController::class, function () {
+    return new RegisterController(new MYSQLDBManager());
 });
 return $app;
