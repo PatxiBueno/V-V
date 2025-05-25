@@ -11,6 +11,7 @@ class TopsOfTheTops
     private ResponseTwitchData $responseTwitchData;
     private MYSQLDBManager $dbManager;
     private TwitchAPIManager $twitchAPIManager;
+  
     public function __construct($twitchAPIManager, $dbManager)
     {
         $this->twitchAPIManager = $twitchAPIManager;

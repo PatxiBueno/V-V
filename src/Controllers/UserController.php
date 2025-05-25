@@ -9,17 +9,23 @@ use TwitchAnalytics\Validators\UserValidator;
 
 class UserController
 {
+    private User $userService;
+    private UserValidator $userValidator;
+    public function __construct(UserValidator $userValidator,User $userService)
+    {
+        $this->userValidator = $userValidator;
+        $this->userService = $userService;
+    }
+
     public function getUser(Request $request)
     {
-        $userValidator = new UserValidator();
         $userId = $request->get('id');
 
-        if (!$userValidator->isValidId($userId)) {
+        if (!$this->userValidator->isValidId($userId)) {
             return response()->json(["error" => "Invalid or missing 'id' parameter."], 400);
         }
 
-        $user = new User(new TwitchAPIManager());
-        $response = $user->getUser($userId);
+        $response = $this->userService->getUser($userId);
         return response()->json($response['data'], $response['http_code']);
     }
 }

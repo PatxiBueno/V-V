@@ -9,17 +9,24 @@ use TwitchAnalytics\Validators\EnrichedValidator;
 
 class EnrichedController
 {
+
+    private EnrichedValidator $enrichedValidator;
+    private Enriched $enrichedService;
+    public function __construct(EnrichedValidator $enrichedValidator, Enriched $enrichedService)
+    {
+        $this->enrichedValidator = $enrichedValidator;
+        $this->enrichedService = $enrichedService;
+    }
+
     public function getEnriched(Request $request)
     {
         $limit = $request->get('limit');
-        $enrichedValidator = new EnrichedValidator();
 
-        if (!$enrichedValidator->isValidLimit($limit)) {
+        if (!$this->enrichedValidator->isValidLimit($limit)) {
             return response()->json(["error" => "Invalid limit parameter"], 400);
         }
 
-        $enriched = new Enriched(new TwitchAPIManager());
-        $response = $enriched->getEnriched($limit);
+        $response = $this->enrichedService->getEnriched($limit);
         return response()->json($response['data'], $response['http_code']);
     }
 }
