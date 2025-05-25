@@ -41,9 +41,16 @@ class TokenEndPointTest extends TestCase
      */
     public function invalidMailIdErrorCode400(): void
     {
-        $request = Request::create('/token', 'POST', [], [], [], [
-        'CONTENT_TYPE' => 'application/json',
-        ], json_encode(['email' => 'motto#gmial.com']));
+        $json = json_encode(['email' => 'motto#gmial.com']);
+        $body = fopen('php://memory', 'r+');
+        fwrite($body, $json);
+        rewind($body);
+        $server = [
+            'REQUEST_METHOD' => 'POST',
+            'REQUEST_URI'    => '/token',
+            'CONTENT_TYPE'   => 'application/json',
+        ];
+        $request = new Request([], [], [], [], [], $server, $body);
 
         $mysqlManager = mock(MYSQLDBManager::class);
         $token = new Token($request, $mysqlManager);
@@ -55,6 +62,37 @@ class TokenEndPointTest extends TestCase
         $this->assertEquals(
             [
             'error' => "The email must be a valid email address"],
+            $responseData
+        );
+    }
+
+    /**
+     * @test
+     *
+     */
+    public function missingAPIkeyErrorCode400(): void
+    {
+        $json = json_encode(['email' => 'motto@gmial.com']);
+        $body = fopen('php://memory', 'r+');
+        fwrite($body, $json);
+        rewind($body);
+        $server = [
+            'REQUEST_METHOD' => 'POST',
+            'REQUEST_URI'    => '/token',
+            'CONTENT_TYPE'   => 'application/json',
+        ];
+        $request = new Request([], [], [], [], [], $server, $body);
+
+        $mysqlManager = mock(MYSQLDBManager::class);
+        $token = new Token($request, $mysqlManager);
+
+        $response = $token->genToken();
+        $responseData = json_decode($response->getContent(), true);
+
+        $this->assertEquals(400, $response->getStatusCode());
+        $this->assertEquals(
+            [
+            'error' => "The api_key is mandatory"],
             $responseData
         );
     }
