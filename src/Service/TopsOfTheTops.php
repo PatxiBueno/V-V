@@ -22,7 +22,7 @@ class TopsOfTheTops
         $this->twitchAPIManager = $twitchAPIManager;
         $this->conexion = conexion();
     }
-    public function getTops($since)
+    public function getTopsData($since)
     {
         $resultDate = $this->queryDate();
 

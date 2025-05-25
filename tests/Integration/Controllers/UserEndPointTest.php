@@ -27,7 +27,7 @@ class UserEndPointTest extends TestCase
             ->andReturn(new ResponseTwitchData(400, ""));
         $user = new User($request, $twitchAPIManagerMock);
 
-        $response = $user->getUser();
+        $response = $user->getUserData();
         $responseData = json_decode($response->getContent(), true);
 
         $this->assertEquals(400, $response->getStatusCode());
@@ -52,7 +52,7 @@ class UserEndPointTest extends TestCase
             ->andReturn(new ResponseTwitchData(400, ""));
         $user = new User($request, $twitchAPIManagerMock);
 
-        $response = $user->getUser();
+        $response = $user->getUserData();
         $responseData = json_decode($response->getContent(), true);
 
         $this->assertEquals(400, $response->getStatusCode());
@@ -77,7 +77,7 @@ class UserEndPointTest extends TestCase
             ->andReturn(new ResponseTwitchData(404, ""));
         $user = new User($request, $twitchAPIManagerMock);
 
-        $response = $user->getUser();
+        $response = $user->getUserData();
         $responseData = json_decode($response->getContent(), true);
 
         $this->assertEquals(404, $response->getStatusCode());
@@ -115,7 +115,7 @@ class UserEndPointTest extends TestCase
 
         $user = new User($request, $twitchAPIManagerMock);
 
-        $response = $user->getUser();
+        $response = $user->getUserData();
         $responseData = json_decode($response->getContent(), true);
 
         $this->assertEquals(200, $response->getStatusCode());

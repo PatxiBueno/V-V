@@ -31,14 +31,14 @@ class MYSQLDBManager
 
     public function getUserByEmail(string $email): ?array
     {
-        $stmt = $this->connection->prepare("SELECT * FROM usuarios WHERE email = ?");
-        if (!$stmt) {
+        $statement = $this->connection->prepare("SELECT * FROM usuarios WHERE email = ?");
+        if (!$statement) {
             throw new RuntimeException("Prepare failed: " . $this->connection->error);
         }
 
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
+        $statement->bind_param("s", $email);
+        $statement->execute();
+        $result = $statement->get_result();
 
         if ($result->num_rows === 0) {
             return null;
@@ -49,15 +49,15 @@ class MYSQLDBManager
 
     public function insertUserWithHashedApiKey(string $email, string $hashedApiKey): bool
     {
-        $stmt = $this->connection->prepare("INSERT INTO usuarios (email, api_key) VALUES (?, ?)");
-        if (!$stmt) {
+        $statement = $this->connection->prepare("INSERT INTO usuarios (email, api_key) VALUES (?, ?)");
+        if (!$statement) {
             throw new RuntimeException("Prepare failed: " . $this->connection->error);
         }
 
-        $stmt->bind_param("ss", $email, $hashedApiKey);
+        $statement->bind_param("ss", $email, $hashedApiKey);
 
-        if (!$stmt->execute()) {
-            throw new RuntimeException("Error al ejecutar la consulta: " . $stmt->error);
+        if (!$statement->execute()) {
+            throw new RuntimeException("Error al ejecutar la consulta: " . $statement->error);
         }
 
         return true;
@@ -65,31 +65,31 @@ class MYSQLDBManager
 
     public function updateUserHashedKey(string $hashedApiKey, string $email): bool
     {
-        $stmt = $this->connection->prepare("UPDATE usuarios SET api_key = ? WHERE email = ?");
-        if (!$stmt) {
+        $statement = $this->connection->prepare("UPDATE usuarios SET api_key = ? WHERE email = ?");
+        if (!$statement) {
             throw new RuntimeException("Prepare failed: " . $this->connection->error);
         }
 
-        $stmt->bind_param("ss", $hashedApiKey, $email);
+        $statement->bind_param("ss", $hashedApiKey, $email);
 
-        if (!$stmt->execute()) {
-            throw new RuntimeException("Error al ejecutar la consulta: " . $stmt->error);
+        if (!$statement->execute()) {
+            throw new RuntimeException("Error al ejecutar la consulta: " . $statement->error);
         }
 
-        return $stmt->affected_rows > 0;
+        return $statement->affected_rows > 0;
     }
 
     public function getUserApiKey(string $email): ?array
     {
-        $stmt = $this->connection->prepare("SELECT id, api_key FROM usuarios WHERE email = ?");
-        if (!$stmt) {
+        $statement = $this->connection->prepare("SELECT id, api_key FROM usuarios WHERE email = ?");
+        if (!$statement) {
             throw new RuntimeException("Prepare failed: " . $this->connection->error);
         }
 
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
+        $statement->bind_param("s", $email);
+        $statement->execute();
 
-        $result = $stmt->get_result();
+        $result = $statement->get_result();
         if ($result->num_rows === 0) {
             return null;
         }
@@ -99,15 +99,15 @@ class MYSQLDBManager
 
     public function getTokenByUserId($userId): ?array
     {
-        $stmt = $this->connection->prepare("SELECT * FROM token WHERE id_usuario = ?");
-        if (!$stmt) {
+        $statement = $this->connection->prepare("SELECT * FROM token WHERE id_usuario = ?");
+        if (!$statement) {
             throw new RuntimeException("Prepare failed: " . $this->connection->error);
         }
 
-        $stmt->bind_param("i", $userId);
-        $stmt->execute();
+        $statement->bind_param("i", $userId);
+        $statement->execute();
 
-        $result = $stmt->get_result();
+        $result = $statement->get_result();
         if ($result->num_rows === 0) {
             return null;
         }
@@ -116,37 +116,37 @@ class MYSQLDBManager
 
     public function insertToken($userId, string $token): bool
     {
-        $stmt = $this->connection->prepare("INSERT INTO token (id_usuario, token) VALUES (?, ?)");
-        if (!$stmt) {
+        $statement = $this->connection->prepare("INSERT INTO token (id_usuario, token) VALUES (?, ?)");
+        if (!$statement) {
             throw new RuntimeException("Prepare failed: " . $this->connection->error);
         }
 
-        $stmt->bind_param("is", $userId, $token);
-        return $stmt->execute();
+        $statement->bind_param("is", $userId, $token);
+        return $statement->execute();
     }
 
     public function updateToken($userId, string $token): bool
     {
-        $stmt = $this->connection->prepare("UPDATE token SET token = ?, fecha_token = CURRENT_TIMESTAMP WHERE id_usuario = ?");
-        if (!$stmt) {
+        $statement = $this->connection->prepare("UPDATE token SET token = ?, fecha_token = CURRENT_TIMESTAMP WHERE id_usuario = ?");
+        if (!$statement) {
             throw new RuntimeException("Prepare failed: " . $this->connection->error);
         }
 
-        $stmt->bind_param("si", $token, $userId);
-        return $stmt->execute();
+        $statement->bind_param("si", $token, $userId);
+        return $statement->execute();
     }
 
-    public function getExpirationDayOfToken(string $userToken): ?array
+    public function getExpirationDateOfOurToken(string $userToken): ?array
     {
-        $stmt = $this->connection->prepare("SELECT fecha_token FROM token WHERE token = ?");
-        if (!$stmt) {
+        $statement = $this->connection->prepare("SELECT fecha_token FROM token WHERE token = ?");
+        if (!$statement) {
             throw new RuntimeException("Prepare failed: " . $this->connection->error);
         }
 
-        $stmt->bind_param("s", $userToken);
-        $stmt->execute();
+        $statement->bind_param("s", $userToken);
+        $statement->execute();
 
-        $result = $stmt->get_result();
+        $result = $statement->get_result();
         if ($result->num_rows === 0) {
             return null;
         }

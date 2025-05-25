@@ -11,6 +11,6 @@ class StreamController
     public function getStreams(Request $request): \Illuminate\Http\JsonResponse
     {
         $streams = new Streams($request, new TwitchAPIManager());
-        return $streams->getStreams();
+        return $streams->getStreamsData();
     }
 }

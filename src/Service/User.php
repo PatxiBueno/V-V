@@ -14,7 +14,7 @@ class User
     {
         $this->twitchAPIManager = $twitchAPIManager;
     }
-    public function getUser($userId): array
+    public function getUserData($userId): array
     {
         return $this->getUserFromApi($userId);
     }

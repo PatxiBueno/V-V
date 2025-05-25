@@ -9,6 +9,6 @@ class EnrichedValidator
     }
     public function isValidLimit($limit): bool
     {
-        return $limit >= 1 && $limit <= 100;
+        return ($limit >= 1 && $limit <= 100);
     }
 }

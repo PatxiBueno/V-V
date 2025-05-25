@@ -12,22 +12,22 @@ class TokenController
 {
     public function getToken(Request $request)
     {
-        $data = $request->json()->all();
+        $receivedData = $request->json()->all();
 
         $apikeyValidator = new ApiKeyValidator();
         $emailValidator = new EmailValidator();
 
-        if (!$apikeyValidator->existsApiKey($data)) {
+        if (!$apikeyValidator->existsApiKey($receivedData)) {
             return response()->json(["error" => "The api_key is mandatory"], 400);
         }
-        if (!$emailValidator->existsEmail($data)) {
+        if (!$emailValidator->existsEmail($receivedData)) {
             return response()->json(["error" => "The email is mandatory"], 400);
         }
-        if (!$emailValidator->emailIsValid($data["email"])) {
+        if (!$emailValidator->emailIsValid($receivedData["email"])) {
             return response()->json(["error" => "The email must be a valid email address"], 400);
         }
         $token = new Token($request, new MYSQLDBManager());
-        $sanitizedEmail = filter_var($data["email"], FILTER_SANITIZE_EMAIL);
+        $sanitizedEmail = filter_var($receivedData["email"], FILTER_SANITIZE_EMAIL);
         $apiKey = $request->get("api_key");
 
         $response = $token->genToken($sanitizedEmail, $apiKey);
