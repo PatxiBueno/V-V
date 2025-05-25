@@ -9,6 +9,8 @@ use TwitchAnalytics\Controllers\EnrichedController;
 use TwitchAnalytics\Managers\MYSQLDBManager;
 use TwitchAnalytics\Managers\TwitchAPIManager;
 use TwitchAnalytics\Middleware\VerifyToken;
+use TwitchAnalytics\Validators\EnrichedValidator;
+
 $app->routeMiddleware([
     'auth.token' => VerifyToken::class,
 ]);
@@ -27,6 +29,6 @@ $app->singleton(VerifyToken::class, function () {
     return new VerifyToken(new MYSQLDBManager());
 });
 $app->singleton(EnrichedController::class, function () {
-    return new EnrichedController(new TwitchAPIManager());
+    return new EnrichedController(new TwitchAPIManager(), new EnrichedValidator());
 });
 return $app;
