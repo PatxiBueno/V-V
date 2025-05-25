@@ -11,14 +11,12 @@ require_once __DIR__ . '/../../bbdd/conexion.php';
 
 class TopsOfTheTops
 {
-    private Request $request;
     private ResponseTwitchData $responseTwitchData;
 
     private TwitchAPIManager $twitchAPIManager;
     private ?\mysqli $conexion;
-    public function __construct($request, $twitchAPIManager)
+    public function __construct($twitchAPIManager)
     {
-        $this->request = $request;
         $this->twitchAPIManager = $twitchAPIManager;
         $this->conexion = conexion();
     }
