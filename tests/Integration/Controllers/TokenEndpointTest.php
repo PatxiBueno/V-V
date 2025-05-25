@@ -129,7 +129,7 @@ class TokenEndPointTest extends TestCase
         );
     }
 
-        /**
+    /**
      * @test
      *
      */
@@ -164,5 +164,51 @@ class TokenEndPointTest extends TestCase
             'error' => "Unauthorized. API access token is invalid."],
             $responseData
         );
+    }
+
+
+    /**
+     * @test
+     *
+     */
+    public function rightCredentialGiveToken(): void
+    {
+        $json = json_encode(['email' => 'motto@gmial.com','api_key' => 'apikimokery']);
+        $body = fopen('php://memory', 'r+');
+        fwrite($body, $json);
+        rewind($body);
+        $server = [
+            'REQUEST_METHOD' => 'POST',
+            'REQUEST_URI'    => '/token',
+            'CONTENT_TYPE'   => 'application/json',
+        ];
+        $request = new Request([], [], [], [], [], $server, $body);
+
+        $mysqlManager = mock(MYSQLDBManager::class);
+        $mysqlManager
+            ->shouldReceive('getUserApiKey')
+            ->andReturn([
+                'api_key' => hash("sha256", "apikimokery"),
+                'id' => 123
+                ]);
+
+        $mysqlManager
+            ->shouldReceive('getTokenByUserId')
+            ->with(123)
+            ->andReturn(['token' => 'existing_token']);
+
+        $mysqlManager
+            ->shouldReceive('updateToken')
+            ->andReturn(true);
+
+        $mysqlManager
+            ->shouldReceive('insertToken')
+            ->andReturn(true);
+
+        $token = new Token($request, $mysqlManager);
+        $response = $token->genToken();
+        $responseData = json_decode($response->getContent(), true);
+
+        $this->assertEquals(200, $response->getStatusCode());
     }
 }
