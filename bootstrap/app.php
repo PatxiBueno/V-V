@@ -10,6 +10,7 @@ use TwitchAnalytics\Controllers\RegisterController;
 use TwitchAnalytics\Controllers\StreamController;
 use TwitchAnalytics\Controllers\TokenController;
 use TwitchAnalytics\Controllers\TopsOfTheTopsController;
+use TwitchAnalytics\Controllers\UserController;
 use TwitchAnalytics\Managers\MYSQLDBManager;
 use TwitchAnalytics\Managers\TwitchAPIManager;
 use TwitchAnalytics\Middleware\VerifyToken;
@@ -49,5 +50,8 @@ $app->singleton(TokenController::class, function () {
 });
 $app->singleton(TopsOfTheTopsController::class, function () {
     return new TopsOfTheTopsController(new TwitchAPIManager(), new TopsOfTheTopsValidator());
+});
+$app->singleton(UserController::class, function () {
+    return new UserController(new TwitchAPIManager());
 });
 return $app;
