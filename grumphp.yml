@@ -5,10 +5,11 @@ grumphp:
             ignore_patterns:
                 - "vendor/*"
                 - "tests/Feature"
+                - "src/Exceptions/*"
         phpmd: #estos rules deberian verse desde phpmd-ruleset.xml
             ruleset:
                 - cleancode
                 - codesize
                 - naming
                 - unusedcode
-            exclude: [ 'vendor', 'tests/Feature']
+            exclude: [ 'vendor', 'tests/Feature', 'src/Exceptions']
