@@ -10,20 +10,21 @@ use TwitchAnalytics\Validators\EmailValidator;
 class RegisterController
 {
     private MYSQLDBManager $dbManager;
+    private EmailValidator $emailValidator;
 
-    public function __construct($dbManager)
+    public function __construct($dbManager,$emailValidator)
     {
         $this->dbManager = $dbManager;
+        $this->emailValidator = $emailValidator;
     }
 
     public function registerUser(Request $request)
     {
-        $emailValidator = new EmailValidator();
         $data = $request->json()->all();
-        if (!$emailValidator->existsEmail($data)) {
+        if (!$this->emailValidator->existsEmail($data)) {
             return response()->json(["error" => "The email is mandatory"], 400);
         }
-        if (!$emailValidator->emailIsValid($data["email"])) {
+        if (!$this->emailValidator->emailIsValid($data["email"])) {
             return response()->json(["error" => "The email must be a valid email address"], 400);
         }
         $register = new Register($this->dbManager);

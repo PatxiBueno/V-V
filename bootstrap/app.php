@@ -11,6 +11,7 @@ use TwitchAnalytics\Managers\MYSQLDBManager;
 use TwitchAnalytics\Managers\TwitchAPIManager;
 use TwitchAnalytics\Middleware\VerifyToken;
 use TwitchAnalytics\Validators\EnrichedValidator;
+use TwitchAnalytics\Validators\EmailValidator;
 
 $app->routeMiddleware([
     'auth.token' => VerifyToken::class,
@@ -33,6 +34,6 @@ $app->singleton(EnrichedController::class, function () {
     return new EnrichedController(new TwitchAPIManager(), new EnrichedValidator());
 });
 $app->singleton(RegisterController::class, function () {
-    return new RegisterController(new MYSQLDBManager());
+    return new RegisterController(new MYSQLDBManager(), new EmailValidator());
 });
 return $app;
