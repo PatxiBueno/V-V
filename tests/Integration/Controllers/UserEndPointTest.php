@@ -15,15 +15,11 @@ use PHPUnit\Framework\TestCase;
 class UserEndPointTest extends TestCase
 {
     private UserController $userController;
+    private UserValidator $userValidator;
     protected function setUp(): void
     {
         parent::setUp();
-
-        $twitchAPIManager = new TwitchAPIManager();//MOCK MOCK quizas, ya que solo nos da datos el 200 sino no llamamos a twitch
-        $userService = new User($twitchAPIManager);
-        $userValidator = new UserValidator();
-
-        $this->userController = new UserController($userValidator, $userService);
+        $this->userValidator = new UserValidator();
     }
 
     protected function tearDown(): void
@@ -37,8 +33,11 @@ class UserEndPointTest extends TestCase
     public function missingParameterIdErrorCode400(): void
     {
 
-        $argumentsForCalls = ['id' => null];//falla por esto el test, en pruebas php da 500, pero en el resto da bien
+        $argumentsForCalls = ['id' => null];
         $request = new Request($argumentsForCalls);
+        $twitchAPIManagerMock = mock(TwitchAPIManager::class);
+        $userService = new User($twitchAPIManagerMock);
+        $this->userController = new UserController($this->userValidator, $userService);
 
         $response = $this->userController->getUser($request);
         $responseData = json_decode($response->getContent(), true);
@@ -56,6 +55,9 @@ class UserEndPointTest extends TestCase
     {
         $argumentsForCalls = ['id' => -1];
         $request = new Request($argumentsForCalls);
+        $twitchAPIManagerMock = mock(TwitchAPIManager::class);
+        $userService = new User($twitchAPIManagerMock);
+        $this->userController = new UserController($this->userValidator, $userService);
 
         $response = $this->userController->getUser($request);
         $responseData = json_decode($response->getContent(), true);
@@ -73,6 +75,12 @@ class UserEndPointTest extends TestCase
     {
         $argumentsForCalls = ['id' => 0];
         $request = new Request($argumentsForCalls);
+        $twitchAPIManagerMock = mock(TwitchAPIManager::class);
+        $twitchAPIManagerMock->shouldReceive('curlToTwitchApiForUserEndPoint')
+            ->with(0)
+            ->andReturn(new ResponseTwitchData(404, ""));
+        $userService = new User($twitchAPIManagerMock);
+        $this->userController = new UserController($this->userValidator, $userService);
 
         $response = $this->userController->getUser($request);
         $responseData = json_decode($response->getContent(), true);
@@ -90,6 +98,26 @@ class UserEndPointTest extends TestCase
     {
         $argumentsForCalls = ['id' => 1];
         $request = new Request($argumentsForCalls);
+
+        $twitchAPIManagerMock = mock(TwitchAPIManager::class);
+        $twitchAPIManagerMock->shouldReceive('curlToTwitchApiForUserEndPoint')
+            ->with(1)
+            ->andReturn(new ResponseTwitchData(200, json_encode(["data" => [[
+                "id" => "1",
+                "login" => "elsmurfoz",
+                "display_name" => "elsmurfoz",
+                "type" => "",
+                "broadcaster_type" => "",
+                "description" => "",
+                "profile_image_url" =>
+                    "https://static-cdn.jtvnw.net/user-default-pictures-uv/215b7342-def9-11e9-9a66-784f43822e80-profile_image-300x300.png",
+                "offline_image_url" => "",
+                "view_count" => 0,
+                "created_at" => "2007-05-22T10:37:47Z"
+            ]]])));
+        $userService = new User($twitchAPIManagerMock);
+        $this->userController = new UserController($this->userValidator, $userService);
+
 
         $response = $this->userController->getUser($request);
         $responseData = json_decode($response->getContent(), true);
