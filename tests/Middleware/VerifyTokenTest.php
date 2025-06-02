@@ -10,15 +10,22 @@ use PHPUnit\Framework\TestCase;
 
 class VerifyTokenTest extends TestCase
 {
+    private $dbManager;
+    private $tokenVerifyer;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->dbManager = Mockery::mock(MYSQLDBManager::class);
+        $this->tokenVerifyer = new VerifyToken($this->dbManager);
+    }
     /**
      * @test
      */
     public function requestWithoutTokenIsRejected()
     {
         $request = new Request();
-        $dbManager = Mockery::mock(MYSQLDBManager::class);
-        $tokenVerifier = new VerifyToken($dbManager);
-        $response = $tokenVerifier->handle($request, fn () => null);
+        $response = $this->tokenVerifyer->handle($request, fn () => null);
 
         $this->assertEquals(401, $response->getStatusCode());
         $this->assertEquals(
@@ -34,9 +41,8 @@ class VerifyTokenTest extends TestCase
     {
         $request = new Request();
         $request->headers->set('Authorization', 'InvalidTokenFormat token');
-        $dbManager = Mockery::mock(MYSQLDBManager::class);
-        $tokenVerifier = new VerifyToken($dbManager);
-        $response = $tokenVerifier->handle($request, fn () => null);
+
+        $response = $this->tokenVerifyer->handle($request, fn () => null);
 
         $this->assertEquals(401, $response->getStatusCode());
         $this->assertEquals(
@@ -52,12 +58,11 @@ class VerifyTokenTest extends TestCase
     {
         $request = new Request();
         $request->headers->set('Authorization', 'Bearer invalid_token');
-        $dbManager = Mockery::mock(MYSQLDBManager::class);
-        $dbManager->shouldReceive('getExpirationDayOfToken')
+        $this->dbManager->shouldReceive('getExpirationDayOfToken')
             ->with('invalid_token')
             ->andReturn(null);
-        $tokenVerifier = new VerifyToken($dbManager);
-        $response = $tokenVerifier->handle($request, fn () => null);
+
+        $response = $this->tokenVerifyer->handle($request, fn () => null);
 
         $this->assertEquals(401, $response->getStatusCode());
         $this->assertEquals(
