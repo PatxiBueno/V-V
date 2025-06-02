@@ -4,40 +4,49 @@ declare(strict_types=1);
 
 namespace TwitchAnalytics\Tests\Integration\Controllers;
 
+use TwitchAnalytics\Controllers\UserController;
 use TwitchAnalytics\Managers\TwitchAPIManager;
 use TwitchAnalytics\ResponseTwitchData;
 use TwitchAnalytics\Service\User;
-use DateTime;
-use Mockery;
-use PHPUnit\Framework\TestCase;
 use Illuminate\Http\Request;
+use TwitchAnalytics\Validators\UserValidator;
+use PHPUnit\Framework\TestCase;
 
 class UserEndPointTest extends TestCase
 {
+    private UserController $userController;
+    private UserValidator $userValidator;
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->userValidator = new UserValidator();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
     /**
      * @test
      *
      */
     public function missingParameterIdErrorCode400(): void
     {
-        $request = new Request();
-        $twitchAPIManagerMock = mock(TwitchAPIManager::class);
-        $twitchAPIManagerMock
-            ->shouldReceive('curlToTwitchApiForUserEndPoint')
-            ->andReturn(new ResponseTwitchData(400, ""));
-        $user = new User($request, $twitchAPIManagerMock);
 
-        $response = $user->getUser();
+        $argumentsForCalls = ['id' => null];
+        $request = new Request($argumentsForCalls);
+        $twitchAPIManagerMock = mock(TwitchAPIManager::class);
+        $userService = new User($twitchAPIManagerMock);
+        $this->userController = new UserController($this->userValidator, $userService);
+
+        $response = $this->userController->getUser($request);
         $responseData = json_decode($response->getContent(), true);
 
         $this->assertEquals(400, $response->getStatusCode());
-        $this->assertEquals(
-            [
-            'error' => "Invalid or missing 'id' parameter."],
-            $responseData
-        );
+        $this->assertEquals([
+            'error' => "Invalid or missing 'id' parameter.",
+        ], $responseData);
     }
-
     /**
      * @test
      *
@@ -47,22 +56,17 @@ class UserEndPointTest extends TestCase
         $argumentsForCalls = ['id' => -1];
         $request = new Request($argumentsForCalls);
         $twitchAPIManagerMock = mock(TwitchAPIManager::class);
-        $twitchAPIManagerMock->shouldReceive('curlToTwitchApiForUserEndPoint')
-            ->with(-1)
-            ->andReturn(new ResponseTwitchData(400, ""));
-        $user = new User($request, $twitchAPIManagerMock);
+        $userService = new User($twitchAPIManagerMock);
+        $this->userController = new UserController($this->userValidator, $userService);
 
-        $response = $user->getUser();
+        $response = $this->userController->getUser($request);
         $responseData = json_decode($response->getContent(), true);
 
         $this->assertEquals(400, $response->getStatusCode());
-        $this->assertEquals(
-            [
-            'error' => "Invalid or missing 'id' parameter."],
-            $responseData
-        );
+        $this->assertEquals([
+            'error' => "Invalid or missing 'id' parameter.",
+        ], $responseData);
     }
-
     /**
      * @test
      *
@@ -75,19 +79,17 @@ class UserEndPointTest extends TestCase
         $twitchAPIManagerMock->shouldReceive('curlToTwitchApiForUserEndPoint')
             ->with(0)
             ->andReturn(new ResponseTwitchData(404, ""));
-        $user = new User($request, $twitchAPIManagerMock);
+        $userService = new User($twitchAPIManagerMock);
+        $this->userController = new UserController($this->userValidator, $userService);
 
-        $response = $user->getUser();
+        $response = $this->userController->getUser($request);
         $responseData = json_decode($response->getContent(), true);
 
         $this->assertEquals(404, $response->getStatusCode());
-        $this->assertEquals(
-            [
-            'error' => "User not found."],
-            $responseData
-        );
+        $this->assertEquals([
+            'error' => "User not found.",
+        ], $responseData);
     }
-
     /**
      * @test
      *
@@ -96,6 +98,7 @@ class UserEndPointTest extends TestCase
     {
         $argumentsForCalls = ['id' => 1];
         $request = new Request($argumentsForCalls);
+
         $twitchAPIManagerMock = mock(TwitchAPIManager::class);
         $twitchAPIManagerMock->shouldReceive('curlToTwitchApiForUserEndPoint')
             ->with(1)
@@ -112,24 +115,25 @@ class UserEndPointTest extends TestCase
                 "view_count" => 0,
                 "created_at" => "2007-05-22T10:37:47Z"
             ]]])));
+        $userService = new User($twitchAPIManagerMock);
+        $this->userController = new UserController($this->userValidator, $userService);
 
-        $user = new User($request, $twitchAPIManagerMock);
 
-        $response = $user->getUser();
+        $response = $this->userController->getUser($request);
         $responseData = json_decode($response->getContent(), true);
 
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals(["id" => "1",
-                "login" => "elsmurfoz",
-                "display_name" => "elsmurfoz",
-                "type" => "",
-                "broadcaster_type" => "",
-                "description" => "",
-                "profile_image_url" =>
-                    "https://static-cdn.jtvnw.net/user-default-pictures-uv/215b7342-def9-11e9-9a66-784f43822e80-profile_image-300x300.png",
-                "offline_image_url" => "",
-                "view_count" => 0,
-                "created_at" => "2007-05-22T10:37:47Z"
+            "login" => "elsmurfoz",
+            "display_name" => "elsmurfoz",
+            "type" => "",
+            "broadcaster_type" => "",
+            "description" => "",
+            "profile_image_url" =>
+                "https://static-cdn.jtvnw.net/user-default-pictures-uv/215b7342-def9-11e9-9a66-784f43822e80-profile_image-300x300.png",
+            "offline_image_url" => "",
+            "view_count" => 0,
+            "created_at" => "2007-05-22T10:37:47Z"
         ], $responseData);
     }
 }
