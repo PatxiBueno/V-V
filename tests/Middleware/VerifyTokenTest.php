@@ -71,6 +71,47 @@ class VerifyTokenTest extends TestCase
         );
     }
 
+    /**
+     * @test
+     */
+    public function requestWithExpiredTokenIsRejected()
+    {
+        $request = new Request();
+        $request->headers->set('Authorization', 'Bearer expired_token');
+        $invalidDate = date('Y-m-d H:i:s', time() - (4 * 24 * 3600));
+        $this->dbManager->shouldReceive('getExpirationDayOfToken')
+            ->with('expired_token')
+            ->andReturn(["fecha_token" => $invalidDate]);
+
+        $response = $this->tokenVerifyer->handle($request, fn () => null);
+
+        $this->assertEquals(401, $response->getStatusCode());
+        $this->assertEquals(
+            json_encode(['error' => 'Unauthorized. Token is invalid or expired.']),
+            $response->getContent()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function requestWithValidTokenIsAccepted()
+    {
+        $request = new Request();
+        $request->headers->set('Authorization', 'Bearer expired_token');
+        $validDate = date('Y-m-d H:i:s', time() - (2 * 24 * 3600));
+        $this->dbManager->shouldReceive('getExpirationDayOfToken')
+            ->with('expired_token')
+            ->andReturn(["fecha_token" => $validDate]);
+
+        $called = false;
+        $this->tokenVerifyer->handle($request, function () use (&$called) {
+            $called = true;
+        });
+
+        $this->assertTrue($called);
+    }
+
     protected function tearDown(): void
     {
         Mockery::close();
