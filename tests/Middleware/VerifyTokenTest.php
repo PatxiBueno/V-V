@@ -98,10 +98,10 @@ class VerifyTokenTest extends TestCase
     public function requestWithValidTokenIsAccepted()
     {
         $request = new Request();
-        $request->headers->set('Authorization', 'Bearer expired_token');
+        $request->headers->set('Authorization', 'Bearer valid_token');
         $validDate = date('Y-m-d H:i:s', time() - (2 * 24 * 3600));
         $this->dbManager->shouldReceive('getExpirationDayOfToken')
-            ->with('expired_token')
+            ->with('valid_token')
             ->andReturn(["fecha_token" => $validDate]);
 
         $called = false;
