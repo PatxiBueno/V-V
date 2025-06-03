@@ -5,10 +5,10 @@ namespace TwitchAnalytics\Tests\Middleware;
 use \Illuminate\Http\Request;
 use Mockery;
 use TwitchAnalytics\Managers\MYSQLDBManager;
-use TwitchAnalytics\Middleware\VerifyToken;
+use TwitchAnalytics\Middleware\TokenVerifyer;
 use PHPUnit\Framework\TestCase;
 
-class VerifyTokenTest extends TestCase
+class TokenVerifyerTest extends TestCase
 {
     private $dbManager;
     private $tokenVerifyer;
@@ -17,7 +17,7 @@ class VerifyTokenTest extends TestCase
     {
         parent::setUp();
         $this->dbManager = Mockery::mock(MYSQLDBManager::class);
-        $this->tokenVerifyer = new VerifyToken($this->dbManager);
+        $this->tokenVerifyer = new TokenVerifyer($this->dbManager);
     }
     /**
      * @test

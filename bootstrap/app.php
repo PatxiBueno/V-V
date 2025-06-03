@@ -7,7 +7,7 @@ $app = new Laravel\Lumen\Application(dirname(__DIR__));
 
 use TwitchAnalytics\Managers\MYSQLDBManager;
 use TwitchAnalytics\Managers\TwitchAPIManager;
-use TwitchAnalytics\Middleware\VerifyToken;
+use TwitchAnalytics\Middleware\TokenVerifyer;
 use TwitchAnalytics\Service\EnrichedService;
 use TwitchAnalytics\Service\RegisterService;
 use TwitchAnalytics\Service\StreamsService;
@@ -23,7 +23,7 @@ use TwitchAnalytics\Validators\UserValidator;
 
 
 $app->routeMiddleware([
-    'auth.token' => VerifyToken::class,
+    'auth.token' => TokenVerifyer::class,
 ]);
 $app->withFacades();
 
@@ -44,8 +44,8 @@ $app->singleton(ApiKeyValidator::class);
 $app->singleton(TopsOfTheTopsValidator::class);
 $app->singleton(UserValidator::class);
 
-$app->singleton(VerifyToken::class, function ($app) {
-    return new VerifyToken($app->make(MYSQLDBManager::class));
+$app->singleton(TokenVerifyer::class, function ($app) {
+    return new TokenVerifyer($app->make(MYSQLDBManager::class));
 });
 $app->singleton(TopsOfTheTopsService::class, function ($app) {
     return new TopsOfTheTopsService($app->make(TwitchAPIManager::class), $app->make(MYSQLDBManager::class));
