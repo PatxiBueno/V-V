@@ -15,7 +15,7 @@ use TwitchAnalytics\Validators\TopsOfTheTopsValidator;
 use PHPUnit\Framework\TestCase;
 use Illuminate\Http\Request;
 
-class TopsOfTheTopsEndPointTest extends TestCase
+class TopsOfTheTopsControllerTest extends TestCase
 {
     private TopsOfTheTopsController $topsController;
 
