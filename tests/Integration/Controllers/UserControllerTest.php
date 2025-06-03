@@ -7,7 +7,7 @@ namespace TwitchAnalytics\Tests\Integration\Controllers;
 use TwitchAnalytics\Controllers\UserController;
 use TwitchAnalytics\Managers\TwitchAPIManager;
 use TwitchAnalytics\ResponseTwitchData;
-use TwitchAnalytics\Service\User;
+use TwitchAnalytics\Service\UserService;
 use Illuminate\Http\Request;
 use TwitchAnalytics\Validators\UserValidator;
 use PHPUnit\Framework\TestCase;
@@ -36,7 +36,7 @@ class UserControllerTest extends TestCase
         $argumentsForCalls = ['id' => null];
         $request = new Request($argumentsForCalls);
         $twitchAPIManagerMock = mock(TwitchAPIManager::class);
-        $userService = new User($twitchAPIManagerMock);
+        $userService = new UserService($twitchAPIManagerMock);
         $this->userController = new UserController($this->userValidator, $userService);
 
         $response = $this->userController->getUser($request);
@@ -56,7 +56,7 @@ class UserControllerTest extends TestCase
         $argumentsForCalls = ['id' => -1];
         $request = new Request($argumentsForCalls);
         $twitchAPIManagerMock = mock(TwitchAPIManager::class);
-        $userService = new User($twitchAPIManagerMock);
+        $userService = new UserService($twitchAPIManagerMock);
         $this->userController = new UserController($this->userValidator, $userService);
 
         $response = $this->userController->getUser($request);
@@ -79,7 +79,7 @@ class UserControllerTest extends TestCase
         $twitchAPIManagerMock->shouldReceive('curlToTwitchApiForUserEndPoint')
             ->with(0)
             ->andReturn(new ResponseTwitchData(404, ""));
-        $userService = new User($twitchAPIManagerMock);
+        $userService = new UserService($twitchAPIManagerMock);
         $this->userController = new UserController($this->userValidator, $userService);
 
         $response = $this->userController->getUser($request);
@@ -87,7 +87,7 @@ class UserControllerTest extends TestCase
 
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertEquals([
-            'error' => "User not found.",
+            'error' => "UserService not found.",
         ], $responseData);
     }
     /**
@@ -115,7 +115,7 @@ class UserControllerTest extends TestCase
                 "view_count" => 0,
                 "created_at" => "2007-05-22T10:37:47Z"
             ]]])));
-        $userService = new User($twitchAPIManagerMock);
+        $userService = new UserService($twitchAPIManagerMock);
         $this->userController = new UserController($this->userValidator, $userService);
 
 

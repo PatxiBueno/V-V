@@ -8,12 +8,12 @@ $app = new Laravel\Lumen\Application(dirname(__DIR__));
 use TwitchAnalytics\Managers\MYSQLDBManager;
 use TwitchAnalytics\Managers\TwitchAPIManager;
 use TwitchAnalytics\Middleware\VerifyToken;
-use TwitchAnalytics\Service\Enriched;
-use TwitchAnalytics\Service\Register;
-use TwitchAnalytics\Service\Streams;
-use TwitchAnalytics\Service\Token;
-use TwitchAnalytics\Service\TopsOfTheTops;
-use TwitchAnalytics\Service\User;
+use TwitchAnalytics\Service\EnrichedService;
+use TwitchAnalytics\Service\RegisterService;
+use TwitchAnalytics\Service\StreamsService;
+use TwitchAnalytics\Service\TokenService;
+use TwitchAnalytics\Service\TopsOfTheTopsService;
+use TwitchAnalytics\Service\UserService;
 
 use TwitchAnalytics\Validators\ApiKeyValidator;
 use TwitchAnalytics\Validators\EmailValidator;
@@ -47,22 +47,22 @@ $app->singleton(UserValidator::class);
 $app->singleton(VerifyToken::class, function ($app) {
     return new VerifyToken($app->make(MYSQLDBManager::class));
 });
-$app->singleton(TopsOfTheTops::class, function ($app) {
-    return new TopsOfTheTops($app->make(TwitchAPIManager::class), $app->make(MYSQLDBManager::class));
+$app->singleton(TopsOfTheTopsService::class, function ($app) {
+    return new TopsOfTheTopsService($app->make(TwitchAPIManager::class), $app->make(MYSQLDBManager::class));
 });
-$app->singleton(Enriched::class, function ($app) {
-    return new Enriched($app->make(TwitchAPIManager::class));
+$app->singleton(EnrichedService::class, function ($app) {
+    return new EnrichedService($app->make(TwitchAPIManager::class));
 });
-$app->singleton(Register::class, function ($app) {
-    return new Register($app->make(MYSQLDBManager::class));
+$app->singleton(RegisterService::class, function ($app) {
+    return new RegisterService($app->make(MYSQLDBManager::class));
 });
-$app->singleton(Streams::class, function ($app) {
-    return new Streams($app->make(TwitchAPIManager::class));
+$app->singleton(StreamsService::class, function ($app) {
+    return new StreamsService($app->make(TwitchAPIManager::class));
 });
-$app->singleton(Token::class, function ($app) {
-    return new Token($app->make(MYSQLDBManager::class));
+$app->singleton(TokenService::class, function ($app) {
+    return new TokenService($app->make(MYSQLDBManager::class));
 });
-$app->singleton(User::class, function ($app) {
-    return new User($app->make(TwitchAPIManager::class));
+$app->singleton(UserService::class, function ($app) {
+    return new UserService($app->make(TwitchAPIManager::class));
 });
 return $app;

@@ -5,7 +5,7 @@ namespace TwitchAnalytics\Tests\Integration\Controllers;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 use TwitchAnalytics\ResponseTwitchData;
-use \TwitchAnalytics\Service\Streams;
+use \TwitchAnalytics\Service\StreamsService;
 use TwitchAnalytics\Controllers\StreamController;
 use TwitchAnalytics\Managers\TwitchAPIManager;
 
@@ -17,7 +17,7 @@ class StreamControllerTest extends TestCase
     public function getsStreamsHappyPath(): void
     {
         $apiManager = Mockery::mock(TwitchAPIManager::class);
-        $streamService = new Streams($apiManager);
+        $streamService = new StreamsService($apiManager);
         $streamController = new StreamController($streamService);
         $mockResponse = new ResponseTwitchData(200, json_encode([
             'data' => [

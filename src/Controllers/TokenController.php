@@ -2,7 +2,7 @@
 
 namespace TwitchAnalytics\Controllers;
 
-use TwitchAnalytics\Service\Token;
+use TwitchAnalytics\Service\TokenService;
 use Illuminate\Http\Request;
 use TwitchAnalytics\Validators\ApiKeyValidator;
 use TwitchAnalytics\Validators\EmailValidator;
@@ -11,10 +11,10 @@ class TokenController
 {
     private EmailValidator $emailValidator;
     private ApiKeyValidator $apiKeyValidator;
-    private Token $tokenService;
+    private TokenService $tokenService;
 
 
-    public function __construct(EmailValidator $emailValidator, ApiKeyValidator $apiKeyValidator, Token $tokenService)
+    public function __construct(EmailValidator $emailValidator, ApiKeyValidator $apiKeyValidator, TokenService $tokenService)
     {
         $this->emailValidator = $emailValidator;
         $this->apiKeyValidator = $apiKeyValidator;

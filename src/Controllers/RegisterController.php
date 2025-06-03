@@ -3,15 +3,15 @@
 namespace TwitchAnalytics\Controllers;
 
 use TwitchAnalytics\Managers\MYSQLDBManager;
-use TwitchAnalytics\Service\Register;
+use TwitchAnalytics\Service\RegisterService;
 use Illuminate\Http\Request;
 use TwitchAnalytics\Validators\EmailValidator;
 
 class RegisterController
 {
     private EmailValidator $emailValidator;
-    private Register $registerService;
-    public function __construct(EmailValidator $emailValidator, Register $registerService)
+    private RegisterService $registerService;
+    public function __construct(EmailValidator $emailValidator, RegisterService $registerService)
     {
         $this->emailValidator = $emailValidator;
         $this->registerService = $registerService;

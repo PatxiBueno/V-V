@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use TwitchAnalytics\ResponseTwitchData;
 use TwitchAnalytics\Managers\TwitchAPIManager;
 
-class User
+class UserService
 {
     private ResponseTwitchData $responseTwitchData;
     private TwitchAPIManager $twitchAPIManager;

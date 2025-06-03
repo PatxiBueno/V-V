@@ -7,7 +7,7 @@ namespace TwitchAnalytics\Tests\Integration\Controllers;
 use TwitchAnalytics\Managers\MYSQLDBManager;
 use TwitchAnalytics\Managers\TwitchAPIManager;
 use TwitchAnalytics\ResponseTwitchData;
-use TwitchAnalytics\Service\TopsOfTheTops;
+use TwitchAnalytics\Service\TopsOfTheTopsService;
 use DateTime;
 use Mockery;
 use TwitchAnalytics\Controllers\TopsOfTheTopsController;
@@ -47,7 +47,7 @@ class TopsOfTheTopsControllerTest extends TestCase
         $request = new Request($postData, [], [], [], [], $server, $json);
         $mysqlManager = mock(MYSQLDBManager::class);
         $apiManager = mock(TwitchAPIManager::class);
-        $topsOfTheTopsService = new TopsOfTheTops($apiManager, $mysqlManager);
+        $topsOfTheTopsService = new TopsOfTheTopsService($apiManager, $mysqlManager);
         $this->topsController = new TopsOfTheTopsController(new TopsOfTheTopsValidator(), $topsOfTheTopsService);
 
         $response = $this->topsController->getTopsOfTheTops($request);
@@ -87,7 +87,7 @@ class TopsOfTheTopsControllerTest extends TestCase
         ->shouldReceive('getTopsCacheData')
         ->andReturn([]);
         $apiManager = mock(TwitchAPIManager::class);
-        $topsOfTheTopsService = new TopsOfTheTops($apiManager, $mysqlManager);
+        $topsOfTheTopsService = new TopsOfTheTopsService($apiManager, $mysqlManager);
         $this->topsController = new TopsOfTheTopsController(new TopsOfTheTopsValidator(), $topsOfTheTopsService);
 
         $response = $this->topsController->getTopsOfTheTops($request);
@@ -151,7 +151,7 @@ class TopsOfTheTopsControllerTest extends TestCase
             "game_id" => "509658",
             "game_name" => "Just Chatting"
         ]])));
-        $topsOfTheTopsService = new TopsOfTheTops($apiManager, $mysqlManager);
+        $topsOfTheTopsService = new TopsOfTheTopsService($apiManager, $mysqlManager);
         $this->topsController = new TopsOfTheTopsController(new TopsOfTheTopsValidator(), $topsOfTheTopsService);
 
         $response = $this->topsController->getTopsOfTheTops($request);

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use TwitchAnalytics\ResponseTwitchData;
 use TwitchAnalytics\Managers\TwitchAPIManager;
 
-class Enriched
+class EnrichedService
 {
     private TwitchAPIManager $apiManager;
     private ResponseTwitchData $responseTwitchData;

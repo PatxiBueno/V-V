@@ -3,7 +3,7 @@
 namespace TwitchAnalytics\Controllers;
 
 use TwitchAnalytics\Managers\MYSQLDBManager;
-use TwitchAnalytics\Service\TopsOfTheTops;
+use TwitchAnalytics\Service\TopsOfTheTopsService;
 use Illuminate\Http\Request;
 use TwitchAnalytics\Managers\TwitchAPIManager;
 use TwitchAnalytics\Validators\TopsOfTheTopsValidator;
@@ -11,9 +11,9 @@ use TwitchAnalytics\Validators\TopsOfTheTopsValidator;
 class TopsOfTheTopsController
 {
     private TopsOfTheTopsValidator $topsValidator;
-    private TopsOfTheTops $topsOfTheTopsService;
+    private TopsOfTheTopsService $topsOfTheTopsService;
 
-    public function __construct(TopsOfTheTopsValidator $topsValidator, TopsOfTheTops $topsOfTheTopsService)
+    public function __construct(TopsOfTheTopsValidator $topsValidator, TopsOfTheTopsService $topsOfTheTopsService)
     {
         $this->topsValidator = $topsValidator;
         $this->topsOfTheTopsService = $topsOfTheTopsService;

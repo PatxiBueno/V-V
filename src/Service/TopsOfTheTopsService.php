@@ -8,7 +8,7 @@ use TwitchAnalytics\Managers\TwitchAPIManager;
 
 use function PHPUnit\Framework\isEmpty;
 
-class TopsOfTheTops
+class TopsOfTheTopsService
 {
     private ResponseTwitchData $responseTwitchData;
     private MYSQLDBManager $dbManager;

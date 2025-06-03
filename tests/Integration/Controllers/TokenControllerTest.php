@@ -6,7 +6,7 @@ namespace TwitchAnalytics\Tests\Integration\Controllers;
 
 use TwitchAnalytics\Managers\MYSQLDBManager;
 use TwitchAnalytics\ResponseTwitchData;
-use TwitchAnalytics\Service\Token;
+use TwitchAnalytics\Service\TokenService;
 use DateTime;
 use Mockery;
 use TwitchAnalytics\Controllers\TokenController;
@@ -42,7 +42,7 @@ class TokenEndPointTest extends TestCase
 
         $request = new Request([], [], [], ['CONTENT_TYPE' => 'application/json'], []);
         $mysqlManager = mock(MYSQLDBManager::class);
-        $tokenService = new Token($mysqlManager);
+        $tokenService = new TokenService($mysqlManager);
         $this->tokenController = new TokenController($this->emailValidator, $this->apiKeyValidator, $tokenService);
 
         $response = $this->tokenController->getToken($request);
@@ -70,7 +70,7 @@ class TokenEndPointTest extends TestCase
         $request = new Request([], [], [], [], [], $server, $json);
 
         $mysqlManager = mock(MYSQLDBManager::class);
-        $tokenService = new Token($mysqlManager);
+        $tokenService = new TokenService($mysqlManager);
         $this->tokenController = new TokenController($this->emailValidator, $this->apiKeyValidator, $tokenService);
 
         $response = $this->tokenController->getToken($request);
@@ -99,7 +99,7 @@ class TokenEndPointTest extends TestCase
         $request = new Request([], [], [], [], [], $server, $json);
 
         $mysqlManager = mock(MYSQLDBManager::class);
-        $tokenService = new Token($mysqlManager);
+        $tokenService = new TokenService($mysqlManager);
         $this->tokenController = new TokenController($this->emailValidator, $this->apiKeyValidator, $tokenService);
 
         $response = $this->tokenController->getToken($request);
@@ -135,7 +135,7 @@ class TokenEndPointTest extends TestCase
             'api_key' => 'invalid_hash_value',
             'id' => 123
             ]);
-        $tokenService = new Token($mysqlManager);
+        $tokenService = new TokenService($mysqlManager);
         $this->tokenController = new TokenController($this->emailValidator, $this->apiKeyValidator, $tokenService);
 
         $response = $this->tokenController->getToken($request);
@@ -189,7 +189,7 @@ class TokenEndPointTest extends TestCase
             ->shouldReceive('insertToken')
             ->andReturn(true);
 
-        $tokenService = new Token($mysqlManager);
+        $tokenService = new TokenService($mysqlManager);
         $this->tokenController = new TokenController($this->emailValidator, $this->apiKeyValidator, $tokenService);
 
         $response = $this->tokenController->getToken($request);
