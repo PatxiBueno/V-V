@@ -148,4 +148,52 @@ class TokenEndPointTest extends TestCase
             $responseData
         );
     }
+
+     /**
+     * @test
+     *
+     */
+    public function rightCredentialGiveToken(): void
+    {
+        $postData = ['email' => 'motto@gmail.com', 'api_key' => 'apikimokery'];
+        $json = json_encode($postData);
+
+        $server = [
+            'REQUEST_METHOD' => 'POST',
+            'REQUEST_URI'    => '/token',
+            'CONTENT_TYPE'   => 'application/json',
+        ];
+
+        $request = new Request($postData, [], [], [], [], $server, $json);
+
+        $mokeryKey = hash('sha256', 'apikimokery');
+
+        $mysqlManager = mock(MYSQLDBManager::class);
+        $mysqlManager
+            ->shouldReceive('getUserApiKey')
+            ->andReturn([
+            'api_key' => $mokeryKey,
+            'id' => 123
+            ]);
+
+        $mysqlManager
+            ->shouldReceive('getTokenByUserId')
+            ->with(123)
+            ->andReturn(['token' => 'existing_token']);
+
+        $mysqlManager
+            ->shouldReceive('updateToken')
+            ->andReturn(true);
+
+        $mysqlManager
+            ->shouldReceive('insertToken')
+            ->andReturn(true);
+
+        $tokenService = new Token($mysqlManager);
+        $this->tokenController = new TokenController($this->emailValidator, $this->apiKeyValidator, $tokenService);
+
+        $response = $this->tokenController->getToken($request);
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
 }
