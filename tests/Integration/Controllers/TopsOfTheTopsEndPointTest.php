@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 
 class TopsOfTheTopsEndPointTest extends TestCase
 {
-    private TopsOfTheTopsController $topsOfTheTopdsController;
+    private TopsOfTheTopsController $topsController;
 
     protected function setUp(): void
     {
@@ -48,14 +48,51 @@ class TopsOfTheTopsEndPointTest extends TestCase
         $mysqlManager = mock(MYSQLDBManager::class);
         $apiManager = mock(TwitchAPIManager::class);
         $topsOfTheTopsService = new TopsOfTheTops($apiManager, $mysqlManager);
-        $this->topsOfTheTopdsController = new TopsOfTheTopsController(new TopsOfTheTopsValidator(), $topsOfTheTopsService);
+        $this->topsController = new TopsOfTheTopsController(new TopsOfTheTopsValidator(), $topsOfTheTopsService);
 
-        $response = $this->topsOfTheTopdsController->getTopsOfTheTops($request);
+        $response = $this->topsController->getTopsOfTheTops($request);
         $responseData = json_decode($response->getContent(), true);
 
         $this->assertEquals(400, $response->getStatusCode());
         $this->assertEquals([
             'error' => "Bad request. Invalid or missing parameters.",
             ], $responseData);
+    }
+
+    /**
+     * @test
+     *
+     */
+    public function happyPahtForCache204(): void
+    {
+        $postData = ['since' => '600'];
+        $json = json_encode($postData);
+
+        $server = [
+            'REQUEST_METHOD' => 'POST',
+            'REQUEST_URI'    => '/token',
+            'CONTENT_TYPE'   => 'application/json',
+        ];
+
+        $request = new Request($postData, [], [], [], [], $server, $json);
+
+        $nowTimeFormat = time();
+        $mysqlManager = mock(MYSQLDBManager::class);
+        $mysqlManager
+        ->shouldReceive('getCacheInsertTime')
+        ->andReturn([
+            'fecha_insercion' => '2055-06-03 14:23:45',
+            ]);
+
+        $mysqlManager
+        ->shouldReceive('getTopsCacheData')
+        ->andReturn([]);
+        $apiManager = mock(TwitchAPIManager::class);
+        $topsOfTheTopsService = new TopsOfTheTops($apiManager, $mysqlManager);
+        $this->topsController = new TopsOfTheTopsController(new TopsOfTheTopsValidator(), $topsOfTheTopsService);
+
+        $response = $this->topsController->getTopsOfTheTops($request);
+
+        $this->assertEquals(204, $response->getStatusCode());
     }
 }
