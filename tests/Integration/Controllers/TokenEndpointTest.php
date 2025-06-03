@@ -70,7 +70,7 @@ class TokenEndPointTest extends TestCase
         $request = new Request([], [], [], [], [], $server, $json);
 
         $mysqlManager = mock(MYSQLDBManager::class);
-                $tokenService = new Token($mysqlManager);
+        $tokenService = new Token($mysqlManager);
         $this->tokenController = new TokenController($this->emailValidator, $this->apiKeyValidator, $tokenService);
 
         $response = $this->tokenController->getToken($request);
@@ -80,6 +80,35 @@ class TokenEndPointTest extends TestCase
         $this->assertEquals(
             [
             'error' => "The email is mandatory"],
+            $responseData
+        );
+    }
+
+    /**
+     * @test
+     *
+     */
+    public function invalidMailIdErrorCode400(): void
+    {
+        $json = json_encode(['email' => 'motto#gmial.com','api_key' => 'apikimokery']);
+        $server = [
+            'REQUEST_METHOD' => 'POST',
+            'REQUEST_URI'    => '/token',
+            'CONTENT_TYPE'   => 'application/json',
+        ];
+        $request = new Request([], [], [], [], [], $server, $json);
+
+        $mysqlManager = mock(MYSQLDBManager::class);
+        $tokenService = new Token($mysqlManager);
+        $this->tokenController = new TokenController($this->emailValidator, $this->apiKeyValidator, $tokenService);
+
+        $response = $this->tokenController->getToken($request);
+        $responseData = json_decode($response->getContent(), true);
+
+        $this->assertEquals(400, $response->getStatusCode());
+        $this->assertEquals(
+            [
+            'error' => "The email must be a valid email address"],
             $responseData
         );
     }
