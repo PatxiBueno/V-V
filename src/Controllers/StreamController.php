@@ -3,14 +3,14 @@
 namespace TwitchAnalytics\Controllers;
 
 use TwitchAnalytics\Managers\TwitchAPIManager;
-use TwitchAnalytics\Service\Streams;
+use TwitchAnalytics\Service\StreamsService;
 use Illuminate\Http\Request;
 
 class StreamController
 {
-    private Streams $streamsService;
+    private StreamsService $streamsService;
 
-    public function __construct(Streams $streamsService)
+    public function __construct(StreamsService $streamsService)
     {
         $this->streamsService = $streamsService;
     }

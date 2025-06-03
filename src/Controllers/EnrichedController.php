@@ -3,15 +3,15 @@
 namespace TwitchAnalytics\Controllers;
 
 use TwitchAnalytics\Managers\TwitchAPIManager;
-use TwitchAnalytics\Service\Enriched;
+use TwitchAnalytics\Service\EnrichedService;
 use Illuminate\Http\Request;
 use TwitchAnalytics\Validators\EnrichedValidator;
 
 class EnrichedController
 {
     private EnrichedValidator $enrichedValidator;
-    private Enriched $enrichedService;
-    public function __construct(EnrichedValidator $enrichedValidator, Enriched $enrichedService)
+    private EnrichedService $enrichedService;
+    public function __construct(EnrichedValidator $enrichedValidator, EnrichedService $enrichedService)
     {
         $this->enrichedValidator = $enrichedValidator;
         $this->enrichedService = $enrichedService;

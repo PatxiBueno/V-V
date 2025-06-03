@@ -7,7 +7,7 @@ namespace TwitchAnalytics\Tests\Integration\Controllers;
 use TwitchAnalytics\Controllers\EnrichedController;
 use TwitchAnalytics\Managers\TwitchAPIManager;
 use TwitchAnalytics\ResponseTwitchData;
-use TwitchAnalytics\Service\Enriched;
+use TwitchAnalytics\Service\EnrichedService;
 use Illuminate\Http\Request;
 use TwitchAnalytics\Validators\EnrichedValidator;
 use PHPUnit\Framework\TestCase;
@@ -36,7 +36,7 @@ class EnrichedControllerTest extends TestCase
         $argumentsForCalls = ['limit' => 0];
         $request = new Request($argumentsForCalls);
         $twitchAPIManagerMock = mock(TwitchAPIManager::class);
-        $enrichedService = new Enriched($twitchAPIManagerMock);
+        $enrichedService = new EnrichedService($twitchAPIManagerMock);
         $this->enrichedController = new EnrichedController($this->enrichedValidator, $enrichedService);
 
         $response = $this->enrichedController->getEnriched($request);
@@ -57,7 +57,7 @@ class EnrichedControllerTest extends TestCase
         $argumentsForCalls = ['limit'];
         $request = new Request($argumentsForCalls);
         $twitchAPIManagerMock = mock(TwitchAPIManager::class);
-        $enrichedService = new Enriched($twitchAPIManagerMock);
+        $enrichedService = new EnrichedService($twitchAPIManagerMock);
         $this->enrichedController = new EnrichedController($this->enrichedValidator, $enrichedService);
 
         $response = $this->enrichedController->getEnriched($request);
@@ -129,7 +129,7 @@ class EnrichedControllerTest extends TestCase
             ->andReturn(new ResponseTwitchData(200, json_encode(['data' => $userData])));
 
 
-        $enrichedService = new Enriched($twitchAPIManagerMock);
+        $enrichedService = new EnrichedService($twitchAPIManagerMock);
         $this->enrichedController = new EnrichedController($this->enrichedValidator, $enrichedService);
 
         $response = $this->enrichedController->getEnriched($request);

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use TwitchAnalytics\Managers\TwitchAPIManager;
 use TwitchAnalytics\ResponseTwitchData;
 
-class Streams
+class StreamsService
 {
     private TwitchAPIManager $twitchAPIManager;
     public function __construct($twitchAPIManager)

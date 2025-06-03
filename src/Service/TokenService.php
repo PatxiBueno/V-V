@@ -5,7 +5,7 @@ namespace TwitchAnalytics\Service;
 use Illuminate\Http\Request;
 use TwitchAnalytics\Managers\MYSQLDBManager;
 
-class Token
+class TokenService
 {
     private const int TOKEN_LENGHT = 10;
 

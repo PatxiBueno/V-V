@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace TwitchAnalytics\Tests\Integration\Controllers;
 
 use TwitchAnalytics\Managers\MYSQLDBManager;
-use TwitchAnalytics\Service\Register;
+use TwitchAnalytics\Service\RegisterService;
 use TwitchAnalytics\Controllers\RegisterController;
 use TwitchAnalytics\Validators\EmailValidator;
 use PHPUnit\Framework\TestCase;
@@ -43,7 +43,7 @@ class RegisterControllerTest extends TestCase
         ];
         $request = new Request([], [], [], [], [], $server, $json);
 
-        $registerService = new Register($this->mysqlManager);
+        $registerService = new RegisterService($this->mysqlManager);
         $this->registerController = new RegisterController($this->emailValidator, $registerService);
 
         $response = $this->registerController->registerUser($request);
@@ -69,7 +69,7 @@ class RegisterControllerTest extends TestCase
         ];
         $request = new Request([], [], [], [], [], $server, []);
 
-        $registerService = new Register($this->mysqlManager);
+        $registerService = new RegisterService($this->mysqlManager);
         $this->registerController = new RegisterController($this->emailValidator, $registerService);
 
         $response = $this->registerController->registerUser($request);
@@ -100,7 +100,7 @@ class RegisterControllerTest extends TestCase
         $this->mysqlManager->shouldReceive('insertUserWithHashedApiKey')->once()->andReturn(true);
         $this->mysqlManager->shouldReceive('updateUserHashedKey')->once()->andReturn(true);
 
-        $registerService = new Register($this->mysqlManager);
+        $registerService = new RegisterService($this->mysqlManager);
         $this->registerController = new RegisterController($this->emailValidator, $registerService);
 
         $response = $this->registerController->registerUser($request);

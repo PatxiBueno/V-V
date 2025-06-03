@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use TwitchAnalytics\Managers\MYSQLDBManager;
 use TwitchAnalytics\ResponseTwitchData;
 
-class Register
+class RegisterService
 {
     private MYSQLDBManager $dbManager;
     public function __construct($dbManager)

@@ -3,15 +3,15 @@
 namespace TwitchAnalytics\Controllers;
 
 use TwitchAnalytics\Managers\TwitchAPIManager;
-use TwitchAnalytics\Service\User;
+use TwitchAnalytics\Service\UserService;
 use Illuminate\Http\Request;
 use TwitchAnalytics\Validators\UserValidator;
 
 class UserController
 {
-    private User $userService;
+    private UserService $userService;
     private UserValidator $userValidator;
-    public function __construct(UserValidator $userValidator, User $userService)
+    public function __construct(UserValidator $userValidator, UserService $userService)
     {
         $this->userValidator = $userValidator;
         $this->userService = $userService;
