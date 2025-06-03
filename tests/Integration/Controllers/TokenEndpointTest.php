@@ -9,22 +9,71 @@ use TwitchAnalytics\ResponseTwitchData;
 use TwitchAnalytics\Service\Token;
 use DateTime;
 use Mockery;
+use TwitchAnalytics\Controllers\TokenController;
+use TwitchAnalytics\Validators\ApiKeyValidator;
+use TwitchAnalytics\Validators\EmailValidator;
 use PHPUnit\Framework\TestCase;
 use Illuminate\Http\Request;
 
 class TokenEndPointTest extends TestCase
 {
+    private EmailValidator $emailValidator;
+    private ApiKeyValidator $apiKeyValidator;
+    private TokenController $tokenController;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->apiKeyValidator = new ApiKeyValidator();
+        $this->emailValidator = new EmailValidator();
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+    }
+
     /**
      * @test
      *
      */
-    public function missingMailIdErrorCode400(): void
+    public function missingAPIkeyErrorCode400(): void
     {
-        $request = new Request();
-        $mysqlManager = mock(MYSQLDBManager::class);
-        $token = new Token($request, $mysqlManager);
 
-        $response = $token->genToken();
+        $request = new Request([], [], [], ['CONTENT_TYPE' => 'application/json'], []);
+        $mysqlManager = mock(MYSQLDBManager::class);
+        $tokenService = new Token($mysqlManager);
+        $this->tokenController = new TokenController($this->emailValidator, $this->apiKeyValidator, $tokenService);
+
+        $response = $this->tokenController->getToken($request);
+        $responseData = json_decode($response->getContent(), true);
+
+        $this->assertEquals(400, $response->getStatusCode());
+        $this->assertEquals([
+            'error' => "The api_key is mandatory",
+            ], $responseData);
+    }
+
+    /**
+     * @test
+     *
+     */
+    public function missingMailGivenApiKeyErrorCode400(): void
+    {
+        $json = json_encode(['api_key' => 'apikimokery']);
+
+        $server = [
+            'REQUEST_METHOD' => 'POST',
+            'REQUEST_URI'    => '/token',
+            'CONTENT_TYPE'   => 'application/json',
+        ];
+        $request = new Request([], [], [], [], [], $server, $json);
+
+        $mysqlManager = mock(MYSQLDBManager::class);
+        $tokenService = new Token($mysqlManager);
+        $this->tokenController = new TokenController($this->emailValidator, $this->apiKeyValidator, $tokenService);
+
+        $response = $this->tokenController->getToken($request);
         $responseData = json_decode($response->getContent(), true);
 
         $this->assertEquals(400, $response->getStatusCode());
@@ -41,84 +90,19 @@ class TokenEndPointTest extends TestCase
      */
     public function invalidMailIdErrorCode400(): void
     {
-        $json = json_encode(['email' => 'motto#gmial.com']);
-        $body = fopen('php://memory', 'r+');
-        fwrite($body, $json);
-        rewind($body);
+        $json = json_encode(['email' => 'motto#gmial.com','api_key' => 'apikimokery']);
         $server = [
             'REQUEST_METHOD' => 'POST',
             'REQUEST_URI'    => '/token',
             'CONTENT_TYPE'   => 'application/json',
         ];
-        $request = new Request([], [], [], [], [], $server, $body);
+        $request = new Request([], [], [], [], [], $server, $json);
 
         $mysqlManager = mock(MYSQLDBManager::class);
-        $token = new Token($request, $mysqlManager);
+        $tokenService = new Token($mysqlManager);
+        $this->tokenController = new TokenController($this->emailValidator, $this->apiKeyValidator, $tokenService);
 
-        $response = $token->genToken();
-        $responseData = json_decode($response->getContent(), true);
-
-        $this->assertEquals(400, $response->getStatusCode());
-        $this->assertEquals(
-            [
-            'error' => "The email must be a valid email address"],
-            $responseData
-        );
-    }
-
-    /**
-     * @test
-     *
-     */
-    public function missingAPIkeyErrorCode400(): void
-    {
-        $json = json_encode(['email' => 'motto@gmial.com']);
-        $body = fopen('php://memory', 'r+');
-        fwrite($body, $json);
-        rewind($body);
-        $server = [
-            'REQUEST_METHOD' => 'POST',
-            'REQUEST_URI'    => '/token',
-            'CONTENT_TYPE'   => 'application/json',
-        ];
-        $request = new Request([], [], [], [], [], $server, $body);
-
-        $mysqlManager = mock(MYSQLDBManager::class);
-        $token = new Token($request, $mysqlManager);
-
-        $response = $token->genToken();
-        $responseData = json_decode($response->getContent(), true);
-
-        $this->assertEquals(400, $response->getStatusCode());
-        $this->assertEquals(
-            [
-            'error' => "The api_key is mandatory"],
-            $responseData
-        );
-    }
-
-    /**
-     * @test
-     *
-     */
-    public function nonRegisteredEmailErrorCode400(): void
-    {
-        $json = json_encode(['email' => 'motto@gmial.com','api_key' => 'apikimokery']);
-        $body = fopen('php://memory', 'r+');
-        fwrite($body, $json);
-        rewind($body);
-        $server = [
-            'REQUEST_METHOD' => 'POST',
-            'REQUEST_URI'    => '/token',
-            'CONTENT_TYPE'   => 'application/json',
-        ];
-        $request = new Request([], [], [], [], [], $server, $body);
-
-        $mysqlManager = mock(MYSQLDBManager::class);
-        $mysqlManager->shouldReceive('getUserApiKey')->andReturn(null);
-        $token = new Token($request, $mysqlManager);
-
-        $response = $token->genToken();
+        $response = $this->tokenController->getToken($request);
         $responseData = json_decode($response->getContent(), true);
 
         $this->assertEquals(400, $response->getStatusCode());
@@ -136,15 +120,13 @@ class TokenEndPointTest extends TestCase
     public function incorrectApiKeyErrorCode400(): void
     {
         $json = json_encode(['email' => 'motto@gmial.com','api_key' => 'apikimokery']);
-        $body = fopen('php://memory', 'r+');
-        fwrite($body, $json);
-        rewind($body);
+
         $server = [
             'REQUEST_METHOD' => 'POST',
             'REQUEST_URI'    => '/token',
             'CONTENT_TYPE'   => 'application/json',
         ];
-        $request = new Request([], [], [], [], [], $server, $body);
+        $request = new Request([], [], [], [], [], $server, $json);
 
         $mysqlManager = mock(MYSQLDBManager::class);
         $mysqlManager
@@ -153,9 +135,10 @@ class TokenEndPointTest extends TestCase
             'api_key' => 'invalid_hash_value',
             'id' => 123
             ]);
+        $tokenService = new Token($mysqlManager);
+        $this->tokenController = new TokenController($this->emailValidator, $this->apiKeyValidator, $tokenService);
 
-        $token = new Token($request, $mysqlManager);
-        $response = $token->genToken();
+        $response = $this->tokenController->getToken($request);
         $responseData = json_decode($response->getContent(), true);
 
         $this->assertEquals(401, $response->getStatusCode());
@@ -166,31 +149,32 @@ class TokenEndPointTest extends TestCase
         );
     }
 
-
-    /**
+     /**
      * @test
      *
      */
     public function rightCredentialGiveToken(): void
     {
-        $json = json_encode(['email' => 'motto@gmial.com','api_key' => 'apikimokery']);
-        $body = fopen('php://memory', 'r+');
-        fwrite($body, $json);
-        rewind($body);
+        $postData = ['email' => 'motto@gmail.com', 'api_key' => 'apikimokery'];
+        $json = json_encode($postData);
+
         $server = [
             'REQUEST_METHOD' => 'POST',
             'REQUEST_URI'    => '/token',
             'CONTENT_TYPE'   => 'application/json',
         ];
-        $request = new Request([], [], [], [], [], $server, $body);
+
+        $request = new Request($postData, [], [], [], [], $server, $json);
+
+        $mokeryKey = hash('sha256', 'apikimokery');
 
         $mysqlManager = mock(MYSQLDBManager::class);
         $mysqlManager
             ->shouldReceive('getUserApiKey')
             ->andReturn([
-                'api_key' => hash("sha256", "apikimokery"),
-                'id' => 123
-                ]);
+            'api_key' => $mokeryKey,
+            'id' => 123
+            ]);
 
         $mysqlManager
             ->shouldReceive('getTokenByUserId')
@@ -205,10 +189,11 @@ class TokenEndPointTest extends TestCase
             ->shouldReceive('insertToken')
             ->andReturn(true);
 
-        $token = new Token($request, $mysqlManager);
-        $response = $token->genToken();
-        $responseData = json_decode($response->getContent(), true);
+        $tokenService = new Token($mysqlManager);
+        $this->tokenController = new TokenController($this->emailValidator, $this->apiKeyValidator, $tokenService);
 
-        $this->assertEquals(200, $responseData->getStatusCode());
+        $response = $this->tokenController->getToken($request);
+
+        $this->assertEquals(200, $response->getStatusCode());
     }
 }
