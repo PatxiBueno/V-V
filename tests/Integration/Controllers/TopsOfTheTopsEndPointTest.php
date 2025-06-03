@@ -76,7 +76,6 @@ class TopsOfTheTopsEndPointTest extends TestCase
 
         $request = new Request($postData, [], [], [], [], $server, $json);
 
-        $nowTimeFormat = time();
         $mysqlManager = mock(MYSQLDBManager::class);
         $mysqlManager
         ->shouldReceive('getCacheInsertTime')
@@ -94,5 +93,69 @@ class TopsOfTheTopsEndPointTest extends TestCase
         $response = $this->topsController->getTopsOfTheTops($request);
 
         $this->assertEquals(204, $response->getStatusCode());
+    }
+
+    /**
+     * @test
+     *
+     */
+    public function happyPahtForApi200(): void
+    {
+        $postData = ['since' => '600'];
+        $json = json_encode($postData);
+
+        $server = [
+            'REQUEST_METHOD' => 'POST',
+            'REQUEST_URI'    => '/token',
+            'CONTENT_TYPE'   => 'application/json',
+        ];
+
+        $request = new Request($postData, [], [], [], [], $server, $json);
+
+        $mysqlManager = mock(MYSQLDBManager::class);
+        $mysqlManager
+        ->shouldReceive('getCacheInsertTime')
+        ->andReturn([
+            'fecha_insercion' => '2005-06-03 14:23:45',
+        ]);
+
+        $mysqlManager
+        ->shouldReceive('cleanTopOfTheTopsCache()')
+        ->andReturn(true);
+
+        $mysqlManager
+        ->shouldReceive('curlToTwitchApiForTopThreeGames')
+        ->andReturn(new ResponseTwitchData(200, json_encode([[
+            "game_id" => "509658",
+            "game_name" => "Just Chatting",
+            "userName" => "KaiCenat",
+            "totalVideos" => 36,
+            "totalViews" => 100000,
+            "mostTitle" => "Funny Moments",
+            "mostViews" => 45000,
+            "mostDuration" => "1h 10m",
+            "mostDate" => "2025-06-03 14:23:45"
+        ]])));
+        $mysqlManager
+        ->shouldReceive('cleanTopOfTheTopsCache')
+        ->andReturn(true);
+
+        $mysqlManager
+        ->shouldReceive('insertTopsCache')
+        ->andReturn(true);
+
+        $apiManager = mock(TwitchAPIManager::class);
+        $apiManager
+        ->shouldReceive('curlToTwitchApiForTopThreeGames')
+        ->andReturn(new ResponseTwitchData(200, json_encode([[
+            "game_id" => "509658",
+            "game_name" => "Just Chatting"
+        ]])));
+        $topsOfTheTopsService = new TopsOfTheTops($apiManager, $mysqlManager);
+        $this->topsController = new TopsOfTheTopsController(new TopsOfTheTopsValidator(), $topsOfTheTopsService);
+
+        $response = $this->topsController->getTopsOfTheTops($request);
+
+        $this->assertEquals(200, $response->getStatusCode());
     }
 }
