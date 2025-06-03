@@ -8,12 +8,11 @@ use TwitchAnalytics\Controllers\EnrichedController;
 use TwitchAnalytics\Managers\TwitchAPIManager;
 use TwitchAnalytics\ResponseTwitchData;
 use TwitchAnalytics\Service\Enriched;
-use TwitchAnalytics\Service\User;
 use Illuminate\Http\Request;
 use TwitchAnalytics\Validators\EnrichedValidator;
 use PHPUnit\Framework\TestCase;
 
-class EnrichedEndPointTest extends TestCase
+class EnrichedControllerTest extends TestCase
 {
     private EnrichedController $enrichedController;
     private EnrichedValidator $enrichedValidator;

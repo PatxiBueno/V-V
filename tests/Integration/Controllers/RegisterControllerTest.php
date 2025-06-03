@@ -11,7 +11,7 @@ use TwitchAnalytics\Validators\EmailValidator;
 use PHPUnit\Framework\TestCase;
 use Illuminate\Http\Request;
 
-class RegisterEndPointTest extends TestCase
+class RegisterControllerTest extends TestCase
 {
     private EmailValidator $emailValidator;
     private RegisterController $registerController;

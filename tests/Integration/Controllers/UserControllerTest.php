@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use TwitchAnalytics\Validators\UserValidator;
 use PHPUnit\Framework\TestCase;
 
-class UserEndPointTest extends TestCase
+class UserControllerTest extends TestCase
 {
     private UserController $userController;
     private UserValidator $userValidator;
