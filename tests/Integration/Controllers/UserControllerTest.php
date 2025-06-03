@@ -87,7 +87,7 @@ class UserControllerTest extends TestCase
 
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertEquals([
-            'error' => "UserService not found.",
+            'error' => "User not found.",
         ], $responseData);
     }
     /**

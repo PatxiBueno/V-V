@@ -5,10 +5,10 @@ namespace TwitchAnalytics\Tests\Middleware;
 use \Illuminate\Http\Request;
 use Mockery;
 use TwitchAnalytics\Managers\MYSQLDBManager;
-use TwitchAnalytics\Middleware\VerifyToken;
+use TwitchAnalytics\Middleware\TokenVerifyer;
 use PHPUnit\Framework\TestCase;
 
-class VerifyTokenTest extends TestCase
+class TokenVerifyerTest extends TestCase
 {
     private $dbManager;
     private $tokenVerifyer;
@@ -17,7 +17,7 @@ class VerifyTokenTest extends TestCase
     {
         parent::setUp();
         $this->dbManager = Mockery::mock(MYSQLDBManager::class);
-        $this->tokenVerifyer = new VerifyToken($this->dbManager);
+        $this->tokenVerifyer = new TokenVerifyer($this->dbManager);
     }
     /**
      * @test
@@ -29,7 +29,7 @@ class VerifyTokenTest extends TestCase
 
         $this->assertEquals(401, $response->getStatusCode());
         $this->assertEquals(
-            json_encode(['error' => 'Unauthorized. TokenService is invalid or expired.']),
+            json_encode(['error' => 'Unauthorized. Token is invalid or expired.']),
             $response->getContent()
         );
     }
@@ -46,7 +46,7 @@ class VerifyTokenTest extends TestCase
 
         $this->assertEquals(401, $response->getStatusCode());
         $this->assertEquals(
-            json_encode(['error' => 'Unauthorized. TokenService is invalid or expired.']),
+            json_encode(['error' => 'Unauthorized. Token is invalid or expired.']),
             $response->getContent()
         );
     }
@@ -66,7 +66,7 @@ class VerifyTokenTest extends TestCase
 
         $this->assertEquals(401, $response->getStatusCode());
         $this->assertEquals(
-            json_encode(['error' => 'Unauthorized. TokenService is invalid or expired.']),
+            json_encode(['error' => 'Unauthorized. Token is invalid or expired.']),
             $response->getContent()
         );
     }
@@ -87,7 +87,7 @@ class VerifyTokenTest extends TestCase
 
         $this->assertEquals(401, $response->getStatusCode());
         $this->assertEquals(
-            json_encode(['error' => 'Unauthorized. TokenService is invalid or expired.']),
+            json_encode(['error' => 'Unauthorized. Token is invalid or expired.']),
             $response->getContent()
         );
     }
