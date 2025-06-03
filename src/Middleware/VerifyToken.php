@@ -43,9 +43,9 @@ class VerifyToken
         }
 
         $timestampToken = $expirationDate['fecha_token'];
-        $tiempoDelToken = time() - strtotime($timestampToken);
+        $tokenTime = time() - strtotime($timestampToken);
 
-        if ($tiempoDelToken > 259200) {
+        if ($tokenTime > 259200) {
             return false;
         }
         return true;
