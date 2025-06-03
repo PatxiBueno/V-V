@@ -29,7 +29,7 @@ class TokenVerifyerTest extends TestCase
 
         $this->assertEquals(401, $response->getStatusCode());
         $this->assertEquals(
-            json_encode(['error' => 'Unauthorized. TokenService is invalid or expired.']),
+            json_encode(['error' => 'Unauthorized. Token is invalid or expired.']),
             $response->getContent()
         );
     }
@@ -46,7 +46,7 @@ class TokenVerifyerTest extends TestCase
 
         $this->assertEquals(401, $response->getStatusCode());
         $this->assertEquals(
-            json_encode(['error' => 'Unauthorized. TokenService is invalid or expired.']),
+            json_encode(['error' => 'Unauthorized. Token is invalid or expired.']),
             $response->getContent()
         );
     }
@@ -66,7 +66,7 @@ class TokenVerifyerTest extends TestCase
 
         $this->assertEquals(401, $response->getStatusCode());
         $this->assertEquals(
-            json_encode(['error' => 'Unauthorized. TokenService is invalid or expired.']),
+            json_encode(['error' => 'Unauthorized. Token is invalid or expired.']),
             $response->getContent()
         );
     }
@@ -87,7 +87,7 @@ class TokenVerifyerTest extends TestCase
 
         $this->assertEquals(401, $response->getStatusCode());
         $this->assertEquals(
-            json_encode(['error' => 'Unauthorized. TokenService is invalid or expired.']),
+            json_encode(['error' => 'Unauthorized. Token is invalid or expired.']),
             $response->getContent()
         );
     }
