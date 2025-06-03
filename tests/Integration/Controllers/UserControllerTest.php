@@ -36,6 +36,7 @@ class UserControllerTest extends TestCase
         $argumentsForCalls = ['id' => null];
         $request = new Request($argumentsForCalls);
         $twitchAPIManagerMock = mock(TwitchAPIManager::class);
+
         $userService = new User($twitchAPIManagerMock);
         $this->userController = new UserController($this->userValidator, $userService);
 

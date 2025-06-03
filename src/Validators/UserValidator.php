@@ -9,6 +9,6 @@ class UserValidator
     }
     public function isValidId($userId): bool
     {
-        return ($userId >= 0 && $userId < 20800);
+        return ($userId !== null && $userId >= 0 && $userId < 20800);
     }
 }
