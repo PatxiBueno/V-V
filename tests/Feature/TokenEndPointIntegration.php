@@ -49,4 +49,20 @@ class TokenEndPointIntegration extends TestCase
         ], $responseData);
     }
 
+    /**
+     * @test
+     **/
+    public function invalidEmailProvidedErrorCode400()
+    {
+        $json = json_encode(['email' => 'motto#gmial.com', 'api_key' => 'apikiprovided']);
+        $response = $this->call('POST', 'token', [], [], [], [], $json);
+        $responseData = json_decode($response->getContent(), true);
+
+        $this->assertEquals(400, $response->status());
+        $this->assertEquals([
+            "error" => "The email must be a valid email address",
+        ], $responseData);
+    }
+
+
 }
