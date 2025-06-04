@@ -3,11 +3,7 @@
 namespace TwitchAnalytics\Tests\Feature;
 
 use Laravel\Lumen\Testing\TestCase;
-use TwitchAnalytics\Controllers\TokenController;
 use TwitchAnalytics\Managers\MYSQLDBManager;
-use TwitchAnalytics\Managers\TwitchAPIManager;
-use TwitchAnalytics\Middleware\TokenVerifyer;
-use TwitchAnalytics\ResponseTwitchData;
 
 class TokenEndPointIntegration extends TestCase
 {
@@ -87,5 +83,43 @@ class TokenEndPointIntegration extends TestCase
         ], $responseData);
     }
 
+    /**
+     * @test
+     **/
+    public function rightCredentialsProvidedCode200()
+    {
+        $hashedKey = hash("sha256", 'apikimokery');
+        $server = [
+            'REQUEST_METHOD' => 'POST',
+            'REQUEST_URI'    => '/token',
+            'CONTENT_TYPE'   => 'application/json',
+        ];
 
+        $mysqlManager = mock(MYSQLDBManager::class);
+        $mysqlManager
+            ->shouldReceive('getUserApiKey')
+            ->andReturn([
+                'api_key' => $hashedKey,
+                'id' => 123
+            ]);
+
+        $mysqlManager
+            ->shouldReceive('getTokenByUserId')
+            ->with(123)
+            ->andReturn(['token' => 'existing_token']);
+
+        $mysqlManager
+            ->shouldReceive('updateToken')
+            ->andReturn(true);
+
+        $mysqlManager
+            ->shouldReceive('insertToken')
+            ->andReturn(true);
+
+        $this->app->instance(MYSQLDBManager::class, $mysqlManager);
+        $json = json_encode(['email' => 'motto@gmial.com', 'api_key' => 'apikimokery']);
+        $response = $this->call('POST', '/token', [], [], [], $server, $json);
+
+        $this->assertEquals(200, $response->status());
+    }
 }
