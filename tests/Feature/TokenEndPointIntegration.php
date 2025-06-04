@@ -37,9 +37,16 @@ class TokenEndPointIntegration extends TestCase
     /**
      * @test
      **/
-    public function no()
+    public function noEmailProvidedErrorCode400()
     {
+        $json = json_encode(['api_key' => 'apikiprovided']);
+        $response = $this->call('POST', 'token', [], [], [], [], $json);
+        $responseData = json_decode($response->getContent(), true);
 
+        $this->assertEquals(400, $response->status());
+        $this->assertEquals([
+            "error" => "The email is mandatory",
+        ], $responseData);
     }
 
 }
