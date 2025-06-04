@@ -64,5 +64,28 @@ class TokenEndPointIntegration extends TestCase
         ], $responseData);
     }
 
+    /**
+     * @test
+     **/
+    public function unauthorizedApiKeyProvidedErrorCode401()
+    {
+        $mysqlManagerMock = mock(MYSQLDBManager::class);
+        $mysqlManagerMock
+            ->shouldReceive('getUserApiKey')
+            ->andReturn([
+                'api_key' => 'invalid_hash_value',
+                'id' => 123
+            ]);
+        $this->app->instance(MYSQLDBManager::class, $mysqlManagerMock);
+        $json = json_encode(['email' => 'motto@gmial.com', 'api_key' => 'apikiprovided']);
+        $response = $this->call('POST', 'token', [], [], [], [], $json);
+        $responseData = json_decode($response->getContent(), true);
+
+        $this->assertEquals(401, $response->status());
+        $this->assertEquals([
+            "error" => "Unauthorized. API access token is invalid.",
+        ], $responseData);
+    }
+
 
 }
