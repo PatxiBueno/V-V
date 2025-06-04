@@ -15,7 +15,7 @@ use TwitchAnalytics\Validators\EmailValidator;
 use PHPUnit\Framework\TestCase;
 use Illuminate\Http\Request;
 
-class TokenEndPointTest extends TestCase
+class TokenControllerTest extends TestCase
 {
     private EmailValidator $emailValidator;
     private ApiKeyValidator $apiKeyValidator;
