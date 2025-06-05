@@ -1,9 +1,9 @@
 <?php
 
-namespace TwitchAnalytics\Tests\Validators;
+namespace TwitchAnalytics\Tests\Unit\Validators;
 
-use TwitchAnalytics\Validators\EmailValidator;
 use PHPUnit\Framework\TestCase;
+use TwitchAnalytics\Validators\EmailValidator;
 
 class EmailValidatorTest extends TestCase
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace TwitchAnalytics\Tests\Validators;
+namespace TwitchAnalytics\Tests\Unit\Validators;
 
 use PHPUnit\Framework\TestCase;
 use TwitchAnalytics\Validators\UserValidator;

@@ -1,12 +1,12 @@
 <?php
 
-namespace TwitchAnalytics\Tests\Middleware;
+namespace TwitchAnalytics\Tests\Unit\Middleware;
 
-use \Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use Mockery;
+use PHPUnit\Framework\TestCase;
 use TwitchAnalytics\Managers\MYSQLDBManager;
 use TwitchAnalytics\Middleware\TokenVerifyer;
-use PHPUnit\Framework\TestCase;
 
 class TokenVerifyerTest extends TestCase
 {
