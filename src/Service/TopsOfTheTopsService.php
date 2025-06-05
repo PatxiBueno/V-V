@@ -92,18 +92,18 @@ class TopsOfTheTopsService
         return $listOfUsers;
     }
 
-    public function parseStreamerData(mixed $game, mixed $usuario): array
+    public function parseStreamerData(mixed $game, mixed $user): array
     {
         $newStreamer = [
             "game_id" => (string)$game["id"],
             "game_name" => (string)$game["name"],
-            "user_name" => (string)$usuario["userName"],
-            "total_videos" => (string)$usuario["totalVideos"],
-            "total_views" => (string)$usuario["totalViews"],
-            "most_viewed_title" => (string)$usuario["mostTitle"],
-            "most_viewed_views" => (string)$usuario["mostViews"],
-            "most_viewed_duration" => (string)$usuario["mostDuration"],
-            "most_viewed_created_at" => (string)$usuario["mostDate"]
+            "user_name" => (string)$user["userName"],
+            "total_videos" => (string)$user["totalVideos"],
+            "total_views" => (string)$user["totalViews"],
+            "most_viewed_title" => (string)$user["mostTitle"],
+            "most_viewed_views" => (string)$user["mostViews"],
+            "most_viewed_duration" => (string)$user["mostDuration"],
+            "most_viewed_created_at" => (string)$user["mostDate"]
         ];
         return $newStreamer;
     }
