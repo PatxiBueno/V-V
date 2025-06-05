@@ -46,35 +46,55 @@ class TopsOfTheTopsServiceTest extends TestCase
     /**
      * @test
      **/
-    public function happyPathForApiUsage()
+    public function happyPathForApiUsage(): void
     {
-        $mockDBManager = mock(MYSQLDBManager::class);
-        $mockDBManager
-            ->shouldReceive('getCacheInsertTime')
-            ->andReturn([
-                'fecha_insercion' => '2005-06-03 14:23:45',
-            ]);
-        $mockDBManager
-            ->shouldReceive('cleanTopOfTheTopsCache')
-            ->andReturn(true);
-        $mockDBManager
-            ->shouldReceive('insertTopsCache')
-            ->andReturn(true);
-        $mockTwitchApiManager = mock(TwitchApiManager::class);
-        $mockTwitchApiManager
-            ->shouldReceive('curlToTwitchApiForTopThreeGames')
-            ->andReturn(new ResponseTwitchData(200, json_encode(['data' => [[
-                "id" => "509658",
-                "game_name" => "Just Chatting"
-            ]]])));
-        $mockTwitchApiManager
+        $mysqlManager = mock(MYSQLDBManager::class);
+        $mysqlManager
+        ->shouldReceive('getCacheInsertTime')
+        ->andReturn([
+            'fecha_insercion' => '2005-06-03 14:23:45',
+        ]);
+
+        $mysqlManager
+        ->shouldReceive('cleanTopOfTheTopsCache')
+        ->andReturn(true);
+
+        $mysqlManager
+        ->shouldReceive('insertTopsCache')
+        ->andReturn(true);
+
+        $mysqlManager
+        ->shouldReceive('deleteTopsDate')
+        ->andReturn(true);
+
+        $mysqlManager
+        ->shouldReceive('insertTopsDate')
+        ->andReturn(true);
+
+        $apiManager = mock(TwitchAPIManager::class);
+        $apiManager
+        ->shouldReceive('curlToTwitchApiForTopThreeGames')
+        ->andReturn(new ResponseTwitchData(200, json_encode(["data" => [[
+            "id" => "509658",
+            "name" => "Just Chatting"
+        ]]])));
+
+        $apiManager
             ->shouldReceive('curlToTwitchApiForGameById')
-            ->andReturn(new ResponseTwitchData(200, json_encode([[
-                'user_name' => 'user'
-            ]])));
-        $topsOfTheTopsService = new TopsOfTheTopsService($mockTwitchApiManager, $mockDBManager);
+            ->andReturn(new ResponseTwitchData(200, json_encode(["data" => [[
+                "user_id" => "123456",
+                "game_name" => "Just Chatting",
+                "user_name" => "KaiCenat",
+                "view_count" => 45000,
+                "title" => "Funny Moments",
+                "duration" => "1h 10m",
+                "created_at" => "2023-10-01T12:00:00Z"
+            ]]])));
+
+        $topsOfTheTopsService = new TopsOfTheTopsService($apiManager, $mysqlManager);
 
         $response = $topsOfTheTopsService->getTops(600);
-        $this->assertEquals(200, $response['http_code']);
+
+        $this->assertEquals(200, $response["http_code"]);
     }
 }
