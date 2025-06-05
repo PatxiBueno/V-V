@@ -120,23 +120,6 @@ class TopsOfTheTopsControllerTest extends TestCase
         ]);
 
         $mysqlManager
-        ->shouldReceive('cleanTopOfTheTopsCache()')
-        ->andReturn(true);
-
-        $mysqlManager
-        ->shouldReceive('curlToTwitchApiForTopThreeGames')
-        ->andReturn(new ResponseTwitchData(200, json_encode([[
-            "game_id" => "509658",
-            "game_name" => "Just Chatting",
-            "userName" => "KaiCenat",
-            "totalVideos" => 36,
-            "totalViews" => 100000,
-            "mostTitle" => "Funny Moments",
-            "mostViews" => 45000,
-            "mostDuration" => "1h 10m",
-            "mostDate" => "2025-06-03 14:23:45"
-        ]])));
-        $mysqlManager
         ->shouldReceive('cleanTopOfTheTopsCache')
         ->andReturn(true);
 
@@ -144,13 +127,34 @@ class TopsOfTheTopsControllerTest extends TestCase
         ->shouldReceive('insertTopsCache')
         ->andReturn(true);
 
+        $mysqlManager
+        ->shouldReceive('deleteTopsDate')
+        ->andReturn(true);
+
+        $mysqlManager
+        ->shouldReceive('insertTopsDate')
+        ->andReturn(true);
+
         $apiManager = mock(TwitchAPIManager::class);
         $apiManager
         ->shouldReceive('curlToTwitchApiForTopThreeGames')
-        ->andReturn(new ResponseTwitchData(200, json_encode([[
-            "game_id" => "509658",
-            "game_name" => "Just Chatting"
-        ]])));
+        ->andReturn(new ResponseTwitchData(200, json_encode(["data" => [[
+            "id" => "509658",
+            "name" => "Just Chatting"
+        ]]])));
+
+        $apiManager
+            ->shouldReceive('curlToTwitchApiForGameById')
+            ->andReturn(new ResponseTwitchData(200, json_encode(["data" => [[
+                "user_id" => "123456",
+                "game_name" => "Just Chatting",
+                "user_name" => "KaiCenat",
+                "view_count" => 45000,
+                "title" => "Funny Moments",
+                "duration" => "1h 10m",
+                "created_at" => "2023-10-01T12:00:00Z"
+            ]]])));
+
         $topsOfTheTopsService = new TopsOfTheTopsService($apiManager, $mysqlManager);
         $this->topsController = new TopsOfTheTopsController(new TopsOfTheTopsValidator(), $topsOfTheTopsService);
 
