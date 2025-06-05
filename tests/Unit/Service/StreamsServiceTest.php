@@ -25,7 +25,7 @@ class StreamsServiceTest extends TestCase
         $mockResponse = new ResponseTwitchData(200, json_encode($expectedData));
         $twitchAPIManagerMock = mock(TwitchAPIManager::class);
 
-        $this->twitchAPIManagerMock
+        $twitchAPIManagerMock
             ->shouldReceive('curlToTwitchApiForStreamsEndPoint')
             ->once()
             ->andReturn($mockResponse);
